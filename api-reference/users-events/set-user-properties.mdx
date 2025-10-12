@@ -1,0 +1,115 @@
+---
+title: "Set User Properties"
+---
+
+이 엔드포인트는 사용자 속성을 Notifly 엔진에 등록하거나 업데이트합니다.  
+등록된 속성은 세그먼트 분류 및 개인화 메시지에 활용됩니다.
+
+---
+
+## Endpoint
+
+`POST https://api.notifly.tech/set-user-properties`
+
+---
+
+## Specifications
+
+### Body Parameters
+
+| Parameter      | Type   | Required | Description                                                                                    |
+| -------------- | ------ | -------- | ---------------------------------------------------------------------------------------------- |
+| projectID      | String | Yes      | Notifly 팀에서 제공하는 프로젝트 ID. 문의: contact@notifly.tech                               |
+| userProperties | Object | Yes      | 사용자 속성(key-value). 예: `{ "$email": "test@notifly.tech", "age": 29 }`                    |
+| userID         | String | Yes      | 사용자 식별자                                                                                  |
+
+- 여러 사용자의 속성을 동시에 업데이트할 수도 있습니다.  
+  → 동일한 오브젝트 구조를 배열(Array)로 전달하세요.  
+  → 최대 **1,000명까지** 한 번에 업데이트할 수 있습니다.
+- 이메일(`$email`), 전화번호(`$phone_number`)는 캠페인 발송 시 필수 식별자로 사용됩니다.
+
+---
+
+## Headers
+
+| Parameter     | Value            | Description                                                |
+| --------------| ---------------- | ---------------------------------------------------------- |
+| Content-Type  | application/json | 요청 본문의 MIME Type                                      |
+| Authorization | some-token       | `POST /authenticate` 로부터 발급받은 인증 토큰             |
+
+---
+
+## Response Example
+
+```json
+{
+  "data": "updated row count",
+  "error": null
+}
+```
+
+---
+
+## Example Code (Node.js)
+
+```js
+const url = "https://api.notifly.tech/set-user-properties";
+
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: "your-auth-token",
+};
+
+// 단일 사용자 업데이트
+const singleUser = {
+  projectID: "provided_project_id",
+  userProperties: {
+    $email: "email@example.com",
+    $phone_number: "010-7777-7777",
+    plan: "premium",
+  },
+  userID: "some-user-id",
+};
+
+// 여러 사용자 업데이트
+const multipleUsers = [
+  {
+    projectID: "provided_project_id",
+    userProperties: { $email: "user1@example.com" },
+    userID: "user-1",
+  },
+  {
+    projectID: "provided_project_id",
+    userProperties: { $email: "user2@example.com" },
+    userID: "user-2",
+  },
+];
+
+fetch(url, {
+  method: "POST",
+  headers,
+  body: JSON.stringify(multipleUsers),
+})
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));
+```
+
+---
+
+## Error Examples
+
+| Status Code | Description                         | Example Response |
+| ------------ | ----------------------------------- | ---------------- |
+| 400          | 요청 본문 형식 오류                 | `{"code":400,"error":"Bad request: invalid schema"}` |
+| 401          | 인증 실패 (만료 또는 잘못된 토큰)  | `{"code":401,"error":"Unauthorized: invalid token"}` |
+| 413          | 요청 크기 초과 (1,000명 이상 요청) | `{"code":413,"error":"Payload too large"}` |
+| 500          | 서버 내부 오류                      | `{"code":500,"error":"Internal Server Error"}` |
+
+---
+
+## 참고
+
+- 이메일, 전화번호는 반드시 `$email`, `$phone_number` 키로 전달해야 합니다.  
+- 다수 사용자 업데이트 시, API 호출을 분할(Chunk)하여 처리하는 것이 안전합니다.  
+- 401 응답이 발생하면 인증 토큰을 재발급 후 재시도하세요.

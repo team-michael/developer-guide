@@ -1,0 +1,108 @@
+---
+title: Campaign Statistics Retrieval
+description: 특정 캠페인의 기간별/요약 통계를 조회하는 API
+---
+
+# Campaign Statistics Retrieval
+
+특정 **캠페인 1건**의 통계를 조회합니다. 기간 필터와 요약 지표를 제공합니다.
+
+> 실제 필드/가용 지표는 채널/설정에 따라 달라질 수 있습니다.
+
+---
+
+## Endpoint
+
+`GET https://api.notifly.tech/stats/campaigns/{campaignId}`
+
+---
+
+## Query Parameters
+
+| Param     | Type   | Required | Description                |
+|-----------|--------|----------|----------------------------|
+| projectId | String | Yes      | 프로젝트 ID                 |
+| from      | String | No       | 시작일 `YYYY-MM-DD`         |
+| to        | String | No       | 종료일 `YYYY-MM-DD`         |
+| channel   | String | No       | 예: `push`,`kakao_alimtalk` |
+
+---
+
+## Headers
+
+| Parameter    | Value            | Description                         |
+|--------------|------------------|-------------------------------------|
+| Content-Type | application/json | JSON 요청 본문(있을 경우)           |
+| Authorization| some-token       | `POST /authenticate` 로 발급된 토큰 |
+
+---
+
+## Response (예시)
+
+```json
+{
+  "campaignId": "cmp_abc",
+  "period": { "from": "2025-10-01", "to": "2025-10-07" },
+  "totals": {
+    "sent": 42000,
+    "delivered": 41000,
+    "opened": 11200,
+    "clicked": 3100,
+    "bounced": 200,
+    "unsubscribed": 5
+  },
+  "rate": {
+    "delivery": 0.9762,
+    "open": 0.2732,
+    "click": 0.0738,
+    "bounce": 0.0048,
+    "unsubscribe": 0.0001
+  },
+  "byDay": [
+    { "date": "2025-10-01", "sent": 6000, "opened": 1500, "clicked": 420 },
+    { "date": "2025-10-02", "sent": 7000, "opened": 1800, "clicked": 520 }
+  ]
+}
+```
+
+---
+
+## Example Code (Node.js)
+
+```js
+const campaignId = "cmp_abc";
+const params = new URLSearchParams({
+  projectId: "your-project-id",
+  from: "2025-10-01",
+  to: "2025-10-07",
+  channel: "kakao_alimtalk" // optional
+});
+
+const url = `https://api.notifly.tech/stats/campaigns/${campaignId}?${params.toString()}`;
+
+const res = await fetch(url, {
+  method: "GET",
+  headers: { Authorization: "your-auth-token" }
+});
+const data = await res.json();
+console.log(data);
+```
+
+---
+
+## Error Examples
+
+| Status Code | Description                        | Example Response                                         |
+|-------------|------------------------------------|----------------------------------------------------------|
+| 400         | 잘못된 파라미터/형식               | `{"code":400,"error":"Bad request: invalid query"}`      |
+| 401         | 인증 실패(토큰 만료/무효)          | `{"code":401,"error":"Unauthorized: invalid token"}`     |
+| 404         | 캠페인 미존재                      | `{"code":404,"error":"Not Found: campaignId"}`           |
+| 500         | 서버 내부 오류                     | `{"code":500,"error":"Internal Server Error"}`           |
+
+---
+
+## Tips
+
+- 채널별로 제공되지 않는 지표(예: 일부 채널은 `open` 미지원)가 있을 수 있습니다.  
+- 표준 에러 응답 구조는 **Error Model** 문서를 참고하세요.  
+- 대시보드 집계와 API 응답 간 **집계 시차**가 있을 수 있습니다.

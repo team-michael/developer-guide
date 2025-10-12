@@ -1,0 +1,134 @@
+---
+title: Send Kakao Alimtalk Message
+---
+
+이 엔드포인트는 **Kakao 알림톡(Alimtalk)** 메시지를 발송합니다.  
+템플릿 코드와 수신자 목록을 기반으로 메시지를 보낼 수 있습니다.
+
+---
+
+## ⚠️ 주의 사항
+
+- Kakao 알림톡 발송은 **Notifly 카카오톡 자가 발송 설정**이 되어 있어야 합니다.  
+- API를 통해 발송된 알림톡 통계는 아직 UI에 표시되지 않습니다.  
+  통계 데이터가 필요할 경우, contact@notifly.tech 으로 문의하세요.
+
+---
+
+## Endpoint
+
+`POST https://api.notifly.tech/messages/kakao-alimtalk`
+
+---
+
+## Specifications
+
+### Request Body
+
+| Parameter | Type | Required | Description |
+|------------|------|-----------|--------------|
+| projectId | String | Yes | Notifly 설정 페이지에서 확인 가능 |
+| templateId | String | Yes | 등록된 알림톡 템플릿 ID (콘솔에서 확인 가능) |
+| recipientList | List | Yes | 수신자 목록 (최대 1,000명) |
+| - recipientNo | String | Yes | 수신자 전화번호 |
+| - templateParameter | Object | No | 템플릿 변수 값 (템플릿 내 변수를 대체하는 값) |
+
+---
+
+## Headers
+
+| Parameter | Value | Description |
+|------------|--------|--------------|
+| Content-Type | application/json | 요청 본문의 MIME Type |
+| Authorization | some-token | `POST /authenticate` 로부터 발급받은 인증 토큰 |
+
+---
+
+## Response Example
+
+```json
+{
+  "success": true
+}
+```
+
+---
+
+## Example Code (Node.js)
+
+```js
+// 1. 인증 토큰 발급
+const authResponse = await fetch("https://api.notifly.tech/authenticate", {
+  method: "POST",
+  body: JSON.stringify({
+    accessKey: "your-access-key",
+    secretKey: "your-secret-key",
+  }),
+});
+const { data: authToken } = await authResponse.json();
+
+// 2. 엔드포인트
+const url = "https://api.notifly.tech/messages/kakao-alimtalk";
+
+// 3. 요청 헤더
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: authToken,
+};
+
+// 4. 요청 본문
+const body = {
+  projectId: "your-project-id",
+  templateId: "your-template-id",
+  recipientList: [
+    {
+      recipientNo: "01012345678",
+      templateParameter: {
+        user_name: "Notifly User",
+      },
+    },
+    {
+      recipientNo: "01056781234",
+      templateParameter: {
+        user_name: "Notifly Customer",
+      },
+    },
+  ],
+};
+
+// 5. 요청 실행
+const response = await fetch(url, {
+  method: "POST",
+  headers,
+  body: JSON.stringify(body),
+});
+
+const result = await response.json();
+if (!result.success) {
+  console.error(result);
+} else {
+  console.log("Kakao Alimtalk Message sent successfully");
+}
+```
+
+---
+
+## Error Examples
+
+| Status Code | Description | Example Response |
+|--------------|--------------|------------------|
+| 200 | 요청 성공 | `{"success":true}` |
+| 400 | 잘못된 요청 | `{"error":"Bad request: invalid schema"}` |
+| 405 | 지원하지 않는 HTTP 메서드 | `{"error":"Method not allowed"}` |
+| 413 | 요청 크기 초과 | `{"error":"Payload Too Large"}` |
+| 500 | 서버 내부 오류 | `{"error":"Internal Server Error"}` |
+
+---
+
+## 참고
+
+- 템플릿 ID는 Notifly 콘솔의 **카카오톡 템플릿 리스트** 페이지에서 확인 가능합니다.  
+- 알림톡 발송 시, 템플릿 내의 변수(`{user_name}` 등)는 `templateParameter`로 대체됩니다.  
+- 수신자 수는 최대 1,000명까지 허용됩니다.  
+- 전화번호는 반드시 하이픈 없이 숫자만 입력해야 합니다 (`01012345678` 형식).  
+- 메시지 전송 실패 시, `400` 또는 `401` 에러를 확인해 인증 토큰 또는 요청 파라미터를 검증하세요.

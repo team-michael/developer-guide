@@ -1,0 +1,126 @@
+---
+title: Send Kakao FriendTalk Message
+description: Kakao 친구톡 메시지를 발송하는 API
+---
+
+# Send Kakao FriendTalk Message
+
+이 엔드포인트는 **Kakao 친구톡(FriendTalk)** 메시지를 발송합니다.  
+현재 스펙은 **텍스트(messageType = `text`)** 타입 발송을 지원합니다.
+
+---
+
+## ⚠️ 주의 사항
+
+- 친구톡 발송은 **Notifly 카카오톡 자가 발송 설정**이 선행되어야 합니다.  
+- 수신자는 브랜드의 **카카오 비즈니스 채널을 친구 추가**한 사용자여야 하며, 광고성 메시지 여부(`isAd`)를 적절히 설정해야 합니다.  
+- API로 발송된 통계는 UI에 아직 제공되지 않을 수 있습니다. 통계가 필요하면 contact@notifly.tech 로 문의하세요.
+
+---
+
+## Endpoint
+
+`POST https://api.notifly.tech/messages/kakao-friendtalk`
+
+---
+
+## Specifications
+
+### Request Body
+
+| Parameter      | Type    | Required | Description                                              |
+|----------------|---------|----------|----------------------------------------------------------|
+| projectId      | String  | Yes      | Notifly 설정 페이지에서 확인 가능                        |
+| messageType    | String  | Yes      | 메시지 타입. 현재 `text` 만 지원                         |
+| isAd           | Boolean | No       | 광고성 메시지 여부(광고 발송 시 필수 고지 등 정책 준수)   |
+| recipientList  | List    | Yes      | 수신자 목록 (최대 1,000명)                               |
+| - recipientNo  | String  | Yes      | 수신자 전화번호                                          |
+| - content.text | String  | Yes      | 본문 텍스트                                              |
+
+---
+
+## Headers
+
+| Parameter     | Value            | Description                              |
+|---------------|------------------|------------------------------------------|
+| Content-Type  | application/json | 요청 본문의 MIME Type                     |
+| Authorization | some-token       | `POST /authenticate` 로 발급받은 인증 토큰 |
+
+---
+
+## Response Example
+
+```json
+{ "success": true }
+```
+
+---
+
+## Example Code (Node.js)
+
+```js
+// 1) 인증 토큰 발급
+const authResponse = await fetch("https://api.notifly.tech/authenticate", {
+  method: "POST",
+  body: JSON.stringify({
+    accessKey: "your-access-key",
+    secretKey: "your-secret-key",
+  }),
+});
+const { data: authToken } = await authResponse.json();
+
+// 2) 엔드포인트/헤더
+const url = "https://api.notifly.tech/messages/kakao-friendtalk";
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: authToken,
+};
+
+// 3) 요청 본문 (텍스트 타입)
+const body = {
+  projectId: "your-project-id",
+  messageType: "text",
+  isAd: false,
+  recipientList: [
+    {
+      recipientNo: "01012345678",
+      content: { text: "친구톡 테스트 메시지입니다." }
+    }
+  ]
+};
+
+// 4) 호출
+const res = await fetch(url, {
+  method: "POST",
+  headers,
+  body: JSON.stringify(body),
+});
+const result = await res.json();
+if (!result.success) {
+  console.error(result);
+} else {
+  console.log("Kakao FriendTalk Message sent successfully");
+}
+```
+
+---
+
+## Error Examples
+
+| Status Code | Description                     | Example Response                             |
+|-------------|---------------------------------|----------------------------------------------|
+| 200         | 요청 성공                       | `{"success":true}`                           |
+| 400         | 잘못된 요청(필드/형식 오류)     | `{"error":"Bad request: invalid schema"}`    |
+| 405         | 지원하지 않는 HTTP 메서드       | `{"error":"Method not allowed"}`             |
+| 413         | 요청 크기 초과(1,000건 초과)    | `{"error":"Payload Too Large"}`              |
+| 401         | 인증 실패(토큰 만료/무효)       | `{"error":"Unauthorized"}`                   |
+| 500         | 서버 내부 오류                  | `{"error":"Internal Server Error"}`          |
+
+---
+
+## 참고
+
+- 전화번호 형식은 **숫자만**으로 입력하는 것을 권장합니다(`01012345678`).  
+- 광고성 발송 시 `isAd: true` 로 설정하고, 카카오 정책(수신 동의, 광고 표기 등)을 반드시 준수하세요.  
+- 수신자 수가 많다면 배치를 분할하여 호출하고, 429/500 계열은 지수 백오프로 재시도 하세요.  
+- 알림톡(템플릿 기반)과 달리 친구톡은 **브랜딩/프로모션** 목적에 적합합니다(현재 스펙은 텍스트만).

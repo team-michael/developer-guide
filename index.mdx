@@ -1,97 +1,93 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "시작하기"
+description: "Notifly SDK와 API를 통해 앱에 푸시 알림과 인앱 메시지를 빠르게 통합하세요."
 ---
 
-## Setting up
+Notifly SDK는 모바일 애플리케이션 개발자가 앱에 푸시 알림과 인앱 팝업을 쉽게 구현할 수 있도록 지원하는 소프트웨어 개발 키트입니다.
+SDK는 사용자 세션, 기기 정보, 푸시 토큰 등의 데이터를 자동으로 수집하며, 이를 통합해 사용자 프로파일을 생성합니다.
+이 프로파일을 활용하면 특정 사용자에게 맞춤화된 푸시 알림과 인앱 팝업을 타겟팅하여 보낼 수 있습니다.
 
-Get your documentation site up and running in minutes.
+모든 SDK는 Firebase Cloud Messaging(FCM) 을 기반으로 동작합니다. 따라서 SDK를 설치하기 전에 반드시 Firebase 프로젝트를 생성하고 노티플라이와 연동해야 합니다.
 
+<div class="card-group doccards-blue">
 <Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
+  title="Firebase 프로젝트 연동"
+  icon="fire"
+  href="/sdk/firebase-integration"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Firebase를 연동해주세요
 </Card>
+</div>
 
-## Make it yours
+## 모바일 SDK
 
-Design a docs site that looks great and empowers your users.
+노티플라이를 다양한 플랫폼에서 연동하세요.
 
-<Columns cols={2}>
+<div class="card-group doccards-blue">
+<Columns cols={4}>
   <Card
-    title="Edit locally"
+    title="iOS SDK"
     icon="pen-to-square"
-    href="/development"
+    href="/sdk/ios-sdk"
   >
     Edit your docs locally and preview them in real time.
   </Card>
   <Card
-    title="Customize your site"
+    title="Android SDK"
     icon="palette"
-    href="/essentials/settings"
+    href="/sdk/android-sdk"
   >
     Customize the design and colors of your site to match your brand.
   </Card>
     <Card
-    title="Set up navigation"
+    title="React Native"
     icon="map"
-    href="/essentials/navigation"
+    href="/sdk/react-native-sdk"
   >
     Organize your docs to help users find what they need and succeed with your product.
   </Card>
   <Card
-    title="API documentation"
+    title="Flutter SDK"
     icon="terminal"
-    href="/api-reference/introduction"
+    href="/sdk/flutter-native-sdk"
   >
     Auto-generate API documentation from OpenAPI specifications.
   </Card>
 </Columns>
+</div>
 
-## Create beautiful pages
+## 웹 SDK
 
-Everything you need to create world-class documentation.
+웹 연동을 위한 가이드를 확인하세요.
 
+<div class="card-group doccards-blue">
 <Columns cols={2}>
   <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
+    title="JavaScript SDK 연동"
+    icon="terminal"
+    href="/sdk/javascript-native-sdk"
   >
-    Use MDX to style your docs pages.
+    Auto-generate API documentation from OpenAPI specifications.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
+ <Card
+    title="Google Tag Manager"
+    icon="terminal"
+    href="/sdk/google-tag-manager"
   >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+    Auto-generate API documentation from OpenAPI specifications.
   </Card>
 </Columns>
+</div>
 
-## Need inspiration?
+## HTTP API
 
+<div class="card-group doccards-blue">
 <Card
   title="See complete examples"
   icon="stars"
-  href="https://mintlify.com/customers"
+  href="/api-reference/http-api"
 >
   Browse our showcase of exceptional documentation sites.
 </Card>
+</div>

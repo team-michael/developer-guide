@@ -1,122 +1,102 @@
 {
   "$schema": "https://mintlify.com/docs.json",
+  "name": "Notifly Docs",
   "theme": "mint",
-  "name": "Mint Starter Kit",
-  "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+   "colors": {
+    "primary": "#0144CD",
+    "light": "#3F7BFF",
+    "dark": "#0039A6"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "SDK",
         "groups": [
           {
             "group": "Getting started",
+            "expanded": true,
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "index"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Client SDK",
+            "expanded": false,
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "sdk/firebase-integration",
+              "sdk/ios-sdk",
+              "sdk/android-sdk",
+              "sdk/react-native-sdk",
+              "sdk/flutter-sdk",
+              "sdk/javascript-sdk",
+              "sdk/google-tag-manager",
+              "integration-test"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "심화 연동",
+            "expanded": false,
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "advanced/index",
+              "advanced/push-notification-icon",
+              "advanced/push-notification-consent",
+              "advanced/push-notification-click-events",
+              "advanced/push-notification-interceptor",
+              "advanced/inapp-popup-event-listener",
+              "advanced/webview"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "HTTP API",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "시작하기",
+            "pages":["api-reference/getting-started", "api-reference/authenticate", "api-reference/error" ]
+          },
+          {
+            "group": "Events & Users",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/users-events/track-event",
+              "api-reference/users-events/set-user-properties",
+              "api-reference/users-events/delete-users"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Campaigns",
+            "pages": ["api-reference/campaign-triggering", "api-reference/user-journey-triggering"]
+          },
+          {
+            "group": "Messaging",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/messaging-text",
+              "api-reference/messaging-kakao-alimtalk",
+              "api-reference/messaging-kakao-friendtalk"
+            ]
+          },
+          {
+            "group": "Messaging Management",
+            "pages": [
+              "api-reference/kakao-template-management",
+              "api-reference/text-080-block"
+            ]
+          },
+          {
+            "group": "Exports & Analytics",
+            "pages": [
+              "api-reference/campaign-event-export",
+              "api-reference/campaign-statistics",
+              "api-reference/campaign-statistics-retrieval"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    "light": "/images/notifly.png",
+    "dark": "/images/notifly.png"
   }
 }

@@ -1,0 +1,109 @@
+---
+title: Authentication
+description: Notifly API 인증 방법과 사용 예시
+---
+
+# Authentication
+
+Notifly API는 모든 요청에 대해 **인증 토큰(Authentication Token)** 이 필요합니다.  
+토큰은 `POST /authenticate` 엔드포인트를 통해 발급되며, 유효 기간은 **1시간**입니다.  
+각 API 호출 전에 새 토큰을 발급받는 것이 가장 안전합니다.
+
+---
+
+## Endpoint
+
+`POST https://api.notifly.tech/authenticate`
+
+---
+
+## Request Specifications
+
+### Parameters
+
+| Parameter | Type   | Required | Description                                                                                                                 |
+| ---------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| accessKey  | String | Yes      | Notifly 프로젝트 설정 페이지에서 확인 가능. 각 프로젝트별로 1개의 Access Key가 존재합니다. 문의: contact@notifly.tech |
+| secretKey  | String | Yes      | Notifly 프로젝트 설정 페이지에서 확인 가능. 각 프로젝트별로 1개의 Secret Key가 존재합니다. 문의: contact@notifly.tech |
+
+### Headers
+
+| Parameter    | Value            | Description                   |
+| ------------- | ---------------- | ------------------------------ |
+| Content-Type  | application/json | 요청 본문의 MIME Type 지정     |
+
+---
+
+## Response
+
+### Example Response
+
+| Parameter    | Value                        |
+| ------------- | ---------------------------- |
+| Status code   | 200 OK                       |
+| Content-Type  | application/json             |
+| Body          | `{"data":"some-token","error":null}` |
+
+성공 시, `data` 필드에 토큰이 반환됩니다.  
+이 토큰을 이후 모든 API 요청의 **Authorization 헤더**에 포함해야 합니다.
+
+---
+
+## Example Code (JavaScript)
+
+```js
+// Endpoint
+const url = "https://api.notifly.tech/authenticate";
+
+// Headers
+const headers = {
+  "Content-Type": "application/json",
+};
+
+// Body
+const body = {
+  accessKey: "your-access-key",
+  secretKey: "your-secret-key",
+};
+
+// Fetch call
+fetch(url, {
+  method: "POST",
+  headers: headers,
+  body: JSON.stringify(body),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    // Get authentication token
+    console.log("Auth Token:", data.data);
+  })
+  .catch((err) => {
+    console.error("Error:", err);
+  });
+
+/**
+ * Example response:
+ * {
+ *   data: "some-token",
+ *   error: null
+ * }
+ */
+```
+
+---
+
+## Error Examples
+
+| Status Code | Description                              | Example Response |
+| ------------ | ---------------------------------------- | ---------------- |
+| 400          | 필수 파라미터 누락 또는 잘못된 형식      | `{"code":400,"error":"Bad request: missing key"}` |
+| 401          | 인증 실패 (잘못된 Key)                   | `{"code":401,"error":"Unauthorized: invalid key"}` |
+| 500          | 서버 내부 오류                            | `{"code":500,"error":"Internal Server Error"}` |
+
+---
+
+## 참고
+
+- 인증 토큰은 1시간 후 만료되며, 만료 시 `401 Unauthorized` 오류가 반환됩니다.  
+- 안전한 요청을 위해 토큰은 매 호출 시 재발급하는 것을 권장합니다.  
+- 클라이언트 애플리케이션에서는 Access/Secret Key를 **직접 노출하지 않도록 주의**하세요.

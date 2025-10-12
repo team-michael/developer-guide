@@ -1,0 +1,89 @@
+---
+title: Campaign Event Data Export API
+description: 캠페인 이벤트 데이터(발송/수신/오픈/클릭 등) 내보내기
+---
+
+# Campaign Event Data Export API
+
+캠페인 관련 이벤트 데이터를 **비동기 내보내기(Export)** 합니다. 요청/결과 조회를 분리합니다.
+
+> [TODO: confirm endpoints & fields] 엔드포인트/필드 명세는 예시입니다.
+
+## 13.1 Export 요청
+
+### Endpoint
+
+`POST https://api.notifly.tech/exports/campaign-events`
+
+### Request Body
+
+| Field         | Type   | Required | Description                                   |
+|--------------:|--------|----------|-----------------------------------------------|
+| projectId     | String | Yes      | 프로젝트 ID                                   |
+| campaignId    | String | No       | 특정 캠페인만 내보내기                        |
+| eventNames    | Array  | No       | 내보낼 이벤트 종류 (아래 "Event Name 종류")    |
+| dateRange     | Object | Yes      | 기간 `{ from: "YYYY-MM-DD", to: "YYYY-MM-DD" }` |
+| format        | String | No       | `csv` \| `json` (기본: `csv`)                  |
+| notifyEmail   | String | No       | 완료 시 알림 받을 이메일                       |
+
+### Response
+
+```json
+{ "requestId": "exp_12345", "status": "queued" }
+```
+
+---
+
+## 13.2 Export 결과 조회
+
+### Endpoint
+
+`GET https://api.notifly.tech/exports/campaign-events/{requestId}`
+
+### Response (예시)
+
+```json
+{
+  "requestId": "exp_12345",
+  "status": "done",
+  "fileUrl": "https://.../exp_12345.csv",
+  "rowCount": 5421,
+  "format": "csv"
+}
+```
+
+---
+
+## Event Name의 종류
+
+| Event Name         | Description             |
+|--------------------|-------------------------|
+| message_sent       | 메시지 발송             |
+| message_delivered  | (채널별 제공 시) 딜리버리|
+| message_opened     | 오픈                    |
+| message_clicked    | 클릭                    |
+| message_bounced    | 실패/반송               |
+| unsubscribed       | 수신거부                |
+
+> 실제 지원 목록은 채널/설정에 따라 다를 수 있습니다. 콘솔/백엔드 스펙으로 확정하세요.
+
+---
+
+## Message Data Examples
+
+### CSV 헤더 예시
+```csv
+timestamp,campaignId,userId,channel,eventName,meta
+```
+
+### JSON 레코드 예시
+```json
+{
+  "timestamp": "2025-10-09T12:34:56Z",
+  "campaignId": "cmp_abc",
+  "userId": "alice",
+  "channel": "kakao_alimtalk",
+  "eventName": "message_clicked",
+  "meta": { "buttonId": "signup", "utm_source": "kakao" }
+}
+```

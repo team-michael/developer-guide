@@ -1,0 +1,56 @@
+---
+title: Manage Text Message 080 Block Service
+description: 080 수신거부(블록) 번호 조회/등록/삭제 API
+---
+
+# Manage Text Message 080 Block Service
+
+SMS 080 수신거부(블록) **수신자 관리**를 위한 API입니다.
+
+> [TODO: confirm endpoints & exact payloads]
+
+## 8.1 Find Recipients
+
+**GET** `https://api.notifly.tech/messages/text-message/080/recipients`
+
+Query (예시): `?projectId={projectId}&page=1&pageSize=100`
+
+Response:
+```json
+{ "items": [ { "recipientNo": "01012345678", "blockedAt": "2025-10-10T05:12:00Z" } ], "total": 1 }
+```
+
+---
+
+## 8.2 Register Recipients
+
+**POST** `https://api.notifly.tech/messages/text-message/080/recipients`
+
+Body:
+```json
+{
+  "projectId": "your-project-id",
+  "recipients": [ "01012345678", "01056781234" ]
+}
+```
+
+---
+
+## 8.3 Remove Recipients
+
+**DELETE** `https://api.notifly.tech/messages/text-message/080/recipients`
+
+Body:
+```json
+{
+  "projectId": "your-project-id",
+  "recipients": [ "01012345678" ]
+}
+```
+
+## Errors
+
+- `400` 잘못된 번호/형식  
+- `401` 인증 실패  
+- `413` 과다 요청  
+- `500` 서버 오류
