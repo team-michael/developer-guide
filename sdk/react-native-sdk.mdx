@@ -1,232 +1,219 @@
 ---
 title: "React Native 연동"
 ---
-# Client SDK - React Native
 
-The Notifly React Native SDK can be used to integrate Notifly with React Native applications.  
-It supports the following features:
+Notifly React Native SDK는 **노티플라이의 푸시 및 인앱 캠페인 기능을 React Native 앱에 통합**할 수 있도록 지원합니다.  
+아래 기능을 제공합니다:
 
-- Register device information with Notifly to receive app push notifications and in-app popups sent through Notifly in your React Native app.
-  - In-app popups from Notifly are received only when the app is in the foreground state. They are ignored when in background or quit states.
-- Integrate events and user information with Notifly to be utilized in all campaigns.
-- Log events to measure the performance of campaigns.
+- 기기 정보를 노티플라이에 등록하여 **푸시 알림 및 인앱 팝업** 수신  
+  (인앱 팝업은 **Foreground 상태**에서만 표시됩니다)
+- 이벤트 및 유저 정보를 노티플라이와 연동하여 **캠페인 타깃팅 및 분석 활용**
+- 유저 행동 데이터를 기반으로 한 **이벤트 로깅 및 성과 측정**
 
-```mdx-code-block
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-```
+## Before You Start
+ 
+SDK를 설치하기 전, 아래 과정을 반드시 완료하세요.
 
-Notifly utilizes [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging) for sending push notifications.  
-Please proceed with the following steps first:
+1. **Firebase 프로젝트 연동**  
+  > 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration.mdx)
 
-1. [Integrate Firebase Project](http://docs.notifly.tech/developer-guide/client-sdk/firebase_project_setup)
-2. [Set up iOS APNs Authentication Information](http://docs.notifly.tech/developer-guide/client-sdk/firebase_project_setup#1-3-registering-apns-certificate)
+2. **iOS APNs 인증 등록**  
+  > 👉 [APNs 인증서 등록](https://docs.notifly.tech/ko/developer-guide/client-sdk/firebase_project_setup#1-3-apns-인증서-등록)
 
-## 1. Notifly SDK Setup
+<Info>
+iOS 13 이상, Android 7.0(API 24) 이상 환경을 권장합니다.  
+iOS는 `.xcworkspace` 파일을 반드시 Xcode로 열어야 정상적으로 빌드됩니다.
+</Info>
 
-### 1-1. Installing Notifly SDK
+## 1. SDK 설치
+
+### SDK 설치
 
 - [notifly-sdk npm](https://www.npmjs.com/package/notifly-sdk)
 
-To install the package, please run the following:
-
+<Tabs>
+<Tab title="npm">
 ```shell
 npm install notifly-sdk@latest --save
 cd ios && pod install
 ```
-
-If you are using yarn:
-
+</Tab>
+<Tab title="yarn">
 ```shell
 yarn add notifly-sdk@latest
 cd ios && pod install
 ```
+</Tab>
+</Tabs>
 
-The notifly-sdk will be added to your app's package.json file. (Current latest version: [![Npm](https://img.shields.io/npm/v/notifly-sdk.svg)](https://www.npmjs.com/package/notifly-sdk))
+<Info> `package.json` 파일에 `notifly-sdk`가 추가됩니다. 현재 최신 버전: [![Npm](https://img.shields.io/npm/v/notifly-sdk.svg)](https://www.npmjs.com/package/notifly-sdk) </Info>
 
-### 1.2. iOS Configuration
+### iOS 설정
 
-#### 1) Capability Settings
+#### 1. Capability 설정
 
-1. Open `{Your_Project_Name}.xcworkspace` in Xcode.
+1. Xcode에서 `{Your_Project_Name}.xcworkspace`을 엽니다. (`.xcodeproj`로는 노티플라이 SDK 사용 불가)
 
-- If you open `{Your_Project_Name}.xcodeproj` instead of `{Your_Project_Name}.xcworkspace` in Xcode and build it, you will not be able to use the Notifly SDK.
-- `{Your_Project_Name}.xcworkspace` is located in the ios directory of the Root directory.
+2. iOS Deployment Target/Target의 Minimum Deployments을 13.0 이상으로 설정하고, Podfile의 최소 버전도 동일하게 지정합니다.
 
-2. Set the iOS Deployment Target of the target project and the Minimum Deployment iOS of the Target to **13.0** or higher.
-
-- Please also set the minimum version to 13.0 in the Podfile.
-
-3. Add the Push Notifications capability.
+3. Push Notification 및 Background Mode (Remote notification, Background fetch)를 활성화합니다.
    ![Add Capabilities](./image/ios_setting_add_capability1.png)
-
-4. Add the Background Modes capability and select Remote notifications and Background Fetch.
    ![Add Capabilities](./image/ios_setting_add_capability2.png)
 
-5. Open the AppDelegate.mm file and add the following code:
+#### 2. `AppDelegate.mm` 설정
 
-- The AppDelegate.mm file is located in the {ProjectName} folder of the ios directory.
+1. 파일 위치
 
-- Import the `notifly_sdk` framework.
+`AppDelegate.mm` 파일은 다음 경로에 있습니다:
+
+```
+ios/{ProjectName}/AppDelegate.mm
+```
+
+2. `notifly_sdk` import 추가
 
 ```objc
 #import "notifly_sdk-Swift.h"
 ```
 
-- In AppDelegate.h, add the `UNUserNotificationCenterDelegate` protocol to the AppDelegate class.
-  - Please refer to the example code below.
-- Add Notifly code to the `AppDelegate methods` in AppDelegate.mm.
-  1. `(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`
-     - Set the delegate of UNNotificationCenter to self.
-  2. `(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken`
-     - Register the APNs token with Notifly.
-  3. `(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error`
-     - Notify Notifly if there was a failure to register the APNs token.
-  4. `(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler`
-     - Pass the app push notification click event to Notifly.
-  5. `(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler`
-     - When the app is in the Foreground state, pass the data received from Notifly to the SDK.
+<Info> 이 코드는 Notifly SDK와 Swift 브리지 연결**을 위한 필수 import입니다. </Info>
+
+3. `UNUserNotificationCenterDelegate` 프로토콜 추가
+
+`AppDelegate.h`에서 `AppDelegate` 클래스가 `UNUserNotificationCenterDelegate`를 구현하도록 수정합니다.
 
 <Tabs>
-<TabItem value="header" label="AppDelegate.h">
-
-```objc title="Example Code of AppDelegate.h"
-#import <RCTAppDelegate.h>
-#import <UIKit/UIKit.h>
+<Tab title="AppDelegate.h"> 
+```objc title="header" 
+#import <RCTAppDelegate.h> 
+#import <UIKit/UIKit.h> 
 #import <UserNotifications/UNUserNotificationCenter.h>
 
 @interface AppDelegate : RCTAppDelegate <UNUserNotificationCenterDelegate>
 
 @end
 ```
+</Tab>
+</Tabs>
 
-</TabItem>
-<TabItem value="delegate" label="AppDelegate.mm">
+4. `AppDelegate` 메서드 수정
 
-```objc title="Example Code of AppDelegate.mm"
+`AppDelegate.mm` 내 메소드(`AppDelegate method`)에 Notifly 관련 코드를 추가합니다.
+
+| 메서드 이름 | 설명 |
+|--------------|------|
+| `application:didFinishLaunchingWithOptions:` | Firebase 초기화 및 Notification Center delegate 설정 |
+| `application:didRegisterForRemoteNotificationsWithDeviceToken:` | APNs 토큰을 Notifly에 등록 |
+| `application:didFailToRegisterForRemoteNotificationsWithError:` | APNs 등록 실패 시 Notifly에 알림 |
+| `userNotificationCenter:didReceiveNotificationResponse:` | 푸시 알림 클릭 이벤트 전달 |
+| `userNotificationCenter:willPresentNotification:` | Foreground 상태의 푸시 표시 처리 |
+
+<Tabs>
+<Tab title="AppDelegate.mm">
+```objc title="AppDelegate.mm"
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import "AppDelegate.h"
-// highlight-next-line
 #import "notifly_sdk-Swift.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    /* Your Code */
-    // highlight-start
     [FIRApp configure];
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-    // highlight-end
-    /* Your Code */
+    return YES;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    /* Your Code */
-    // highlight-next-line
     [Notifly application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    /* Your Code */
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    /* Your Code */
-    // highlight-next-line
     [Notifly application:application didFailToRegisterForRemoteNotificationsWithError:error];
-    /* Your Code */
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
-    /* Your Code */
-    // highlight-start
     [Notifly userNotificationCenter:center didReceive:response];
     completionHandler();
-    // highlight-end
-    /* Your Code */
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    /* Your Code */
-    // highlight-next-line
-   [Notifly userNotificationCenter:center willPresent:notification withCompletionHandler:completionHandler];
-    /* Your Code */
+    [Notifly userNotificationCenter:center willPresent:notification withCompletionHandler:completionHandler];
 }
 
-/* Your Code */
 @end
-
 ```
-
-</TabItem>
+</Tab>
 </Tabs>
 
-### 1-3. (Optional) iOS Push Extension Setup
+### (선택) iOS Notification Service Extension 설정
 
-:::caution SDK spec for Rich Push Notification
-`notifly-sdk`: Version 3.0.4 or higher
-:::
+<Info> `notifly-sdk` 버전 3.0.4 이상부터 지원됩니다. </Info>
 
-- It is recommended to set up a Notification Service Extension following [Notifly's guide](/developer-guide/client-sdk/advanced/ios-push-extension), as it supports the following features:
-  1. You can attach images and videos to push notifications.
-  2. You can verify whether a user has received a push notification, allowing for a more detailed analysis of campaign performance.
+Notification Service Extension을 설정하면 리치 푸시(Rich Push) 기능을 사용할 수 있습니다. Notifly의 [Push Extension 가이드](advanced/rich-push-notification)를 참고해 설정하세요.
 
-### 1-4. Adding Notifly SDK Initialization Code
+#### 주요 기능
 
-- Please add the Notifly SDK initialization code in `index.js` or `App.js`.
+1. 푸시 알림에 이미지 및 비디오 첨부 가능
+2. 유저의 푸시 수신 여부를 추적하여 캠페인 성과를 세부적으로 분석 가능
 
-<Tabs>
-<TabItem value="initialize" label="javascript">
+<Warning> Notification Service Extension 설정을 하지 않아도 SDK는 정상 동작하지만, 리치 푸시 및 수신 트래킹은 사용할 수 없습니다. </Warning>
+
+### 초기화 코드 추가
+
+앱 진입점(`index.js` 또는 `App.js`)에 초기화 코드를 추가합니다.
 
 ```js title="index.js"
 ...
-import messaging from '@react-native-firebase/messaging';
-// highlight-next-line
 import notifly from 'notifly-sdk';
 
 /* Your Code */
 
-// highlight-next-line
-notifly.initialize('myProjectId', 'myUserName', 'myPassword');
+notifly.initialize({
+  projectId: 'myProjectId',
+  username: 'myUserName',
+  password: 'myPassword',
+});
 
 /* Your Code */
 
 AppRegistry.registerComponent(...);
 ```
 
-</TabItem>
-</Tabs>
+<Info> `projectId`, `username`, `password`는 Notifly 관리자 페이지에서 확인할 수 있습니다. </Info>
 
-`NOTIFLY_PROJECT_ID`, `NOTIFLY_USERNAME`, and `NOTIFLY_PASSWORD` can be found on the settings page of the Notifly console.
+## 2. 유저 정보 등록
 
-## 2. Registering User Properties
+Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
+등록된 유저 정보는 세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅에 활용됩니다.
 
-- With Notifly, you can set a user's id (`userId`) and properties (`params`) to utilize them in marketing campaign executions.
-  - Notifly allows user's push notification settings (permission & preferences) as a user property, enabling filtering before sending push notifications.
-  - For sending Kakao Alimtalk, Friendtalk, or SMS messages, a phone number must be set as a user property.
-  - For sending emails, an email address must be set as a user property.
-  - The property field names for the phone number and email must be set to `$phone_number` and `$email`, respectively.
-  - Start registering properties after adding the Notifly SDK initialization code.
-  - (Recommendation) When logging out, call `setUserId` with `userId` as null to unregister the user's `userId`.
-  - <span style={{ color: "red" }}>
-      Calling user id unregistration will delete all user information, including
-      user properties and campaign fatigue management data.
-    </span>
+### 1. 유저 ID 등록 (`Notifly.setUserId()`)
 
-### 2-1. Set User Id
+`userId`는 앱 내부의 로그인 사용자 식별자와 매핑됩니다.  
+Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인을 개인화합니다.
 
-| Parameter | Type     | Required |
-| --------- | -------- | -------- |
-| userId    | `String` | Yes      |
+### Parameters
+
+<ParamField path="userId" type="String" required>
+  로그인 사용자 ID. 로그아웃 시 `null`로 설정하여 해제
+</ParamField>
 
 ```js
 notifly.setUserId(userId);
 ```
 
-<Tabs>
-<TabItem value="setUserId" label="javascript">
+---
 
-```js title="Example Code of setUserId"
+<Warning>
+`setUserId(null)`을 호출하면 해당 유저의 프로퍼티, 캠페인 히스토리, 피로도 데이터가 **모두 삭제됩니다.**  
+로그아웃 시점에만 호출하세요.
+</Warning>
+
+<Tabs>
+<Tab title="JavaScript">
+```js title="setUserId JavaScript"
 const handleLogin = () => {
     ...
     notifly.setUserId('example_user_id'); // Set User Id
@@ -239,24 +226,32 @@ const handleLogout = () => {
     ...
 }
 ```
-
-</TabItem>
+</Tab>
 </Tabs>
 
-### 2-2. Set User Properties
+### 2. 유저 프로퍼티 등록
 
-| Parameter | Type     | Required |
-| --------- | -------- | -------- |
-| params    | `Object` | Yes      |
+`setUserProperties`는 사용자의 속성 정보를 등록합니다.  
+이 정보는 **세그먼트 타깃팅**, **메시지 개인화**, **발송 채널 선택** 등에 사용됩니다.
 
 ```js
 notifly.setUserProperties(params);
 ```
 
-<Tabs>
-<TabItem value="setUserProperties" label="javascript">
+<ParamField path="param" type="Object" required>
+  사용자 속성 key-value 쌍. `$email`, `$phone_number` 등 사전 정의된 키 지원
+</ParamField>
 
-```js title="Example Code of setUserProperties"
+<Info>
+- `$email` : 이메일 캠페인용 주소  
+- `$phone_number` : 문자/카카오 캠페인용 전화번호  
+- 기타 커스텀 필드: `"plan"`, `"tier"`, `"country"` 등 자유롭게 설정 가능  
+</Info>
+
+<Tabs>
+<Tab title="JavaScript">
+
+```js title="setUserProperties"
 const handleRejectPushNotification = () => {
     ...
     notifly.setUserProperties({
@@ -268,32 +263,38 @@ const handleRejectPushNotification = () => {
 }
 ```
 
-</TabItem>
+</Tab>
 </Tabs>
 
-## 3. Event Logging
+## 3. 이벤트 로깅
 
-- Notifly allows tracking of user actions to utilize in targeting during campaign executions. Tracked events can be used for determining the timing of push notification delivery and setting the target audience.
-  - Start implementing event logging after adding the Notifly SDK initialization code.
-- You can use `segmentationEventParamKeys` to utilize event parameters (`eventParams`) in setting the target audience, etc. For this, please specify the key value of a specific field in `eventParams` that will be used in setting the target audience in `segmentationEventParamKeys`.
-  - **Currently, only one `segmentationEventParamKeys` is supported, so the length of `segmentationEventParamKeys` must be a list of 1 or fewer.**
-
-### 3-1. Event Logging
-
-| Parameter                  | Type           | Required |
-| -------------------------- | -------------- | -------- |
-| eventName                  | `String`       | Yes      |
-| eventParams                | `Object`       | No       |
-| segmentationEventParamKeys | `List<String>` | No       |
+유저 행동을 기록하여 **캠페인 트리거**, **세그먼트 조건**, **성과 분석** 등에 활용할 수 있습니다.  
+예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 사용자 행동을 이벤트로 수집합니다.
 
 ```js
 notifly.trackEvent(eventName, eventParams, segmentationEventParamKeys);
 ```
 
-<Tabs>
-<TabItem value="trackEvent" label="javascript">
+### Parameters
 
-```js title="Example Code of trackEvent"
+<ParamField path="eventName" type="String" required>
+  이벤트 이름 (예: "click_button", "purchase_completed")
+</ParamField>
+<ParamField path="eventParams" type="Object">
+  이벤트에 대한 추가 속성. 예: "plan": "premium", "duration": 120
+</ParamField>
+<ParamField path="segmentationEventParamKeys" type="List<String>">
+  세그먼트 분류 시 기준으로 사용할 키 목록 (최대 1개까지 지원)
+</ParamField>
+
+<Info>
+`segmentationEventParamKeys`를 활용하여 이벤트 변수 (eventParams)를 발송 대상 설정 등에 활용할 수 있습니다. **최대 1개의 Key**만 지정할 수 있습니다.
+</Info>
+
+<Tabs>
+<Tab title="JavaScript" >
+
+```js title="trackEvent"
 const handlePurchaseTicket = () => {
     ...
     notifly.trackEvent("ticket_purchase", {
@@ -310,26 +311,52 @@ const handleLogin = () => {
 }
 ```
 
-</TabItem>
+</Tab>
 </Tabs>
 
-## 4. Integration Testing
+## 4. 연동 테스트
 
-Please refer to [Client SDK - Integration Test](https://docs.notifly.tech/developer-guide/client-sdk/sdk_test).
+SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부를 테스트하세요.  
+👉 [Client SDK - 연동 Test](https://docs.notifly.tech/ko/developer-guide/client-sdk/sdk_test)
 
-## 5. (Advanced) Registering Push Notification Icons (Android) & Push Notification Consent Prompt
+## 5. 심화 연동
 
-Please refer to [(Advanced) Client SDK - React Native](/developer-guide/client-sdk/advanced/react-native-sdk-advanced).
+<Columns cols={2}>
+
+  <Card
+    title="Push Icon & Consent"
+    icon="bell"
+    href="/sdk/android-advanced#push-icon-consent"
+  >
+    푸시 알림 아이콘 등록 (Android) & 푸시 알림 동의 프롬프트
+  </Card>
+
+  <Card
+    title="Click Event Subscription"
+    icon="mouse-pointer"
+    href="/sdk/android-advanced#click-event"
+  >
+    푸시 알림 클릭 이벤트 구독
+  </Card>
+
+</Columns>
 
 ## FAQ
 
-- Q. What if I am already using Firebase Cloud Messaging?
-  - A. The Notifly SDK has been designed to prevent conflicts with Firebase Cloud Messaging, which may already be used in existing apps, so you can use it safely.
-- Q. I am getting errors related to the Notifly class in the AppDelegate.mm file during build.
-  - A. Please add `use_frameworks! :linkage => :static` to your Podfile to attempt static linking. (If there's already a `use_frameworks!` line, just add the `:linkage => :static` option.)
-- Q. I am not receiving push notifications in the foreground state on iOS devices.
-  - A. If you are already using Firebase Messaging, please configure your firebase.json file as instructed below.
-    - Add the following code to your firebase.json file according to the guide on [Foreground Presentation Options](https://rnfirebase.io/messaging/usage#foreground-presentation-options-ios) by React Native Firebase.
+<AccordionGroup>
+  <Accordion title="이미 Firebase Cloud Messaging을 사용 중인데 어떻게 해야 할까요?">
+    Notifly Android SDK는 기존 앱에서 사용하고 있을 수 있는 Firebase Cloud Messaging과 함께 사용하실 수 있습니다.
+  </Accordion>
+
+  <Accordion title="Build시 AppDelegate.mm 파일에서 Notifly 클래스 관련 에러가 발생합니다.">
+    Podfile에 `use_frameworks! :linkage => :static` 라인을 추가하여 Static Linking을 시도해주세요. (기존에 `use_frameworks!` 라인이 존재한다면, `:linkage => :static` 옵션만 추가해주세요.)
+  </Accordion>
+
+  <Accordion title="iOS기기에서 Foreground 상태에서 푸시 알림이 오지 않습니다.">
+    Firebase Messaging을 이미 사용하시고 계시다면, firebase.json 파일에 아래 안내에 따라 설정해주세요.
+    
+    [React Native Firebase의 Foreground Presentation Options](https://rnfirebase.io/messaging/usage#foreground-presentation-options-ios)의 가이드에 따라 firebase.json 파일에 다음 코드를 추가해주세요.
+    
     ```json
     {
       "react-native": {
@@ -342,6 +369,10 @@ Please refer to [(Advanced) Client SDK - React Native](/developer-guide/client-s
       }
     }
     ```
-- Q. I get an error saying the notifly_sdk-Swift.h file cannot be found. What should I do?
-  - The notifly_sdk (iOS) is written in Swift. To expose it to the Objective-C environment, a Swift Compatibility Header named notifly_sdk-Swift.h is created during the build process. Please add "${PODS_CONFIGURATION_BUILD_DIR}" to the Header Search Paths in the Build Option of the target you wish to build.
-  - [Reference](https://developer.apple.com/documentation/swift/importing-swift-into-objective-c)
+  </Accordion>
+
+  <Accordion title="`notifly_sdk-Swift.h` 파일을 찾을 수 없다는 에러가 뜹니다">
+    - notifly_sdk(ios)는 Swift로 작성되어 있습니다. 이에 Objective-C 환경으로 노출시키기 위해 빌드되는 과정에서 Swift Compatibility Header가 생성되는데, 이 헤더 파일의 이름이 notifly_sdk-Swift.h입니다. 빌드를 진행하고자하는 타겟의 Builld Option의 Header Search Paths에 "${PODS_CONFIGURATION_BUILD_DIR}"를 추가해주세요.
+    - [참고](https://developer.apple.com/documentation/swift/importing-swift-into-objective-c)
+  </Accordion>
+</AccordionGroup>

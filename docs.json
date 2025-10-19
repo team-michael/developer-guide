@@ -25,12 +25,22 @@
             "expanded": false,
             "pages": [
               "sdk/firebase-integration",
-              "sdk/ios-sdk",
-              "sdk/android-sdk",
-              "sdk/react-native-sdk",
-              "sdk/flutter-sdk",
-              "sdk/javascript-sdk",
-              "sdk/google-tag-manager",
+              {
+                "group": "Mobile",
+                "pages": [
+                  "sdk/android-sdk",
+                  "sdk/ios-sdk",
+                  "sdk/react-native-sdk",
+                  "sdk/flutter-sdk"
+                ]
+              },
+              {
+                "group": "Web",
+                "pages": [
+                  "sdk/javascript-sdk",
+                  "sdk/google-tag-manager"
+                ]
+              },
               "integration-test"
             ]
           },
