@@ -142,52 +142,60 @@ description: "Notifly SDK 심화 기능 연동"
 <Tabs>
   <Tab title="Android">
 
-  <INFO> 해당 기능은 Notifly Android SDK 1.5.0 이상 버전부터 지원됩니다. </INFO>
+  `INotificationClick` 의 `notification` 객체에 접근하여, 사용자가 어떠한 푸시를 클릭했는지에 대한 정보를 확인할 수 있습니다.
 
-  Notifly Android SDK에서는 푸시 알림 클릭 이벤트를 구독하여 사용자가 푸시 알림을 클릭했을 때 앱 내에서 특정 동작을 수행하도록 커스터마이즈 할 수 있습니다.
+    아래는 `INotification` 객체의 속성들에 대한 설명입니다.
 
-  ```kotlin
-    
-    package com.your.project
+    <Expandable title="INotification Properties">
+        <ResponseField name="androidNotificationId" type="Int">
+        Android system-level 푸시 알림 ID입니다. (Since 1.5.0)
+        </ResponseField>
 
-    import android.app.Application
-    import android.util.Log
-    import tech.notifly.Notifly
-    import tech.notifly.push.interfaces.INotificationClickEvent
-    import tech.notifly.push.interfaces.INotificationClickListener
+        <ResponseField name="campaignId" type="String?">
+        푸시 알림이 발송된 Notifly 캠페인의 ID입니다. (Since 1.5.0)
+        </ResponseField>
 
-    class SampleApplication : Application() {
-        override fun onCreate() {
-            super.onCreate()
+        <ResponseField name="body" type="String?">
+        푸시 메시지의 내용입니다. (Since 1.5.0)
+        </ResponseField>
 
-            // Optional: Set log level
-            Notifly.setLogLevel(Log.VERBOSE)
+        <ResponseField name="title" type="String">
+        푸시 메시지의 제목입니다. (Since 1.5.0)
+        </ResponseField>
 
-            // Initialize Notifly SDK
-            Notifly.initialize(
-                context = applicationContext,
-                projectId = BuildConfig.NOTIFLY_PROJECT_ID,
-                username = BuildConfig.NOTIFLY_USERNAME,
-                password = BuildConfig.NOTIFLY_PASSWORD,
-            )
+        <ResponseField name="url" type="String">
+        푸시 메시지가 클릭되었을 때 이동할 URL입니다. 만약 '앱 실행' 액션으로 푸시 알림을 발송하였다면, `null` 값이 반환됩니다. (Since 1.5.0)
+        </ResponseField>
 
-            // Subscribe for push notification click event
-            Notifly.addNotificationClickListener(object : INotificationClickListener {
-                override fun onClick(event: INotificationClickEvent) {
-                    Log.d("SampleApplication", "Notification clicked!")
+        <ResponseField name="customData" type="HashMap<String, String>">
+        FCM 푸시 메시지의 `data` 필드에 포함된 키-값 쌍의 커스텀 데이터입니다. 노티플라이 콘솔에서 설정할 수 있습니다. (Since 1.5.0)
+        </ResponseField>
 
-                    Log.d("SampleApplication", "Notification title: ${event.notification.title}")
-                    Log.d("SampleApplication", "Notification body: ${event.notification.body}")
-                    Log.d(
-                        "SampleApplication",
-                        "Notification custom data: ${event.notification.customData}"
-                    )
-                }
-            })
-        }
-    }
+        <ResponseField name="imageUrl" type="String?">
+        이미지형 푸시 메시지에 포함된 이미지 URL 입니다. (Since 1.5.0)
+        </ResponseField>
 
-  ```
+        <ResponseField name="importance" type="Importance">
+        Importance 는 `tech.notifly.push.impl.Importance` 에 정의되어 있으며, `Importance.HIGH`, `Importance.NORMAL`, `Importance.LOW` 중 하나의 값입니다. (Since 1.5.0)
+        </ResponseField>
+
+        <ResponseField name="notiflyMessageId" type="String?">
+        Notifly 서버에서 임의로 생성한 메시지 ID입니다. (Since 1.5.0)
+        </ResponseField>
+
+        <ResponseField name="rawPayload" type="String">
+        FCM data의 가공되지 않은 payload입니다. JSON을 stringify한 형태로 반환됩니다. (Since 1.5.0)
+        </ResponseField>
+
+        <ResponseField name="sentTime" type="Long">
+        FCM 서버에서 푸시 알림을 발송한 시간입니다. (Since 1.5.0)
+        </ResponseField>
+
+        <ResponseField name="ttl" type="Int">
+        푸시 알림의 TTL(Time To Live) 값입니다. (Since 1.5.0)
+        </ResponseField>
+    </Expandable>
+  
   </Tab>
 <Tab title="Flutter">
   
@@ -257,20 +265,57 @@ class OSNotificationClickEvent {
 
     ```
 
-| Property name           | Type                    | Description                                                                                                             | Since |
-| ----------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----- |
-| `androidNotificationId` | `int?`                  | Android system-level 푸시 알림 ID입니다.                                                                                | 1.4.0 |
-| `campaignId`            | `String?`               | 푸시 알림이 발송된 Notifly 캠페인의 ID입니다.                                                                           | 1.4.0 |
-| `body`                  | `String?`               | 푸시 메시지의 내용입니다.                                                                                               | 1.4.0 |
-| `title`                 | `String?`               | 푸시 메시지의 제목입니다.                                                                                               | 1.4.0 |
-| `url`                   | `String?`               | 푸시 메시지가 클릭되었을 때 이동할 URL입니다. 만약 '앱 실행' 액션으로 푸시 알림을 발송하였다면, `null` 값이 반환됩니다. | 1.4.0 |
-| `customData`            | `Map<String, dynamic>?` | FCM 푸시 메시지의 `data` 필드에 포함된 키-값 쌍의 커스텀 데이터입니다. 노티플라이 콘솔에서 설정할 수 있습니다.          | 1.4.0 |
-| `imageUrl`              | `String?`               | 이미지형 푸시 메시지에 포함된 이미지 URL 입니다.                                                                        | 1.4.0 |
-| `importance`            | `Importance`            | `Importance.high`, `Importance.normal`, `Importance.low` 중 하나의 값입니다.                                            | 1.4.0 |
-| `notiflyMessageId`      | `String?`               | Notifly 서버에서 임의로 생성한 메시지 ID입니다.                                                                         | 1.4.0 |
-| `rawPayload`            | `Map<String, dynamic>?` | FCM data의 가공되지 않은 payload입니다. JSON을 stringify한 형태로 반환됩니다.                                           | 1.4.0 |
-| `sentTime`              | `int?`                  | FCM 서버에서 푸시 알림을 발송한 시간입니다.                                                                             | 1.4.0 |
-| `ttl`                   | `int?`                  | 푸시 알림의 TTL(Time To Live) 값입니다.                                                                                 | 1.4.0 |
+    아래는 `OSNotification` 객체의 속성들에 대한 설명입니다.
+
+    <Expandable title="OSNotification Properties">
+        <ResponseField name="androidNotificationId" type="int?">
+        Android system-level 푸시 알림 ID입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="campaignId" type="String?">
+        푸시 알림이 발송된 Notifly 캠페인의 ID입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="body" type="String?">
+        푸시 메시지의 내용입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="title" type="String?">
+        푸시 메시지의 제목입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="url" type="String?">
+        푸시 메시지가 클릭되었을 때 이동할 URL입니다. 만약 '앱 실행' 액션으로 푸시 알림을 발송하였다면, `null` 값이 반환됩니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="customData" type="Map<String, dynamic>?">
+        FCM 푸시 메시지의 `data` 필드에 포함된 키-값 쌍의 커스텀 데이터입니다. 노티플라이 콘솔에서 설정할 수 있습니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="imageUrl" type="String?">
+        이미지형 푸시 메시지에 포함된 이미지 URL 입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="importance" type="Importance">
+        `Importance.high`, `Importance.normal`, `Importance.low` 중 하나의 값입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="notiflyMessageId" type="String?">
+        Notifly 서버에서 임의로 생성한 메시지 ID입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="rawPayload" type="Map<String, dynamic>?">
+        FCM data의 가공되지 않은 payload입니다. JSON을 stringify한 형태로 반환됩니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="sentTime" type="int?">
+        FCM 서버에서 푸시 알림을 발송한 시간입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="ttl" type="int?">
+        푸시 알림의 TTL(Time To Live) 값입니다. (Since 1.4.0)
+        </ResponseField>
+    </Expandable>
 
 </Tab>
 </Tabs>
