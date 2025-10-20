@@ -318,4 +318,96 @@ class OSNotificationClickEvent {
     </Expandable>
 
 </Tab>
+<Tab title="React">
+
+`OSNotificationClickEvent`의 `notification` 멤버에 접근하여, 사용자가 클릭한 푸시 알림의 정보를 확인할 수 있습니다.
+
+```TypeScript
+export type NotificationClickListener = (
+  event: OSNotificationClickEvent,
+) => void;
+
+export declare enum OSNotificationImportance {
+  LOW = 0,
+  NORMAL = 1,
+  HIGH = 2,
+}
+
+export interface OSNotificationClickEvent {
+  notification: OSNotification;
+}
+
+export interface OSNotification {
+  notiflyMessageId?: string;
+  androidNotificationId?: number;
+  campaignId?: string;
+  title?: string;
+  body?: string;
+  importance?: OSNotificationImportance;
+  url?: string;
+  imageUrl?: string;
+  sentTime?: number;
+  ttl?: number;
+  customData?: {
+    [key: string]: any;
+  };
+  rawPayload?: {
+    [key: string]: any;
+  };
+}
+```
+
+아래는 `OSNotification` 객체의 속성들에 대한 설명입니다.
+
+    <Expandable title="OSNotification Properties">
+        <ResponseField name="androidNotificationId" type="number">
+        Android system-level 푸시 알림 ID입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="campaignId" type="String?">
+        푸시 알림이 발송된 Notifly 캠페인의 ID입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="body" type="String?">
+        푸시 메시지의 내용입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="title" type="String?">
+        푸시 메시지의 제목입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="url" type="String?">
+        푸시 메시지가 클릭되었을 때 이동할 URL입니다. 만약 '앱 실행' 액션으로 푸시 알림을 발송하였다면, `null` 값이 반환됩니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="customData" type="{[key: string]: any}?">
+        FCM 푸시 메시지의 `data` 필드에 포함된 키-값 쌍의 커스텀 데이터입니다. 노티플라이 콘솔에서 설정할 수 있습니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="imageUrl" type="String?">
+        이미지형 푸시 메시지에 포함된 이미지 URL 입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="importance" type="OSNotificationImportance">
+        `OSNotificationImportance.HIGH`, `OSNotificationImportance.NORMAL`, `OSNotificationImportance.LOW` 중 하나의 값입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="notiflyMessageId" type="String?">
+        Notifly 서버에서 임의로 생성한 메시지 ID입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="rawPayload" type="{[key: string]: any}?">
+        FCM data의 가공되지 않은 payload입니다. JSON을 stringify한 형태로 반환됩니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="sentTime" type="number">
+        FCM 서버에서 푸시 알림을 발송한 시간입니다. (Since 1.4.0)
+        </ResponseField>
+
+        <ResponseField name="ttl" type="number">
+        푸시 알림의 TTL(Time To Live) 값입니다. (Since 1.4.0)
+        </ResponseField>
+    </Expandable>
+
+</Tab>
 </Tabs>

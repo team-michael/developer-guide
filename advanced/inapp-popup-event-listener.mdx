@@ -84,3 +84,52 @@ description: "Notifly SDK 심화 기능 연동"
     ```
 </Tab>
 </Tabs>
+
+## 인앱 팝업 이벤트 리스너 인터페이스
+
+<Tabs>
+<Tab title="Android">
+`IInAppMessageEventListener` 인터페이스의 `handleEvent` 메소드를 구현하여 인앱 팝업에서 발생하는 이벤트들을 감지할 수 있습니다. 이 메소드는 다음과 같은 파라미터를 받습니다:
+
+<ParamField path="eventName" type="field name">
+발생한 이벤트의 이름입니다.
+</ParamField>
+<ParamField path="eventParams" type="field name">
+발생한 이벤트와 관련된 추가 정보가 포함된 객체입니다.
+</ParamField>
+</Tab>
+<Tab title="iOS">
+`addInAppMessageEventListener` 메소드를 통해 `InAppMessageEventListener`를 등록할 수 있습니다.
+
+<ParamField path="eventName" type="field name">
+발생한 이벤트의 이름입니다.
+</ParamField>
+<ParamField path="eventParams" type="field name">
+발생한 이벤트와 관련된 추가 정보가 포함된 객체입니다.
+</ParamField>
+
+</Tab>
+</Tabs>
+
+## 인앱 팝업 이벤트 목록
+
+<Tabs>
+<Tab title="Android">
+`handleEvent`로 전달되는 `eventName` 목록입니다.
+
+- `in_app_message_show`: 인앱 팝업 노출.
+- `main_button_click`: 팝업 내 메인 버튼 클릭.
+- `hide_in_app_message_button_click`: 다시 보지 않기 버튼 클릭.
+- `close_button_click`: 팝업 내 닫기 버튼 클릭.
+- `survey_submit_button_click`: 설문 조사 제출 버튼 클릭.
+</Tab>
+<Tab title="iOS">
+`addInAppMessageEventListener`로 전달되는 `eventName` 목록입니다.
+
+- `in_app_message_show`: 인앱 팝업 노출.
+- `main_button_click`: 팝업 내 메인 버튼 클릭.
+- `hide_in_app_message_button_click`: 다시 보지 않기 버튼 클릭.
+- `close_button_click`: 팝업 내 닫기 버튼 클릭.
+- `survey_submit_button_click`: 설문 조사 제출 버튼 클릭.
+</Tab>
+</Tabs>
