@@ -1,0 +1,82 @@
+---
+title: Remove 080 Block Recipients
+api: "DELETE https://api.notifly.tech/messages/text-message/080/recipients"
+description: 080 수신거부 번호 삭제
+---
+
+080 수신거부 서비스에서 **수신자를 삭제**합니다. 삭제된 번호로는 다시 문자 메시지를 발송할 수 있습니다.
+
+> [TODO: confirm endpoints & exact payloads]
+
+## Request Body
+
+| Parameter  | Type     | Required | Description                                          |
+|------------|----------|----------|------------------------------------------------------|
+| projectId  | String   | Yes      | 프로젝트 ID                                          |
+| recipients | String[] | Yes      | 삭제할 전화번호 목록 (최대 1000개)                   |
+
+## Request Example
+
+```json
+{
+  "projectId": "your-project-id",
+  "recipients": [
+    "01012345678",
+    "01056781234"
+  ]
+}
+```
+
+## Response Example
+
+### Success (200 OK)
+
+```json
+{
+  "success": true,
+  "removedCount": 2,
+  "notFoundNumbers": [],
+  "message": "Successfully removed 2 numbers"
+}
+```
+
+### Partial Success (200 OK)
+
+```json
+{
+  "success": true,
+  "removedCount": 1,
+  "notFoundNumbers": [
+    {
+      "number": "01056781234",
+      "reason": "Not found in block list"
+    }
+  ],
+  "message": "Removed 1 number, 1 not found"
+}
+```
+
+## Response Fields
+
+| Field           | Type     | Description                           |
+|-----------------|----------|---------------------------------------|
+| success         | Boolean  | 요청 처리 성공 여부                   |
+| removedCount    | Number   | 성공적으로 삭제된 번호 개수           |
+| notFoundNumbers | Array    | 삭제 대상에서 찾을 수 없는 번호       |
+| message         | String   | 처리 결과 메시지                      |
+
+## Error Responses
+
+| Status Code | Description      | Example Response                               |
+|-------------|------------------|------------------------------------------------|
+| 400         | 잘못된 요청      | `{"error": "Invalid phone number format"}`    |
+| 401         | 인증 실패        | `{"error": "Unauthorized"}`                   |
+| 413         | 과다 요청        | `{"error": "Too many recipients (max: 1000)"}`|
+| 500         | 서버 오류        | `{"error": "Internal Server Error"}`          |
+
+## Notes
+
+- 전화번호는 숫자만 포함하여 11자리로 입력해주세요 (예: `01012345678`)
+- 차단 목록에 없는 번호를 삭제하려고 해도 오류로 처리되지 않습니다
+- 한 번에 최대 1000개의 번호를 삭제할 수 있습니다
+- 삭제된 번호로는 즉시 문자 발송이 가능합니다

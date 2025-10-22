@@ -1,9 +1,8 @@
 ---
 title: Send Kakao FriendTalk Message
+api: "POST https://api.notifly.tech/messages/kakao-friendtalk"
 description: Kakao 친구톡 메시지를 발송하는 API
 ---
-
-# Send Kakao FriendTalk Message
 
 이 엔드포인트는 **Kakao 친구톡(FriendTalk)** 메시지를 발송합니다.  
 현재 스펙은 **텍스트(messageType = `text`)** 타입 발송을 지원합니다.
@@ -15,14 +14,6 @@ description: Kakao 친구톡 메시지를 발송하는 API
 - 친구톡 발송은 **Notifly 카카오톡 자가 발송 설정**이 선행되어야 합니다.  
 - 수신자는 브랜드의 **카카오 비즈니스 채널을 친구 추가**한 사용자여야 하며, 광고성 메시지 여부(`isAd`)를 적절히 설정해야 합니다.  
 - API로 발송된 통계는 UI에 아직 제공되지 않을 수 있습니다. 통계가 필요하면 contact@notifly.tech 로 문의하세요.
-
----
-
-## Endpoint
-
-`POST https://api.notifly.tech/messages/kakao-friendtalk`
-
----
 
 ## Specifications
 

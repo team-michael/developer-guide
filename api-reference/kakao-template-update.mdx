@@ -1,0 +1,129 @@
+---
+title: Update Kakao Alimtalk Template
+api: "PUT https://api.notifly.tech/kakao/templates/{templateId}"
+description: 기존 알림톡 템플릿 수정
+---
+
+기존 **알림톡 템플릿을 수정**합니다. 승인된 템플릿을 수정하면 다시 검토 상태로 변경됩니다.
+
+> [TODO: confirm endpoints & required fields] 아래는 일반적인 REST 패턴 예시입니다.
+
+## Path Parameters
+
+| Parameter  | Type   | Required | Description                              |
+|------------|--------|----------|------------------------------------------|
+| templateId | String | Yes      | 수정할 템플릿 ID                         |
+
+## Request Body
+
+| Parameter    | Type     | Required | Description                                          |
+|--------------|----------|----------|------------------------------------------------------|
+| name         | String   | No       | 템플릿 이름 (최대 50자)                              |
+| content      | String   | No       | 템플릿 메시지 내용 (최대 1000자)                     |
+| category     | String   | No       | 템플릿 카테고리 (`INFO`, `AD`, `NOTICE`)             |
+| variables    | String[] | No       | 템플릿 변수 목록 ({{variable_name}} 형태)           |
+| buttons      | Array    | No       | 버튼 설정 (최대 5개)                                 |
+| quickReplies | Array    | No       | 빠른 답장 설정 (최대 10개)                           |
+
+## Request Example
+
+```json
+{
+  "name": "주문 완료 알림 v2",
+  "content": "{{customer_name}}님, 주문이 성공적으로 완료되었습니다.\n\n주문번호: {{order_id}}\n주문금액: {{total_amount}}원\n배송예정일: {{delivery_date}}\n\n주문해 주셔서 감사합니다!",
+  "variables": ["customer_name", "order_id", "total_amount", "delivery_date"],
+  "buttons": [
+    {
+      "name": "주문 상세보기",
+      "type": "WL",
+      "url": "https://example.com/order/{{order_id}}"
+    },
+    {
+      "name": "배송 조회",
+      "type": "WL",
+      "url": "https://example.com/delivery/{{order_id}}"
+    },
+    {
+      "name": "고객센터",
+      "type": "WL",
+      "url": "https://example.com/support"
+    }
+  ]
+}
+```
+
+## Response Example
+
+### Success (200 OK)
+
+```json
+{
+  "success": true,
+  "templateId": "tpl_123",
+  "status": "pending",
+  "message": "Template updated successfully and resubmitted for review",
+  "changes": {
+    "content": "modified",
+    "variables": "added: delivery_date",
+    "buttons": "modified"
+  },
+  "estimatedReviewTime": "1-2 business days"
+}
+```
+
+### Already Up to Date (200 OK)
+
+```json
+{
+  "success": true,
+  "templateId": "tpl_123",
+  "status": "approved",
+  "message": "No changes detected",
+  "changes": {}
+}
+```
+
+## Response Fields
+
+| Field                | Type    | Description                           |
+|----------------------|---------|---------------------------------------|
+| success              | Boolean | 수정 성공 여부                        |
+| templateId           | String  | 템플릿 ID                             |
+| status               | String  | 수정 후 상태                          |
+| message              | String  | 처리 결과 메시지                      |
+| changes              | Object  | 변경된 항목 요약                      |
+| estimatedReviewTime  | String  | 예상 재검토 시간 (변경 시에만)        |
+
+## Template Status After Update
+
+| Original Status | After Update | Description                           |
+|----------------|--------------|---------------------------------------|
+| pending        | pending      | 검토 대기 중 상태 유지               |
+| approved       | pending      | 다시 검토 필요 (내용 변경 시)        |
+| rejected       | pending      | 수정 후 재검토 요청                  |
+
+## Error Responses
+
+| Status Code | Description        | Example Response                                    |
+|-------------|-------------------|-----------------------------------------------------|
+| 400         | 잘못된 요청       | `{"error": "Invalid template content format"}`     |
+| 401         | 인증 실패         | `{"error": "Unauthorized"}`                        |
+| 403         | 수정 권한 없음    | `{"error": "Cannot modify system template"}`       |
+| 404         | 템플릿 없음       | `{"error": "Template not found"}`                  |
+| 409         | 수정 불가 상태    | `{"error": "Cannot modify template in current status"}` |
+| 413         | 내용 길이 초과    | `{"error": "Template content too long (max: 1000)"}`|
+| 500         | 서버 오류         | `{"error": "Internal Server Error"}`               |
+
+## Modification Rules
+
+- **승인된 템플릿 수정 시**: 다시 `pending` 상태로 변경되어 재검토 필요
+- **부분 수정 가능**: 원하는 필드만 전송하여 해당 부분만 수정
+- **변수 변경 시**: 템플릿 내용에서 사용되지 않는 변수는 자동 제거
+- **버튼 수정 시**: 기존 버튼은 모두 교체됨
+
+## Notes
+
+- 수정 시 변경된 내용만 전송하면 됩니다 (부분 수정 지원)
+- 승인된 템플릿을 수정하면 발송이 중단되고 재승인까지 기다려야 합니다
+- 템플릿 코드는 수정할 수 없습니다
+- 변수 이름을 변경할 때는 템플릿 내용도 함께 수정해야 합니다

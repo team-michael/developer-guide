@@ -1,0 +1,88 @@
+---
+title: Create Campaign Event Export
+api: "POST https://api.notifly.tech/exports/campaign-events"
+description: 캠페인 이벤트 데이터 내보내기 요청
+---
+
+캠페인 관련 이벤트 데이터를 **비동기 내보내기(Export)** 요청을 생성합니다. 내보내기 작업은 백그라운드에서 처리되며, 별도의 조회 API를 통해 결과를 확인할 수 있습니다.
+
+> [TODO: confirm endpoints & fields] 엔드포인트/필드 명세는 예시입니다.
+
+## Request Body
+
+| Field         | Type   | Required | Description                                   |
+|--------------:|--------|----------|-----------------------------------------------|
+| projectId     | String | Yes      | 프로젝트 ID                                   |
+| campaignId    | String | No       | 특정 캠페인만 내보내기 (미지정 시 전체)        |
+| eventNames    | Array  | No       | 내보낼 이벤트 종류 (미지정 시 전체)            |
+| dateRange     | Object | Yes      | 기간 `{ from: "YYYY-MM-DD", to: "YYYY-MM-DD" }` |
+| format        | String | No       | `csv` \| `json` (기본값: `csv`)                |
+| notifyEmail   | String | No       | 완료 시 알림 받을 이메일                       |
+
+## Request Example
+
+```json
+{
+  "projectId": "your-project-id",
+  "campaignId": "cmp_abc123",
+  "eventNames": ["message_sent", "message_opened", "message_clicked"],
+  "dateRange": {
+    "from": "2025-10-01",
+    "to": "2025-10-31"
+  },
+  "format": "csv",
+  "notifyEmail": "admin@example.com"
+}
+```
+
+## Response Example
+
+### Success (200 OK)
+
+```json
+{
+  "success": true,
+  "requestId": "exp_12345",
+  "status": "queued",
+  "estimatedCompletionTime": "2025-10-22T15:30:00Z"
+}
+```
+
+## Response Fields
+
+| Field                   | Type   | Description                           |
+|-------------------------|--------|---------------------------------------|
+| success                 | Boolean| 요청 처리 성공 여부                   |
+| requestId               | String | 내보내기 요청 ID (결과 조회 시 사용)  |
+| status                  | String | 요청 상태 (`queued`, `processing`)    |
+| estimatedCompletionTime | String | 예상 완료 시간 (ISO 8601)            |
+
+## Event Name 종류
+
+| Event Name         | Description             |
+|--------------------|-------------------------|
+| message_sent       | 메시지 발송             |
+| message_delivered  | 메시지 전달 확인        |
+| message_opened     | 메시지 오픈             |
+| message_clicked    | 메시지 클릭             |
+| message_bounced    | 발송 실패/반송          |
+| unsubscribed       | 수신거부                |
+
+> 실제 지원 목록은 채널/설정에 따라 다를 수 있습니다.
+
+## Error Responses
+
+| Status Code | Description      | Example Response                               |
+|-------------|------------------|------------------------------------------------|
+| 400         | 잘못된 요청      | `{"error": "Invalid date range"}`             |
+| 401         | 인증 실패        | `{"error": "Unauthorized"}`                   |
+| 413         | 데이터 과다      | `{"error": "Date range too large (max: 90 days)"}` |
+| 429         | 요청 한도 초과   | `{"error": "Export limit exceeded"}`          |
+| 500         | 서버 오류        | `{"error": "Internal Server Error"}`          |
+
+## Notes
+
+- 한 번에 최대 90일간의 데이터를 내보낼 수 있습니다
+- 대용량 데이터의 경우 처리 시간이 오래 걸릴 수 있습니다
+- 완료 시 이메일 알림을 설정하는 것을 권장합니다
+- 내보내기 파일은 7일간 다운로드 가능합니다

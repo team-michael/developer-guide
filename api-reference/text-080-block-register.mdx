@@ -1,0 +1,82 @@
+---
+title: Register 080 Block Recipients
+api: "POST https://api.notifly.tech/messages/text-message/080/recipients"
+description: 080 수신거부 번호 등록
+---
+
+080 수신거부 서비스에 **수신자를 등록**합니다. 등록된 번호로는 문자 메시지가 발송되지 않습니다.
+
+> [TODO: confirm endpoints & exact payloads]
+
+## Request Body
+
+| Parameter  | Type     | Required | Description                                          |
+|------------|----------|----------|------------------------------------------------------|
+| projectId  | String   | Yes      | 프로젝트 ID                                          |
+| recipients | String[] | Yes      | 등록할 전화번호 목록 (최대 1000개)                   |
+
+## Request Example
+
+```json
+{
+  "projectId": "your-project-id",
+  "recipients": [
+    "01012345678",
+    "01056781234",
+    "01098765432"
+  ]
+}
+```
+
+## Response Example
+
+### Success (200 OK)
+
+```json
+{
+  "success": true,
+  "registeredCount": 3,
+  "failedNumbers": [],
+  "message": "Successfully registered 3 numbers"
+}
+```
+
+### Partial Success (200 OK)
+
+```json
+{
+  "success": true,
+  "registeredCount": 2,
+  "failedNumbers": [
+    {
+      "number": "01012345678",
+      "reason": "Already registered"
+    }
+  ],
+  "message": "Registered 2 numbers, 1 failed"
+}
+```
+
+## Response Fields
+
+| Field           | Type     | Description                           |
+|-----------------|----------|---------------------------------------|
+| success         | Boolean  | 요청 처리 성공 여부                   |
+| registeredCount | Number   | 성공적으로 등록된 번호 개수           |
+| failedNumbers   | Array    | 등록 실패한 번호와 실패 사유          |
+| message         | String   | 처리 결과 메시지                      |
+
+## Error Responses
+
+| Status Code | Description      | Example Response                               |
+|-------------|------------------|------------------------------------------------|
+| 400         | 잘못된 요청      | `{"error": "Invalid phone number format"}`    |
+| 401         | 인증 실패        | `{"error": "Unauthorized"}`                   |
+| 413         | 과다 요청        | `{"error": "Too many recipients (max: 1000)"}`|
+| 500         | 서버 오류        | `{"error": "Internal Server Error"}`          |
+
+## Notes
+
+- 전화번호는 숫자만 포함하여 11자리로 입력해주세요 (예: `01012345678`)
+- 이미 등록된 번호는 무시되며 오류로 처리되지 않습니다
+- 한 번에 최대 1000개의 번호를 등록할 수 있습니다

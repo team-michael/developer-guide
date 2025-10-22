@@ -1,0 +1,98 @@
+---
+title: List Kakao Alimtalk Templates
+api: "GET https://api.notifly.tech/kakao/templates"
+description: 알림톡 템플릿 목록 조회
+---
+
+프로젝트에 등록된 **알림톡 템플릿 목록을 조회**합니다. 페이지네이션과 필터링을 지원합니다.
+
+> [TODO: confirm endpoints & required fields] 아래는 일반적인 REST 패턴 예시입니다.
+
+## Query Parameters
+
+| Parameter | Type   | Required | Description                                   |
+|-----------|--------|----------|-----------------------------------------------|
+| projectId | String | Yes      | 프로젝트 ID                                   |
+| page      | Number | No       | 페이지 번호 (기본값: 1)                       |
+| pageSize  | Number | No       | 페이지당 항목 수 (기본값: 50, 최대: 100)      |
+| status    | String | No       | 템플릿 상태 필터 (`pending`, `approved`, `rejected`) |
+| search    | String | No       | 템플릿 이름 또는 코드 검색                    |
+
+## Response Example
+
+```json
+{
+  "items": [
+    {
+      "id": "tpl_123",
+      "name": "주문 완료 알림",
+      "code": "ORDER_COMPLETE",
+      "content": "{{customer_name}}님, 주문이 완료되었습니다. 주문번호: {{order_id}}",
+      "status": "approved",
+      "category": "INFO",
+      "variables": ["customer_name", "order_id"],
+      "createdAt": "2025-10-01T10:30:00Z",
+      "updatedAt": "2025-10-01T15:45:00Z",
+      "approvedAt": "2025-10-01T16:00:00Z"
+    },
+    {
+      "id": "tpl_124",
+      "name": "배송 시작 알림",
+      "code": "DELIVERY_START",
+      "content": "{{customer_name}}님, 상품이 배송 시작되었습니다.",
+      "status": "pending",
+      "category": "INFO",
+      "variables": ["customer_name"],
+      "createdAt": "2025-10-02T09:15:00Z",
+      "updatedAt": "2025-10-02T09:15:00Z"
+    }
+  ],
+  "total": 25,
+  "page": 1,
+  "pageSize": 50,
+  "totalPages": 1
+}
+```
+
+## Response Fields
+
+| Field      | Type   | Description                           |
+|------------|--------|---------------------------------------|
+| items      | Array  | 템플릿 목록                           |
+| id         | String | 템플릿 고유 ID                        |
+| name       | String | 템플릿 이름                           |
+| code       | String | 템플릿 코드 (발송 시 사용)            |
+| content    | String | 템플릿 메시지 내용                    |
+| status     | String | 승인 상태 (`pending`, `approved`, `rejected`) |
+| category   | String | 템플릿 카테고리                       |
+| variables  | Array  | 템플릿 변수 목록                      |
+| createdAt  | String | 생성 시간 (ISO 8601)                 |
+| updatedAt  | String | 수정 시간 (ISO 8601)                 |
+| approvedAt | String | 승인 시간 (승인된 경우만)             |
+| total      | Number | 전체 템플릿 개수                      |
+| page       | Number | 현재 페이지 번호                      |
+| pageSize   | Number | 페이지당 항목 수                      |
+| totalPages | Number | 전체 페이지 수                        |
+
+## Template Status Values
+
+| Status   | Description                    |
+|----------|--------------------------------|
+| pending  | 검토 대기 중                   |
+| approved | 승인됨 (발송 가능)             |
+| rejected | 거부됨                         |
+
+## Error Responses
+
+| Status Code | Description      | Example Response                               |
+|-------------|------------------|------------------------------------------------|
+| 400         | 잘못된 요청      | `{"error": "Invalid projectId format"}`       |
+| 401         | 인증 실패        | `{"error": "Unauthorized"}`                   |
+| 403         | 권한 없음        | `{"error": "Access denied to project"}`       |
+| 500         | 서버 오류        | `{"error": "Internal Server Error"}`          |
+
+## Notes
+
+- 승인된 템플릿만 실제 발송에 사용할 수 있습니다
+- 템플릿 변수는 발송 시 실제 값으로 치환됩니다
+- 페이지네이션으로 대량의 템플릿을 효율적으로 조회할 수 있습니다

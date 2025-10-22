@@ -108,14 +108,35 @@
           {
             "group": "Messaging Management",
             "pages": [
-              "api-reference/kakao-template-management",
-              "api-reference/text-080-block"
+              {
+                "group": "Kakao Alimtalk Template",
+                "pages": [
+                  "api-reference/kakao-template-list",
+                  "api-reference/kakao-template-create",
+                  "api-reference/kakao-template-update",
+                  "api-reference/kakao-template-delete"
+                ]
+              },
+              {
+                "group": "080 Block Service",
+                "pages": [
+                  "api-reference/text-080-block-list",
+                  "api-reference/text-080-block-register", 
+                  "api-reference/text-080-block-remove"
+                ]
+              }
             ]
           },
           {
             "group": "Exports & Analytics",
             "pages": [
-              "api-reference/campaign-event-export",
+              {
+                "group": "Campaign Event Export",
+                "pages": [
+                  "api-reference/campaign-event-export-create",
+                  "api-reference/campaign-event-export-get"
+                ]
+              },
               "api-reference/campaign-statistics",
               "api-reference/campaign-statistics-retrieval"
             ]
