@@ -1,93 +1,163 @@
 ---
-title: "시작하기"
+title: "노티플라이 개발자 문서 알아보기"
 description: "Notifly SDK와 API를 통해 앱에 푸시 알림과 인앱 메시지를 빠르게 통합하세요."
 ---
 
-Notifly SDK는 모바일 애플리케이션 개발자가 앱에 푸시 알림과 인앱 팝업을 쉽게 구현할 수 있도록 지원하는 소프트웨어 개발 키트입니다.
-SDK는 사용자 세션, 기기 정보, 푸시 토큰 등의 데이터를 자동으로 수집하며, 이를 통합해 사용자 프로파일을 생성합니다.
-이 프로파일을 활용하면 특정 사용자에게 맞춤화된 푸시 알림과 인앱 팝업을 타겟팅하여 보낼 수 있습니다.
+**Notifly**는 모바일 및 웹 애플리케이션에 푸시 알림과 인앱 메시지를 쉽게 통합할 수 있는 플랫폼입니다.  
+개발자 친화적인 SDK와 강력한 REST API를 제공하여, 사용자 참여도를 높이고 비즈니스 성과를 개선할 수 있습니다.
 
-모든 SDK는 Firebase Cloud Messaging(FCM) 을 기반으로 동작합니다. 따라서 SDK를 설치하기 전에 반드시 Firebase 프로젝트를 생성하고 노티플라이와 연동해야 합니다.
+---
 
-<div class="card-group doccards-blue">
-<Card
-  title="Firebase 프로젝트 연동"
-  icon="fire"
-  href="/sdk/firebase-integration"
-  horizontal
->
-  Firebase를 연동해주세요
-</Card>
-</div>
+## 시작하기
 
-## 모바일 SDK
-
-노티플라이를 다양한 플랫폼에서 연동하세요.
-
-<div class="card-group doccards-blue">
-<Columns cols={4}>
-  <Card
-    title="iOS SDK"
-    icon="pen-to-square"
-    href="/sdk/ios-sdk"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Android SDK"
-    icon="palette"
-    href="/sdk/android-sdk"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="React Native"
-    icon="map"
-    href="/sdk/react-native-sdk"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="Flutter SDK"
-    icon="terminal"
-    href="/sdk/flutter-native-sdk"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
-</div>
-
-## 웹 SDK
-
-웹 연동을 위한 가이드를 확인하세요.
+원하는 방식으로 노티플라이를 연동하세요.
 
 <div class="card-group doccards-blue">
 <Columns cols={2}>
-  <Card
-    title="JavaScript SDK 연동"
-    icon="terminal"
-    href="/sdk/javascript-native-sdk"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
- <Card
-    title="Google Tag Manager"
-    icon="terminal"
-    href="/sdk/google-tag-manager"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
+
+<Card
+  title="SDK 연동"
+  icon="mobile"
+  href="/sdk"
+  horizontal
+>
+  모바일 앱과 웹사이트에 SDK를 설치하여 빠르게 시작
+</Card>
+
+<Card
+  title="API 연동"
+  icon="code"
+  href="/api-reference/getting-started"
+  horizontal
+>
+  REST API를 사용하여 서버에서 직접 메시지 발송
+</Card>
+
 </Columns>
 </div>
 
-## HTTP API
+---
+
+## 주요 기능
 
 <div class="card-group doccards-blue">
+<Columns cols={3}>
+
 <Card
-  title="See complete examples"
-  icon="stars"
-  href="/api-reference/http-api"
+  title="푸시 알림"
+  icon="bell"
+  href="/sdk"
 >
-  Browse our showcase of exceptional documentation sites.
+  iOS, Android, 웹 푸시 알림 발송
 </Card>
+
+<Card
+  title="인앱 메시지"
+  icon="message"
+  href="/advanced/inapp-popup-event-listener"
+>
+  앱 내 팝업 및 배너 메시지
+</Card>
+
+<Card
+  title="사용자 세그먼테이션"
+  icon="users"
+  href="/api-reference/users-events/set-user-properties"
+>
+  사용자 속성 기반 타겟팅
+</Card>
+
+</Columns>
 </div>
+
+---
+
+## 지원 플랫폼
+
+<div class="card-group doccards-blue">
+<Columns cols={2}>
+
+<Card
+  title="모바일 SDK"
+  icon="mobile-alt"
+  href="/sdk"
+  horizontal
+>
+  iOS, Android, React Native, Flutter 지원
+</Card>
+
+<Card
+  title="웹 SDK"
+  icon="globe"
+  href="/sdk/javascript-sdk"
+  horizontal
+>
+  JavaScript, GTM 연동 지원
+</Card>
+
+</Columns>
+</div>
+
+---
+
+## API 활용
+
+<div class="card-group doccards-blue">
+<Columns cols={2}>
+
+<Card
+  title="이벤트 트래킹"
+  icon="chart-line"
+  href="/api-reference/users-events/track-event"
+  horizontal
+>
+  사용자 행동 데이터 수집 및 분석
+</Card>
+
+<Card
+  title="캠페인 자동화"
+  icon="rocket"
+  href="/api-reference/campaign-triggering"
+  horizontal
+>
+  API 기반 자동 메시지 발송
+</Card>
+
+</Columns>
+</div>
+
+---
+
+## 빠른 링크
+
+<div class="card-group doccards-blue">
+<Columns cols={3}>
+
+<Card
+  title="통합 테스트"
+  icon="check-circle"
+  href="/integration-test"
+>
+  연동 완료 후 테스트 가이드
+</Card>
+
+<Card
+  title="Firebase 연동"
+  icon="fire"
+  href="/sdk/firebase-integration"
+>
+  필수 Firebase 프로젝트 설정
+</Card>
+
+<Card
+  title="API 레퍼런스"
+  icon="book"
+  href="/api-reference/getting-started"
+>
+  전체 API 문서 및 예제
+</Card>
+
+</Columns>
+</div>
+
+---

@@ -1,4 +1,184 @@
 ---
-title: "시작하기"
-description: "Welcome to the new home for your documentation"
+title: SDK Overview
+---
+
+Notifly SDK는 모바일 및 웹 애플리케이션 개발자가 앱에 푸시 알림과 인앱 팝업을 쉽게 구현할 수 있도록 지원하는 소프트웨어 개발 키트입니다.  
+아래 개요와 **빠른 이동 카드**로 원하는 플랫폼 SDK로 바로 이동하세요.
+
+---
+
+## 기본 정보
+
+| 항목 | 값 |
+|---|---|
+| 지원 플랫폼 | iOS, Android, React Native, Flutter, JavaScript |
+| 기반 기술 | Firebase Cloud Messaging (FCM) |
+| 주요 기능 | 푸시 알림, 인앱 팝업, 사용자 트래킹, 세그먼테이션 |
+| 자동 수집 데이터 | 사용자 세션, 기기 정보, 푸시 토큰 |
+
+### 필수 사전 작업
+
+> **중요**: 모든 SDK는 Firebase Cloud Messaging(FCM)을 기반으로 동작합니다.  
+> SDK를 설치하기 전에 반드시 **Firebase 프로젝트를 생성하고 노티플라이와 연동**해야 합니다.
+
+---
+
+## 빠른 시작 가이드
+
+### 1단계: Firebase 연동
+먼저 Firebase 프로젝트를 생성하고 노티플라이 콘솔과 연동합니다.
+
+### 2단계: 플랫폼별 SDK 설치
+원하는 플랫폼의 SDK를 선택하여 설치합니다.
+
+### 3단계: 기본 설정
+SDK 초기화 및 사용자 식별자 설정을 완료합니다.
+
+### 4단계: 테스트
+푸시 알림 및 인앱 팝업이 정상 작동하는지 확인합니다.
+
+---
+
+## 빠른 이동
+
+<div class="card-group doccards-blue">
+<Card
+  title="Firebase 프로젝트 연동"
+  icon="fire"
+  href="/sdk/firebase-integration"
+  horizontal
+>
+  Firebase 프로젝트 생성 및 노티플라이 연동 가이드
+</Card>
+</div>
+
+---
+
+## 모바일 SDK
+
+<div class="card-group doccards-blue">
+<Columns cols={2}>
+
+  <Card
+    title="iOS SDK"
+    icon="apple"
+    href="/sdk/ios-sdk"
+    horizontal
+  >
+    Swift/Objective-C 네이티브 iOS 앱 연동
+  </Card>
+
+  <Card
+    title="Android SDK"
+    icon="android"
+    href="/sdk/android-sdk"
+    horizontal
+  >
+    Java/Kotlin 네이티브 Android 앱 연동
+  </Card>
+
+</Columns>
+</div>
+
+<div class="card-group doccards-blue">
+<Columns cols={2}>
+
+  <Card
+    title="React Native SDK"
+    icon="react"
+    href="/sdk/react-native-sdk"
+    horizontal
+  >
+    React Native 크로스 플랫폼 앱 연동
+  </Card>
+
+  <Card
+    title="Flutter SDK"
+    icon="flutter"
+    href="/sdk/flutter-sdk"
+    horizontal
+  >
+    Flutter 크로스 플랫폼 앱 연동
+  </Card>
+
+</Columns>
+</div>
+
+---
+
+## 웹 SDK
+
+<div class="card-group doccards-blue">
+<Columns cols={2}>
+
+  <Card
+    title="JavaScript SDK"
+    icon="code"
+    href="/sdk/javascript-sdk"
+    horizontal
+  >
+    웹 브라우저용 JavaScript SDK 연동
+  </Card>
+
+  <Card
+    title="Google Tag Manager"
+    icon="google"
+    href="/sdk/google-tag-manager"
+    horizontal
+  >
+    GTM을 통한 간편한 웹 연동
+  </Card>
+
+</Columns>
+</div>
+
+---
+
+## 심화 기능
+
+<div class="card-group doccards-blue">
+<Columns cols={3}>
+
+  <Card
+    title="푸시 알림 설정"
+    icon="bell"
+    href="/advanced/push-notification-icon"
+  >
+    아이콘, 동의, 클릭 이벤트 등 고급 설정
+  </Card>
+
+  <Card
+    title="인앱 팝업"
+    icon="message"
+    href="/advanced/inapp-popup-event-listener"
+  >
+    인앱 팝업 이벤트 리스너 구현
+  </Card>
+
+  <Card
+    title="웹뷰 연동"
+    icon="window"
+    href="/advanced/webview"
+  >
+    하이브리드 앱 웹뷰 연동 가이드
+  </Card>
+
+</Columns>
+</div>
+
+---
+
+## 테스트 및 검증
+
+<div class="card-group doccards-blue">
+<Card
+  title="통합 테스트"
+  icon="check-circle"
+  href="/integration-test"
+  horizontal
+>
+  SDK 연동 완료 후 테스트 방법 및 검증 절차
+</Card>
+</div>
+
 ---

@@ -11,26 +11,38 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "SDK",
+        "tab": "Welcome",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "시작하기 전에",
             "expanded": true,
             "pages": [
               "index"
             ]
+          }
+        ]
+      },
+      {
+        "tab": "SDKs",
+        "groups": [
+          {
+            "group": "시작하기",
+            "expanded": true,
+            "pages": [
+              "sdk/index"
+            ]
           },
           {
-            "group": "클라이언트 SDK 시작하기",
+            "group": "유저 가이드",
             "expanded": false,
             "pages": [
               "sdk/firebase-integration",
               { 
-              "group": "모바일",
+              "group": "모바일용 SDK",
               "expanded": false,
               "pages": [
                 {
-                  "group": "기본",
+                  "group": "기본 연동하기",
                   "pages": [
                     "sdk/android-sdk",
                     "sdk/ios-sdk",
@@ -39,7 +51,7 @@
                  ]
                 },
                 {
-              "group": "심화 연동",
+              "group": "심화 연동하기",
               "expanded": false,
               "pages": [
                 "advanced/index",
@@ -55,7 +67,7 @@
               ]
               },
               {
-                  "group": "Web",
+                  "group": "웹용 SDK",
                   "pages": [
                     "sdk/javascript-sdk",
                     "sdk/google-tag-manager"
@@ -67,7 +79,7 @@
         ]
       },
       {
-        "tab": "HTTP API",
+        "tab": "API Reference",
         "groups": [
           {
             "group": "시작하기",
