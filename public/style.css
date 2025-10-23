@@ -439,3 +439,24 @@ code {
   }
 }
 
+/* Steps component styling using Notifly theme tokens */
+.steps .step [data-component-part="step-number"] .size-7 {
+  background-color: var(--notifly-primary-600) !important; /* circle */
+  color: var(--mint-color-primary-contrast) !important;    /* number (white) */
+}
+
+.steps .step > .absolute.w-px {
+  background-color: var(--notifly-primary-600) !important; /* vertical line */
+  opacity: 1 !important;
+}
+
+/* Optional: hide connector for the last step */
+.steps .step:last-of-type > .absolute.w-px {
+  display: none;
+}
+
+/* (Optional) hover/focus enhancement */
+.steps .step:hover [data-component-part="step-number"] .size-7 {
+  background-color: var(--notifly-primary-700) !important; /* darker blue */
+}
+
