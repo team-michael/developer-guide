@@ -35,6 +35,32 @@ Notifly SDK는 **푸시 알림 권한 요청을 자동으로 처리하지 않습
   }
   ```
   </Tab>
+  <Tab title="iOS">
+
+  ## iOS 푸시 알림 사전 동의
+
+- iOS에서 유저에게 푸시 알림을 전송하기 위해서는 푸시 알림 수신 동의를 받아야 합니다.
+- Notifly iOS SDK와는 별개로, 앱에서 직접 사용자 알림 수신 동의를 구현해야 합니다.
+
+다음 코드는 예시입니다. 실제 알림 요청 타이밍, UI, 문구 등은 앱의 특성에 맞게 구현해 주세요.
+
+  ```swift
+UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+    if let error = error {
+        print("Failed to request authorization: \(error)")
+        return
+    } else {
+        guard granted else {
+            print("Notification permission denied")
+            return
+        }
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+}
+  ```
+  </Tab>
 
 <Tab title="Flutter">
   Flutter 푸시 알림 사전 동의

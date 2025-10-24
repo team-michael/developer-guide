@@ -460,3 +460,11 @@ code {
   background-color: var(--notifly-primary-700) !important; /* darker blue */
 }
 
+.eyebrow {
+   color: var(--notifly-primary-600) !important;  
+}
+
+/* Override Mintlify blockquote styling to use Notifly brand blue */
+.prose :where(blockquote):not(:where([class~=not-prose],[class~=not-prose] *)) {
+  border-inline-start-color: var(--notifly-primary-600); /* Notifly blue */
+}
