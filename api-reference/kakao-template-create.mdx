@@ -1,0 +1,119 @@
+---
+title: Create Kakao Alimtalk Template
+api: "POST https://api.notifly.tech/kakao/templates"
+description: 새로운 알림톡 템플릿 등록
+---
+
+새로운 **알림톡 템플릿을 등록**합니다. 등록된 템플릿은 카카오 검토 후 승인되면 발송에 사용할 수 있습니다.
+
+> [TODO: confirm endpoints & required fields] 아래는 일반적인 REST 패턴 예시입니다.
+
+## Request Body
+
+| Parameter    | Type     | Required | Description                                          |
+|--------------|----------|----------|------------------------------------------------------|
+| projectId    | String   | Yes      | 프로젝트 ID                                          |
+| name         | String   | Yes      | 템플릿 이름 (최대 50자)                              |
+| code         | String   | Yes      | 템플릿 코드 (영문/숫자/언더스코어, 최대 30자)        |
+| content      | String   | Yes      | 템플릿 메시지 내용 (최대 1000자)                     |
+| category     | String   | Yes      | 템플릿 카테고리 (`INFO`, `AD`, `NOTICE`)             |
+| variables    | String[] | No       | 템플릿 변수 목록 ({{variable_name}} 형태)           |
+| buttons      | Array    | No       | 버튼 설정 (최대 5개)                                 |
+| quickReplies | Array    | No       | 빠른 답장 설정 (최대 10개)                           |
+
+## Button Object
+
+| Parameter | Type   | Required | Description                                |
+|-----------|--------|----------|--------------------------------------------|
+| name      | String | Yes      | 버튼 텍스트 (최대 14자)                    |
+| type      | String | Yes      | 버튼 타입 (`WL`: 웹링크, `AL`: 앱링크)     |
+| url       | String | No       | 링크 URL (WL/AL 타입일 때 필수)            |
+
+## Request Example
+
+```json
+{
+  "projectId": "your-project-id",
+  "name": "주문 완료 알림",
+  "code": "ORDER_COMPLETE_V1",
+  "content": "{{customer_name}}님, 주문이 완료되었습니다.\n\n주문번호: {{order_id}}\n주문금액: {{total_amount}}원\n\n감사합니다!",
+  "category": "INFO",
+  "variables": ["customer_name", "order_id", "total_amount"],
+  "buttons": [
+    {
+      "name": "주문 상세보기",
+      "type": "WL",
+      "url": "https://example.com/order/{{order_id}}"
+    },
+    {
+      "name": "고객센터",
+      "type": "WL", 
+      "url": "https://example.com/support"
+    }
+  ]
+}
+```
+
+## Response Example
+
+### Success (201 Created)
+
+```json
+{
+  "success": true,
+  "templateId": "tpl_new_123",
+  "status": "pending",
+  "message": "Template created successfully and submitted for review",
+  "estimatedReviewTime": "1-2 business days"
+}
+```
+
+## Response Fields
+
+| Field                | Type    | Description                           |
+|----------------------|---------|---------------------------------------|
+| success              | Boolean | 템플릿 생성 성공 여부                 |
+| templateId           | String  | 생성된 템플릿 ID                      |
+| status               | String  | 초기 상태 (`pending`)                 |
+| message              | String  | 처리 결과 메시지                      |
+| estimatedReviewTime  | String  | 예상 검토 시간                        |
+
+## Template Categories
+
+| Category | Description        |
+|----------|--------------------|
+| INFO     | 정보성 메시지      |
+| AD       | 광고성 메시지      |
+| NOTICE   | 공지사항          |
+
+## Button Types
+
+| Type | Description | Required Fields |
+|------|-------------|-----------------|
+| WL   | 웹링크      | name, url       |
+| AL   | 앱링크      | name, url       |
+
+## Error Responses
+
+| Status Code | Description        | Example Response                                    |
+|-------------|-------------------|-----------------------------------------------------|
+| 400         | 잘못된 요청       | `{"error": "Invalid template content format"}`     |
+| 401         | 인증 실패         | `{"error": "Unauthorized"}`                        |
+| 409         | 중복 템플릿 코드  | `{"error": "Template code already exists"}`        |
+| 413         | 내용 길이 초과    | `{"error": "Template content too long (max: 1000)"}`|
+| 500         | 서버 오류         | `{"error": "Internal Server Error"}`               |
+
+## Validation Rules
+
+- **템플릿 코드**: 영문, 숫자, 언더스코어만 허용, 최대 30자
+- **템플릿 내용**: 최대 1000자, 변수는 `{{variable_name}}` 형태
+- **변수명**: 영문, 숫자, 언더스코어만 허용
+- **버튼**: 최대 5개, 버튼 텍스트는 최대 14자
+- **빠른 답장**: 최대 10개
+
+## Notes
+
+- 템플릿 등록 후 카카오 검토를 거쳐 승인되어야 발송 가능합니다
+- 검토 시간은 보통 1-2 영업일 소요됩니다
+- 승인 거부 시 수정 후 재등록할 수 있습니다
+- 변수는 발송 시 실제 값으로 치환됩니다

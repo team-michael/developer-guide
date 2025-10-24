@@ -1,0 +1,108 @@
+---
+title: Delete Users
+api: 'DELETE https://api.notifly.tech/users'
+---
+
+# Delete Users
+
+이 엔드포인트는 Notifly에 등록된 사용자를 삭제합니다.  
+사용자 ID, 이메일, 전화번호 중 하나를 기준으로 단일 또는 다중 삭제를 지원합니다.
+
+
+## Specifications
+
+### Body Parameters
+
+| Parameter | Type | Required | Description |
+|------------|------|-----------|--------------|
+| projectID | String | Yes | Notifly 팀에서 제공하는 프로젝트 ID. 문의: contact@notifly.tech |
+| userID | String | No | 삭제할 사용자의 ID |
+| userProperties | Object | No | 삭제할 사용자 속성 (이메일, 전화번호 기반 삭제 지원) |
+| - $email | String | No | 삭제할 사용자의 이메일 주소 |
+| - $phone_number | String | No | 삭제할 사용자의 전화번호 (정확히 일치해야 함, 예: `010-1234-5678`) |
+
+- 여러 사용자를 한 번에 삭제할 수도 있습니다.  
+  → 동일한 오브젝트 구조를 배열(Array) 형태로 전달합니다.  
+  → 최대 **1,000명까지** 한 번에 삭제할 수 있습니다.
+- 사용자 ID, 이메일, 전화번호 중 하나로 삭제할 수 있습니다.
+- 전화번호는 반드시 하이픈(`-`) 포함 형태로 정확히 일치해야 합니다.
+
+---
+
+## Headers
+
+| Parameter | Value | Description |
+|------------|--------|--------------|
+| Content-Type | application/json | 요청 본문의 MIME Type |
+| Authorization | some-token | `POST /authenticate` 로부터 발급받은 인증 토큰 |
+
+---
+
+## Response Example
+
+```json
+{
+  "data": "deleted row count",
+  "error": null
+}
+```
+
+---
+
+## Example Code (Node.js)
+
+```js
+// Endpoint
+const url = "https://api.notifly.tech/users";
+
+// Headers
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: "your-auth-token", // Authorization endpoint에서 발급받은 토큰
+};
+
+// 단일 사용자 삭제
+const singleUser = {
+  projectID: "provided_project_id",
+  userID: "some-user-id",
+  // 이메일 또는 전화번호로 삭제하고 싶다면 아래와 같이 작성
+  // userProperties: {
+  //   $email: "email@example.com",
+  //   $phone_number: "010-7777-7777",
+  // },
+};
+
+// 다중 사용자 삭제
+const multipleUsers = [
+  { projectID: "provided_project_id", userID: "user-1" },
+  { projectID: "provided_project_id", userID: "user-2" },
+];
+
+fetch(url, {
+  method: "DELETE",
+  headers,
+  body: JSON.stringify(multipleUsers),
+})
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));
+```
+
+---
+
+## Error Examples
+
+| Status Code | Description | Example Response |
+|--------------|--------------|------------------|
+| 400 | 요청 본문 형식 오류 | `{"code":400,"error":"Bad request: invalid schema"}` |
+| 401 | 인증 실패 (만료 또는 잘못된 토큰) | `{"code":401,"error":"Unauthorized: invalid token"}` |
+| 413 | 요청 크기 초과 (1,000명 이상 요청) | `{"code":413,"error":"Payload too large"}` |
+| 500 | 서버 내부 오류 | `{"code":500,"error":"Internal Server Error"}` |
+
+---
+
+## 참고
+
+- 이메일, 전화번호 삭제 시에는 `userProperties` 내 키 이름이 반드시 `$email`, `$phone_number` 여야 합니다.  
+- 사용자 ID, 이메일, 전화번호 중 하나만 일치하면 삭제가 수행됩니다.  
+- 대량 삭제 시에는 요청을 여러 번 분할하여 전송하는 것을 권장합니다.

@@ -1,0 +1,65 @@
+---
+title: Manage Kakao Alimtalk Template
+api: "GET https://api.notifly.tech/kakao/templates"
+description: 알림톡 템플릿 목록/등록/수정/삭제 API
+---
+
+알림톡 템플릿을 **목록 조회/등록/수정/삭제**합니다.
+
+> [TODO: confirm endpoints & required fields] 아래는 일반적인 REST 패턴 예시입니다.
+
+## 10.1 템플릿 리스트 조회
+
+Query (예시): `?projectId={projectId}&page=1&pageSize=50`
+
+Response (예시):
+```json
+{ "items": [ { "id": "tpl_1", "name": "Order Confirm", "status": "approved" } ], "total": 1 }
+```
+
+---
+
+## 10.2 템플릿 등록
+
+**POST** `https://api.notifly.tech/kakao/templates`
+
+Body (예시):
+```json
+{
+  "projectId": "your-project-id",
+  "name": "Welcome",
+  "code": "WELCOME_01",
+  "content": "안녕하세요 {{user_name}}님",
+  "variables": ["user_name"],
+  "category": "INFO"
+}
+```
+
+---
+
+## 10.3 템플릿 수정
+
+**PATCH** `https://api.notifly.tech/kakao/templates/{templateId}`
+
+Body (예시):
+```json
+{ "name": "Welcome v2", "content": "안녕하세요 {{user_name}}님: v2" }
+```
+
+---
+
+## 10.4 템플릿 삭제
+
+**DELETE** `https://api.notifly.tech/kakao/templates/{templateId}`
+
+Response:
+```json
+{ "success": true }
+```
+
+## Errors
+
+- `400` 필드/형식 오류  
+- `401` 인증 실패  
+- `409` 상태 충돌(예: 승인 상태에서 수정 불가)  
+- `500` 서버 오류

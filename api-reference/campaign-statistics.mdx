@@ -1,0 +1,44 @@
+---
+title: Campaign Statistics API
+api: "GET https://api.notifly.tech/stats/campaigns"
+description: 캠페인 통계 조회(집계 지표, 기간별/단위별)
+---
+
+캠페인 성과(발송/오픈/클릭/전환 등)를 **집계(Query)** 합니다. 기간, 집계 단위(일/주/월), 필터(캠페인/채널 등)를 지원합니다.
+
+> [TODO: confirm endpoint & fields]
+
+## Query Parameters
+
+| Param      | Type   | Required | Description                                   |
+|-----------:|--------|----------|-----------------------------------------------|
+| projectId  | String | Yes      | 프로젝트 ID                                   |
+| campaignId | String | No       | 특정 캠페인 필터                               |
+| channel    | String | No       | 예: `push`, `webpush`, `kakao_alimtalk` 등     |
+| from       | String | Yes      | 시작일 `YYYY-MM-DD`                            |
+| to         | String | Yes      | 종료일 `YYYY-MM-DD`                            |
+| granularity| String | No       | `day` \| `week` \| `month` (기본: `day`)       |
+
+## Response (예시)
+
+```json
+{
+  "granularity": "day",
+  "series": [
+    {
+      "date": "2025-10-01",
+      "sent": 12000,
+      "delivered": 11800,
+      "opened": 3400,
+      "clicked": 970,
+      "bounced": 200,
+      "unsubscribed": 5
+    }
+  ]
+}
+```
+
+## Notes
+
+- 채널별 가용 지표가 상이할 수 있습니다(예: 오픈 미지원 채널).  
+- 표준 에러 응답은 `Error Models` 문서를 참고하세요.

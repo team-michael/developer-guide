@@ -1,0 +1,67 @@
+---
+title: User Journey Triggering
+api: "POST https://api.notifly.tech/journey/{projectId}/{journeyId}/send"
+description: 유저 여정(User Journey)를 API로 트리거하는 엔드포인트
+---
+
+유저 여정(여정)를 API로 **직접 트리거**합니다. 캠페인 트리거와 유사하게, 개별 사용자에게 저니 시작 이벤트를 발행할 때 사용합니다.
+
+> [TODO: confirm endpoint] 아래 엔드포인트 경로/파라미터는 예시입니다. 실제 서버 스펙으로 교체하세요.
+
+## Path Parameters
+
+| Parameter | Type   | Required | Description                       |
+|----------:|--------|----------|-----------------------------------|
+| projectId | String | Yes      | 프로젝트 ID                        |
+| journeyId | String | Yes      | 저니 ID (콘솔에서 확인)            |
+
+## Request Body
+
+| Field        | Type   | Required | Description                                                                              |
+|-------------:|--------|----------|------------------------------------------------------------------------------------------|
+| recipients   | List   | Yes      | 수신자 목록                                                                              |
+| \- userId    | String | No       | 사용자 ID (recipient type이 user-id인 경우 필수)                                         |
+| \- type      | String | No       | 수신자 타입(기본 `user-id`) — 필요 시 `phone-number`, `email` 등 [TODO: 실제 지원 범위]   |
+| \- params    | Object | No       | 저니 내 개인화 변수에 주입할 파라미터                                                    |
+
+## Headers
+
+| Key          | Value            | Description                                  |
+|--------------|------------------|----------------------------------------------|
+| Content-Type | application/json | JSON 본문                                    |
+| Authorization| some-token       | `POST /authenticate` 로 발급받은 토큰        |
+
+## Response
+
+성공 시:
+```json
+{ "success": true, "code": 200 }
+```
+
+## Example (Node.js)
+
+```js
+const url = "https://api.notifly.tech/journey/{projectId}/{journeyId}/send"; // TODO: confirm
+
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: "your-auth-token"
+};
+
+const body = {
+  recipients: [
+    { userId: "alice", params: { plan: "premium" } },
+    { userId: "bob", params: { plan: "basic" } }
+  ]
+};
+
+const res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body) });
+console.log(await res.json());
+```
+
+## Errors
+
+- `400 Bad Request` 잘못된 파라미터
+- `401 Unauthorized` 토큰 만료/무효
+- `413 Payload Too Large` 수신자 목록 과대
+- `500 Internal Server Error` 서버 오류

@@ -1,0 +1,153 @@
+---
+title: Delete Kakao Alimtalk Template
+api: "DELETE https://api.notifly.tech/kakao/templates/{templateId}"
+description: 알림톡 템플릿 삭제
+---
+
+지정된 **알림톡 템플릿을 삭제**합니다. 승인된 템플릿은 삭제 시 즉시 사용 불가하므로 주의가 필요합니다.
+
+> [TODO: confirm endpoints & behavior] 아래는 일반적인 REST 패턴 예시입니다.
+
+## Path Parameters
+
+| Parameter  | Type   | Required | Description                              |
+|------------|--------|----------|------------------------------------------|
+| templateId | String | Yes      | 삭제할 템플릿 ID                         |
+
+## Query Parameters
+
+| Parameter | Type    | Required | Description                                     |
+|-----------|---------|----------|-------------------------------------------------|
+| force     | Boolean | No       | 강제 삭제 여부 (기본값: false)                 |
+
+## Request Example
+
+```bash
+DELETE /kakao/templates/tpl_123?force=false
+```
+
+## Response Example
+
+### Success (200 OK)
+
+```json
+{
+  "success": true,
+  "templateId": "tpl_123",
+  "message": "Template deleted successfully",
+  "deletedAt": "2024-01-15T10:30:00Z",
+  "affectedCampaigns": 0
+}
+```
+
+### Success with Affected Campaigns (200 OK)
+
+```json
+{
+  "success": true,
+  "templateId": "tpl_456",
+  "message": "Template deleted successfully",
+  "deletedAt": "2024-01-15T10:30:00Z",
+  "affectedCampaigns": 3,
+  "warnings": [
+    "3 active campaigns using this template have been paused",
+    "Campaign notifications have been sent to campaign owners"
+  ]
+}
+```
+
+### Force Delete with System Template (200 OK)
+
+```json
+{
+  "success": true,
+  "templateId": "sys_tpl_789",
+  "message": "System template force deleted",
+  "deletedAt": "2024-01-15T10:30:00Z",
+  "backup": {
+    "enabled": true,
+    "backupId": "backup_789_20240115",
+    "restorable": true,
+    "restoreDeadline": "2024-01-22T10:30:00Z"
+  }
+}
+```
+
+## Response Fields
+
+| Field             | Type     | Description                                |
+|-------------------|----------|--------------------------------------------|
+| success           | Boolean  | 삭제 성공 여부                            |
+| templateId        | String   | 삭제된 템플릿 ID                          |
+| message           | String   | 처리 결과 메시지                          |
+| deletedAt         | String   | 삭제 시각 (ISO 8601)                      |
+| affectedCampaigns | Number   | 영향받는 캠페인 수                        |
+| warnings          | String[] | 경고 메시지 목록                          |
+| backup            | Object   | 백업 정보 (시스템 템플릿인 경우)          |
+
+## Deletion Behavior by Template Status
+
+| Status    | Deletion Behavior                                            |
+|-----------|--------------------------------------------------------------|
+| pending   | 즉시 삭제, 영향 없음                                        |
+| approved  | 삭제 가능, 사용 중인 캠페인 일시 중단                       |
+| rejected  | 즉시 삭제, 영향 없음                                        |
+| archived  | 즉시 삭제, 영향 없음                                        |
+
+## Error Responses
+
+| Status Code | Description           | Example Response                                         |
+|-------------|-----------------------|----------------------------------------------------------|
+| 400         | 잘못된 요청          | `{"error": "Invalid template ID format"}`               |
+| 401         | 인증 실패            | `{"error": "Unauthorized"}`                             |
+| 403         | 삭제 권한 없음       | `{"error": "Cannot delete system template without force"}` |
+| 404         | 템플릿 없음          | `{"error": "Template not found"}`                       |
+| 409         | 삭제 불가 상태       | `{"error": "Cannot delete template with active campaigns (use force=true)"}` |
+| 423         | 템플릿 잠김          | `{"error": "Template locked for editing"}`              |
+| 500         | 서버 오류            | `{"error": "Internal Server Error"}`                    |
+
+## Force Delete
+
+강제 삭제 옵션(`force=true`)을 사용하면:
+
+- **시스템 템플릿**도 삭제 가능
+- **활성 캠페인**이 있어도 삭제 가능 (캠페인은 자동 일시 중단)
+- **자동 백업** 생성 (복원 가능)
+
+```bash
+DELETE /kakao/templates/tpl_123?force=true
+```
+
+## Affected Campaigns Handling
+
+템플릿 삭제 시 사용 중인 캠페인은:
+
+1. **자동 일시 중단** (pause 상태로 변경)
+2. **캠페인 소유자에게 알림** 발송
+3. **대체 템플릿 선택** 필요 안내
+
+## Soft Delete vs Hard Delete
+
+| Delete Type | Behavior                        | Recovery        |
+|-------------|--------------------------------|-----------------|
+| Soft Delete | 기본 동작, 비활성화만           | 복원 가능       |
+| Hard Delete | force=true + admin 권한         | 복원 불가능     |
+
+## Bulk Delete
+
+여러 템플릿을 한 번에 삭제:
+
+```json
+POST /kakao/templates/bulk-delete
+{
+  "templateIds": ["tpl_123", "tpl_456", "tpl_789"],
+  "force": false
+}
+```
+
+## Notes
+
+- 삭제된 템플릿은 **30일 간 복원 가능**합니다 (soft delete)
+- **시스템 템플릿**은 `force=true` 옵션이 필요합니다
+- 활성 캠페인이 있는 템플릿 삭제 시 캠페인이 **자동 중단**됩니다
+- 삭제 전 **확인 절차**를 거치는 것을 권장합니다

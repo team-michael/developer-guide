@@ -1,122 +1,152 @@
 {
   "$schema": "https://mintlify.com/docs.json",
+  "name": "Notifly Docs",
   "theme": "mint",
-  "name": "Mint Starter Kit",
-  "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+   "colors": {
+    "primary": "#0144CD",
+    "light": "#3F7BFF",
+    "dark": "#0039A6"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Welcome",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "시작하기 전에",
+            "expanded": true,
             "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "index"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "SDKs",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "시작하기",
+            "expanded": true,
             "pages": [
-              "api-reference/introduction"
+              "sdk/index"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "유저 가이드",
+            "expanded": false,
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "sdk/firebase-integration",
+              { 
+              "group": "모바일용 SDK",
+              "expanded": false,
+              "pages": [
+                {
+                  "group": "기본 연동하기",
+                  "pages": [
+                    "sdk/android-sdk",
+                    "sdk/ios-sdk",
+                    "sdk/react-native-sdk",
+                    "sdk/flutter-sdk"
+                 ]
+                },
+                {
+              "group": "심화 연동하기",
+              "expanded": false,
+              "pages": [
+                "advanced/index",
+                "advanced/push-notification-icon",
+                "advanced/push-notification-consent",
+                "advanced/push-notification-click-events",
+                "advanced/push-notification-interceptor",
+                "advanced/inapp-popup-event-listener",
+                "advanced/rich-push-notification",
+                "advanced/webview"
+              ]
+              } 
+              ]
+              },
+              {
+                  "group": "웹용 SDK",
+                  "pages": [
+                    "sdk/javascript-sdk",
+                    "sdk/google-tag-manager"
+                 ]
+              },
+              "integration-test"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "시작하기",
+            "pages":["api-reference/getting-started", "api-reference/authenticate", "api-reference/error" ]
+          },
+          {
+            "group": "Events & Users",
+            "pages": [
+              "api-reference/users-events/track-event",
+              "api-reference/users-events/set-user-properties",
+              "api-reference/users-events/delete-users"
+            ]
+          },
+          {
+            "group": "Campaigns",
+            "pages": ["api-reference/campaign-triggering", "api-reference/user-journey-triggering"]
+          },
+          {
+            "group": "Messaging",
+            "pages": [
+              "api-reference/messaging-text",
+              "api-reference/messaging-kakao-alimtalk",
+              "api-reference/messaging-kakao-friendtalk"
+            ]
+          },
+          {
+            "group": "Messaging Management",
+            "pages": [
+              {
+                "group": "Kakao Alimtalk Template",
+                "pages": [
+                  "api-reference/kakao-template-list",
+                  "api-reference/kakao-template-create",
+                  "api-reference/kakao-template-update",
+                  "api-reference/kakao-template-delete"
+                ]
+              },
+              {
+                "group": "080 Block Service",
+                "pages": [
+                  "api-reference/text-080-block-list",
+                  "api-reference/text-080-block-register", 
+                  "api-reference/text-080-block-remove"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Exports & Analytics",
+            "pages": [
+              {
+                "group": "Campaign Event Export",
+                "pages": [
+                  "api-reference/campaign-event-export-create",
+                  "api-reference/campaign-event-export-get"
+                ]
+              },
+              "api-reference/campaign-statistics",
+              "api-reference/campaign-statistics-retrieval"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    "light": "/images/notifly.png",
+    "dark": "/images/notifly.png"
   }
 }
