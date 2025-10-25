@@ -29,7 +29,7 @@ Notifly Android SDK는 [JitPack](https://jitpack.io/)을 통해 배포됩니다.
 
 <Tabs>
 <Tab title="version≥7.0">
-```gradle title="build.gradle (root)"
+```gradle title="build.gradle (root)" highlight={3}
 dependencyResolutionManagement {
     repositories {
         maven { url 'https://jitpack.io' }
@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```
 </Tab>
 <Tab title="version<7.0">
-```gradle title="build.gradle (root)"
+```gradle title="build.gradle (root)" highlight={4}
 allprojects {
     repositories {
         ...
@@ -70,7 +70,7 @@ dependencies {
 `AndroidManifest.xml`에 `android:name` 속성을 추가하고 새로운 클래스를 만들어 주세요.
 </Info>
 
-```xml title="AndroidManifest.xml"
+```xml title="AndroidManifest.xml" highlight={2}
 <application
     ...
     android:name=".MainApplication"  <!-- Application 클래스 등록 -->
@@ -80,7 +80,7 @@ dependencies {
 
 <Tabs>
 <Tab title="Kotlin">
-```kotlin title="MainApplication.kt"
+```kotlin title="MainApplication.kt" highlight={6-11}
 import tech.notifly.Notifly
 
 class MainApplication : Application() {
@@ -97,7 +97,7 @@ class MainApplication : Application() {
 ```
 </Tab>
 <Tab title="Java">
-```kotlin title="MainApplication.java"
+```java title="MainApplication.java" highlight={8-13}
 import tech.notifly.Notifly;
 
 public class MainApplication extends Application {
@@ -158,7 +158,7 @@ Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인
 <Tabs>
 <Tab title="Kotlin">
 
-```kotlin title="setUserID Kotlin"
+```kotlin title="setUserID"
 import tech.notifly.Notifly
 
 // 로그인 시
@@ -171,7 +171,7 @@ Notifly.setUserId(context, null)
 
 <Tab title="Java">
 
-```java title="setUserID Java"
+```java title="setUserID"
 import tech.notifly.Notifly;
 
 Context context = getApplicationContext();
@@ -213,7 +213,7 @@ Notifly.setUserProperties(context: Context, params: Map<String, Any?>)
 <Tabs>
 <Tab title="Kotlin">
 
-```kotlin title="Example (Kotlin)"
+```kotlin title="setUserProperties"
 import tech.notifly.Notifly
 
 // 예시: 이메일, 전화번호, 요금제 정보를 등록
@@ -231,7 +231,7 @@ Notifly.setUserProperties(
 
 <Tab title="Java">
 
-```java title="Example (Java)"
+```java title="setUserProperties"
 import tech.notifly.Notifly;
 
 Context context = getActivity();
@@ -290,7 +290,7 @@ Notifly.trackEvent(
 
 <Tabs>
 <Tab title="Kotlin with JetPack Compose">
-```kotlin title="Notifly.trackEvent Kotlin with JetPack Compose"
+```kotlin title="Notifly.trackEvent" highlight={5-13}
 import tech.notifly.Notifly
 ...
 Button(
@@ -313,7 +313,7 @@ Button(
 ```
 </Tab>
 <Tab title="Kotlin with xml">
-```kotlin title="Notifly.trackEvent Kotlin with xml"
+```kotlin title="Notifly.trackEvent" highlight={3-31}
 import tech.notifly.Notifly
 ...
 Button button = findViewById(R.id.button)
@@ -349,7 +349,7 @@ button.setOnClickListener(object : View.OnClickListener {
 ```
 </Tab>
 <Tab title="Java">
-```java title="Java"
+```java title="Notifly.trackEvent" highlight={8-20}
 import tech.notifly.Notifly;
 
 HashMap<String, Object> map = new HashMap<>();
