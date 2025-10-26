@@ -12,11 +12,13 @@ Notifly iOS SDK는 iOS 애플리케이션에 노티플라이 서비스를 연동
 
 ## 시작하기 전에
 
-Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
-다음 단계를 먼저 완료해주세요:
+1. **Firebase 프로젝트 연동 완료**  
+   Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
+> 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration)
 
-1. [Firebase 프로젝트 연동](sdk/firebase-integration)  
 2. [iOS APNs 인증 정보 설정](sdk/firebase-integration)
+
+--
 
 ## 1. iOS 설정
 
@@ -39,10 +41,9 @@ Notifly iOS SDK는 CocoaPods 또는 Swift Package Manager를 통해 설치할 �
 2. Podfile 파일의 상단에 **platform :ios, '13.0'** 또는 그 이상의 버전으로 입력해 주세요.
 3. Podfile 파일에 다음 코드를 추가해 주세요.
 
-```swift title="Podfile (root)"
+```swift title="Podfile" highlight={3}
 target 'YOUR_PROJECT_NAME' do
 
-// highlight-next-line
  pod 'notifly_sdk'
 
 end
@@ -81,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 App.swift 파일에는 ` @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate`을 추가합니다:
 
-```swift title="<YOUR_PROJECT_NAME>App.swift (기존 파일)"
+```swift title="<YOUR_PROJECT_NAME>App.swift" highlight={2}
 struct <YOUR_PROJECT_NAME>App: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 }
@@ -105,7 +106,7 @@ import notifly_sdk
 
 <Info> `projectId`, `username`, `password`는 Notifly 관리자 페이지에서 확인할 수 있습니다. </Info>
 
-```swift title="Example Code in AppDelegate.swift"
+```swift title="AppDelegate.swift" highlight={8-10, 18-19, 26-27}
 import notifly_sdk
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -147,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 | `userNotificationCenter(_:willPresent:withCompletionHandler:)` | 포그라운드 알림 표시 |
 | `userNotificationCenter(_:didReceive:withCompletionHandler:)` | 앱 푸시 알림 클릭 이벤트 전달 |
 
-```swift title="Example Code in UNUserNotificationCenterDelegate"
+```swift title="UNUserNotificationCenterDelegate" highlight={14-15, 26-28}
 import notifly_sdk
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -180,7 +181,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 }
 ```
 
-4. 유저 정보 등록
+## 4. 유저 정보 등록
 
 Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
 등록된 유저 정보는 세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅에 활용됩니다.
@@ -209,7 +210,7 @@ notifly.setUserId(userId);
 
 <Tabs>
 <Tab title="iOS">
-```swift title="setUserId swift"
+```swift title="setUserId" highlight={4, 7}
 import notifly_sdk
 
 // userId 등록
@@ -245,7 +246,7 @@ notifly.setUserProperties(params);
 <Tabs>
 <Tab title="iOS">
 
-```swift title="setUserProperties swift"
+```swift title="setUserProperties" highlight={9}
 import notifly_sdk
 
 let sampleUserProperties = [
@@ -288,7 +289,7 @@ Notifly.trackEvent(eventName, eventParams, segmentationEventParamKeys);
 <Tabs>
 <Tab title="Swift" >
 
-```swift title="trackEvent"
+```swift title="trackEvent" highlight={5, 17-25}
 import notifly_sdk
 
 ...
@@ -357,17 +358,29 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
 
 ## 9. 심화 연동
 
-<Columns cols={2}>
+<div class="card-group doccards-blue">
+<Columns cols={3}>
 
   <Card
-    title="Push Icon & Consent"
+    title="푸시 알림 사전 동의"
     icon="bell"
-    href="/sdk/android-advanced#push-icon-consent"
+    href="advanced/push-notification-consent"
   >
-    푸시 알림 아이콘 등록 (Android) & 푸시 알림 동의 프롬프트
   </Card>
-
+  <Card
+    title="인앱 팝업 이벤트 리스너"
+    icon="dashboard"
+    href="advanced/inapp-popup-event-listener"
+  >
+  </Card>
+   <Card
+    title="리치 푸시 알림"
+    icon="bell-plus"
+    href="advanced/rich-push-notification"
+  >
+  </Card>
 </Columns>
+</div>
 
 ## FAQ
 

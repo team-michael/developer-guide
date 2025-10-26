@@ -84,7 +84,7 @@ ios/{ProjectName}/AppDelegate.mm
 
 <Tabs>
 <Tab title="AppDelegate.h"> 
-```objc title="header" 
+```objc
 #import <RCTAppDelegate.h> 
 #import <UIKit/UIKit.h> 
 #import <UserNotifications/UNUserNotificationCenter.h>
@@ -110,7 +110,7 @@ ios/{ProjectName}/AppDelegate.mm
 
 <Tabs>
 <Tab title="AppDelegate.mm">
-```objc title="AppDelegate.mm"
+```objc highlight={4, 10-13, 19, 25, 31-32, 38}
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import "AppDelegate.h"
@@ -119,30 +119,40 @@ ios/{ProjectName}/AppDelegate.mm
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    /* Your Code */
     [FIRApp configure];
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-    return YES;
+    /* Your Code */
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    /* Your Code */
     [Notifly application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    /* Your Code */
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    /* Your Code */
     [Notifly application:application didFailToRegisterForRemoteNotificationsWithError:error];
+    /* Your Code */
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    /* Your Code */
     [Notifly userNotificationCenter:center didReceive:response];
     completionHandler();
+    /* Your Code */
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    [Notifly userNotificationCenter:center willPresent:notification withCompletionHandler:completionHandler];
+    /* Your Code */
+   [Notifly userNotificationCenter:center willPresent:notification withCompletionHandler:completionHandler];
+    /* Your Code */
 }
 
+/* Your Code */
 @end
 ```
 </Tab>
@@ -165,7 +175,7 @@ Notification Service Extension을 설정하면 리치 푸시(Rich Push) 기능�
 
 앱 진입점(`index.js` 또는 `App.js`)에 초기화 코드를 추가합니다.
 
-```js title="index.js"
+```js title="index.js" highlight={2, 6}
 ...
 import notifly from 'notifly-sdk';
 

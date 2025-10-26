@@ -49,7 +49,7 @@ pnpm add notifly-js-sdk@latest
 
 `projectId`, `username`, `password`만 코드에서 지정합니다. 그 외 웹 푸시 관련 옵션은 콘솔 설정값을 자동 반영합니다.
 
-```JavaScript
+```JavaScript highlight={6-8}
 import notifly from 'notifly-js-sdk';
 
 useEffect(() => {
@@ -67,7 +67,7 @@ useEffect(() => {
 
 웹 푸시를 쓸 경우에만 `pushSubscriptionOptions`를 지정합니다.
 
-```JavaScript
+```JavaScript highlight={4-6}
 import notifly from 'notifly-js-sdk';
 
 useEffect(() => {
@@ -76,6 +76,7 @@ useEffect(() => {
       projectId: '<PROJECT_ID>',
       username: '<USERNAME>',
       password: '<PASSWORD>',
+      // You don't need below options if you don't need a web push service
       pushSubscriptionOptions: {
         vapidPublicKey: '<VAPID_PUBLIC_KEY>',
         askPermission: true,
@@ -92,7 +93,7 @@ useEffect(() => {
 <Tabs> 
 <Tab title="IIFE (v2.7.4+ 권장)">
 
-```JavaScript
+```JavaScript highlight={4-6}
 <script src="https://cdn.jsdelivr.net/npm/notifly-js-sdk@<SDK_VERSION>/dist/index.global.min.js"></script>
 <script>
   window.notifly.initialize({
@@ -105,7 +106,7 @@ useEffect(() => {
 </Tab> 
 <Tab title="UMD (v2.5.0+)">
 
-```JavaScript
+```JavaScript highlight={4-6}
 <script src="https://cdn.jsdelivr.net/npm/notifly-js-sdk@<SDK_VERSION>/dist/index.min.js"></script>
 <script>
   window.notifly.initialize({
@@ -119,13 +120,14 @@ useEffect(() => {
 </Tab> 
 <Tab title="UMD (v2.4.0 이하)">
 
-```JavaScript
+```JavaScript highlight={4-6}
 <script src="https://cdn.jsdelivr.net/npm/notifly-js-sdk@<SDK_VERSION>/dist/index.min.js"></script>
 <script>
   window.notifly.initialize({
     projectId: "<PROJECT_ID>",
     username: "<USERNAME>",
     password: "<PASSWORD>",
+    //웹 푸시를 쓸 경우에만 `pushSubscriptionOptions`를 지정합니다.
     pushSubscriptionOptions: {
       vapidPublicKey: "<VAPID_PUBLIC_KEY>",
       askPermission: true

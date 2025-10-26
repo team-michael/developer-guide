@@ -10,18 +10,18 @@ Notifly Android SDK는 Android 애플리케이션에 노티플라이 서비스�
 - 이벤트 로깅을 통해 캠페인 효과를 추적
 
 
-## Before You Start
+## 시작하기 전에
 
 1. **Firebase 프로젝트 연동 완료**  
-   Notifly는 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 기반으로 합니다.  
-> 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration.mdx)
+   Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
+> 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration)
 
 2. **Android 11 (API Level 30) 이상**  
    인앱 팝업 캠페인은 Android 11 이상에서만 지원됩니다.
 
 ---
 
-## 1. SDK 설치 (`Notifly.initialize()`)
+## 1. SDK 설치
 
 Notifly Android SDK는 [JitPack](https://jitpack.io/)을 통해 배포됩니다.
 
@@ -59,8 +59,6 @@ dependencies {
 
 <Info> SDK는 기능/보안 업데이트가 자주 배포됩니다. [JitPack 최신 버전](https://jitpack.io/#team-michael/notifly-android-sdk)을 사용하세요. </Info>
 
----
-
 ### 초기화 코드 추가
 
 `Application` 클래스에서 초기화하는 것이 가장 안전합니다. 특정 Activity에서 초기화를 하게 되면 다른 Activity들에 초기화가 적용되지 않을 수 있습니다.
@@ -70,7 +68,7 @@ dependencies {
 `AndroidManifest.xml`에 `android:name` 속성을 추가하고 새로운 클래스를 만들어 주세요.
 </Info>
 
-```xml title="AndroidManifest.xml" highlight={2}
+```xml title="AndroidManifest.xml" highlight={3}
 <application
     ...
     android:name=".MainApplication"  <!-- Application 클래스 등록 -->
@@ -80,6 +78,9 @@ dependencies {
 
 <Tabs>
 <Tab title="Kotlin">
+
+다음 코드를 앱의 Application 클래스의 `onCreate` 함수에 추가해 주세요.
+
 ```kotlin title="MainApplication.kt" highlight={6-11}
 import tech.notifly.Notifly
 
@@ -97,6 +98,9 @@ class MainApplication : Application() {
 ```
 </Tab>
 <Tab title="Java">
+
+다음 코드를 앱의 Application 클래스의 `onCreate` 함수에 추가해 주세요.
+
 ```java title="MainApplication.java" highlight={8-13}
 import tech.notifly.Notifly;
 
@@ -125,11 +129,9 @@ public class MainApplication extends Application {
 ## 2. 유저 정보 등록
 
 Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
-등록된 유저 정보는 세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅에 활용됩니다.
+등록된 유저 정보는 **세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅**에 활용됩니다.
 
 <Note> SDK 초기화(`Notifly.initialize()`)를 완료한 후 호출해야 합니다. </Note>
-
----
 
 ### 유저 ID 등록 (`Notifly.setUserId()`)
 
@@ -140,7 +142,6 @@ Notifly.setUserId(context: Context, userId: String?)
 `userId`는 앱 내부의 로그인 사용자 식별자와 매핑됩니다.  
 Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인을 개인화합니다.
 
-
 <ParamField path="context" type="Context" required>
   Android 컨텍스트 객체
 </ParamField>
@@ -148,12 +149,9 @@ Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인
   로그인 사용자 ID. 로그아웃 시 `null`로 설정하여 해제
 </ParamField>
 
----
-
-<Warning>
-`setUserId(null)`을 호출하면 해당 유저의 프로퍼티, 캠페인 히스토리, 피로도 데이터가 **모두 삭제됩니다.**  
-로그아웃 시점에만 호출하세요.
-</Warning>
+#### 유저 ID 해제
+로그아웃 시에는 `setUserId(null)`을 호출하여 유저 등록을 해제하는 것이 권장됩니다. 이 호출은 현재 기기와 유저 간의 연결을 끊고, 관련된 유저 데이터(유저 프로퍼티, 캠페인 피로도, 이벤트 로그 등)를 삭제합니다.
+따라서, 동일한 유저 데이터를 유지하려면 서버 또는 앱 내부에서 별도로 관리해야 합니다.
 
 <Tabs>
 <Tab title="Kotlin">
@@ -184,8 +182,6 @@ Notifly.setUserId(context, null);
 ```
 </Tab>
 </Tabs>
-
----
 
 ### 유저 프로퍼티 등록 (`Notifly.setUserProperties()`)
 
@@ -248,16 +244,7 @@ Notifly.setUserProperties(context, userProperties);
 
 ---
 
-<Warning>
-`setUserId(null)` 호출 시 Notifly 내의 모든 유저 데이터(프로퍼티, 피로도, 통계)가 삭제되며 복구할 수 없습니다.
-</Warning>
-
----
-
-이제 유저 ID와 프로퍼티가 정상적으로 등록되었습니다.  
-다음 단계에서는 [`Notifly.trackEvent()`](#이벤트-로깅-notiflytrackevent) 함수를 사용하여 이벤트를 기록할 수 있습니다.
-
-## 3. 이벤트 로깅
+## 3. 이벤트 로깅 (Notifly.trackEvent())
 
 유저 행동을 기록하여 **캠페인 트리거**, **세그먼트 조건**, **성과 분석** 등에 활용할 수 있습니다.  
 예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 사용자 행동을 이벤트로 수집합니다.
@@ -277,15 +264,16 @@ Notifly.trackEvent(
 <ParamField path="eventName" type="String" required>
   이벤트 이름 (예: "click_button", "purchase_completed")
 </ParamField>
-<ParamField path="eventParams" type="Map">
+<ParamField path="eventParams" type="Map<String, Any?>">
   이벤트에 대한 추가 속성. 예: "plan": "premium", "duration": 120
 </ParamField>
-<ParamField path="segmentationEventParamKeys" type="List">
+<ParamField path="segmentationEventParamKeys" type="List<String>">
   세그먼트 분류 시 기준으로 사용할 키 목록 (최대 1개까지 지원)
 </ParamField>
 
 <Info>
-현재 `segmentationEventParamKeys`는 **최대 1개의 Key**만 지정할 수 있습니다. 예: `listOf("plan")` → `"plan"` 속성을 기준으로 세그먼트 분류
+현재 `segmentationEventParamKeys`는 **최대 1개의 Key**만 지정할 수 있습니다.
+- 예: `listOf("plan")` → `"plan"` 속성을 기준으로 세그먼트 분류
 </Info>
 
 <Tabs>
@@ -303,6 +291,7 @@ Button(
                 "purchased" to "true",
                 "duration" to 45,
             ),
+            listOf("signup_method") // segmentation key로 signup_method 사용
         )
     },
     modifier = Modifier.padding(top = 16.dp)
@@ -313,7 +302,7 @@ Button(
 ```
 </Tab>
 <Tab title="Kotlin with xml">
-```kotlin title="Notifly.trackEvent" highlight={3-31}
+```kotlin title="Notifly.trackEvent" highlight={3-34}
 import tech.notifly.Notifly
 ...
 Button button = findViewById(R.id.button)
@@ -327,7 +316,8 @@ button.setOnClickListener {
             "signup_method" to "kakao",
             "purchased" to "true",
             "duration" to 45,
-        )
+        ),
+        listOf("signup_method") // segmentation key로 signup_method 사용
     )
 }
 
@@ -341,7 +331,8 @@ button.setOnClickListener(object : View.OnClickListener {
                 "signup_method" to "kakao",
                 "purchased" to "true",
                 "duration" to 45,
-            )
+            ),
+            listOf("signup_method") // segmentation key로 signup_method 사용
         )
     }
 })
@@ -357,17 +348,20 @@ map.put("signup_method", "kakao");
 map.put("purchased", true);
 map.put("duration", 45);
 
+// Create segmentation key list
+List<String> segmentationEventParamKeys = Arrays.asList("signup_method");
+
 Button button = findViewById(R.id.button);
 
 // With lambda representation
 button.setOnClickListener(v -> {
-    Notifly.trackEvent(context, "click_button_1", map);
+    Notifly.trackEvent(context, "click_button_1", map, segmentationEventParamKeys);
 });
 
 // Without lambda representation
 button.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
-        Notifly.trackEvent(context, "click_button_1", map);
+        Notifly.trackEvent(context, "click_button_1", map, segmentationEventParamKeys);
     }
 });
 ```
@@ -391,40 +385,41 @@ Notifly.getNotiflyUserId(context)
 ## 5. 연동 테스트
 
 SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부를 테스트하세요.  
-👉 [Client SDK - 연동 Test](https://docs.notifly.tech/ko/developer-guide/client-sdk/sdk_test)
+👉 [SDK 연동 Test](integration-test)
 
 ---
 
 ## 6. 심화 연동
 
+<div class="card-group doccards-blue">
 <Columns cols={3}>
 
   <Card
-    title="Push Icon & Consent"
+    title="푸시 알림 사전 동의"
     icon="bell"
-    href="/sdk/android-advanced#push-icon-consent"
+    href="advanced/push-notification-consent"
   >
     푸시 아이콘 등록 및 권한 프롬프트 설정
   </Card>
 
   <Card
-    title="Click Event Subscription"
+    title="푸시 알림 클릭 이벤트 구독"
     icon="mouse-pointer"
-    href="/sdk/android-advanced#click-event"
+    href="advanced/push-notification-click-events"
   >
     알림 클릭 이벤트 리스너 연동
   </Card>
 
   <Card
-    title="In-App Popup Integration"
-    icon="layout-dashboard"
-    href="/sdk/android-advanced#inapp-popup"
+    title="인앱 팝업 이벤트 리스너"
+    icon="dashboard"
+    href="advanced/inapp-popup-event-listener"
   >
     인앱 팝업 캠페인 표시
   </Card>
 
 </Columns>
-
+</div>
 ---
 
 ## FAQ
