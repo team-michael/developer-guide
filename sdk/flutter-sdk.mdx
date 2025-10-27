@@ -331,6 +331,8 @@ NotiflyPlugin.getNotiflyUserId();
 Flutter Web에서 **웹 푸시 알림을 사용하는 경우에만** 아래 단계를 진행하세요.  
 모바일(iOS/Android)에서는 이 섹션을 건너뛰어도 됩니다.
 
+---
+
 ### 5-1. Service Worker 등록
 
 웹 푸시 알림 수신을 위해 **Service Worker**를 등록해야 합니다.
@@ -381,6 +383,43 @@ await NotiflyPlugin.requestPermission();
 2. 사용자가 이미 승인한 경우, 팝업은 다시 표시되지 않습니다.
 
 3. 사용자가 거부한 경우, 브라우저 정책상 팝업이 다시 표시되지 않습니다.
+
+---
+
+## 6. 연동 테스트
+
+SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부를 테스트하세요.  
+👉 [Client SDK - 연동 Test](https://docs.notifly.tech/ko/developer-guide/client-sdk/sdk_test)
+
+---
+
+## 7. 심화 연동
+
+<div class="card-group doccards-gray">
+<Columns cols={3}>
+
+  <Card
+    title="푸시 알림 아이콘 설정"
+    icon="smile-plus"
+    href="advanced/push-notification-icon"
+  >
+  </Card>
+  <Card
+    title="푸시 알림 사전 동의"
+    icon="bell"
+    href="advanced/push-notification-consent"
+  >
+  </Card>
+
+  <Card
+    title="푸시 알림 클릭 이벤트 구독"
+    icon="mouse-pointer"
+    href="advanced/push-notification-click-events"
+  >
+  </Card>
+
+</Columns>
+</div>
 
 ## FAQ
 
