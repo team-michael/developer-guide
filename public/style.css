@@ -215,70 +215,15 @@ code {
 /* Load Pretendard (variable) once globally */
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
 
-/* Notifly Blue Cards — scoped to .doccards-blue */
-.doccards-blue > a.card {
-  background-color: #0144CD !important;
-  border-color: #0144CD !important;
-  color: #fff !important;
-  border-radius: 1.25rem;           /* keep rounded-2xl look */
-  box-shadow: none !important;
-  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
-               "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple SD Gothic Neo",
-               "Noto Sans KR", sans-serif !important;
-}
-
-/* Hover / focus */
-.doccards-blue > a.card:hover,
-.doccards-blue > a.card:focus-visible {
-  background-color: #0039B3 !important;
-  border-color: #0039B3 !important;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(1, 68, 205, .35);
-  outline: none;
-}
-
-/* Title (h2) */
-.doccards-blue [data-component-part="card-title"] {
-  color: #fff !important;
-  font-weight: 800 !important;
-}
-
-/* Body text */
-.doccards-blue [data-component-part="card-content"],
-.doccards-blue [data-component-part="card-content"] * {
-  color: rgba(255,255,255,.92) !important;
-}
-
-/* Icon (Mintlify uses a masked SVG whose color comes from its background) */
-.doccards-blue [data-component-part="card-icon"] {
-  color: #fff !important;
-  fill: #fff !important;
-}
-.doccards-blue [data-component-part="card-icon"] svg {
-  background: #fff !important;   /* <- fills the masked glyph */
-}
-
-/* Remove the subtle gray border that Tailwind sets */
-.doccards-blue > a.card.border {
-  border-width: 1px !important;
-  border-color: #0144CD !important;
-}
-
-/* Optional: keep arrow icon subtle on blue */
-.doccards-blue #card-link-arrow-icon {
-  color: rgba(255,255,255,.85) !important;
-}
-
 /* =========================================
    Notifly Blue Cards (wrapper-scoped)
    Works with nested <Columns> → <Card> DOM
    ========================================= */
 
-.doccards-blue a.card {
-  background-color: #0144CD !important;   /* override bg-white */
-  border-color: #0144CD !important;
-  color: #fff !important;
+.doccards-gray a.card {
+  background-color: #E2E8F0 !important;   /* override bg-white */
+  border-color: #E2E8F0 !important;
+  color: #000000 !important;
   border-radius: 1.25rem;                  /* rounded-2xl */
   box-shadow: none !important;
   transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
@@ -287,47 +232,48 @@ code {
                "Noto Sans KR", sans-serif !important;
 }
 
-.doccards-blue a.card:hover,
-.doccards-blue a.card:focus-visible {
-  background-color: #0039B3 !important;
-  border-color: #0039B3 !important;
+.doccards-gray a.card:hover,
+.doccards-gray a.card:focus-visible {
+  background-color: #E2E8F0 !important;
+  border-color: #E2E8F0 !important;
   transform: translateY(-3px);
   box-shadow: 0 8px 18px rgba(1, 68, 205, .35);
   outline: none;
 }
 
 /* Inner padding container that Mintlify injects */
-.doccards-blue a.card [data-component-part="card-content-container"] {
+.doccards-gray a.card [data-component-part="card-content-container"] {
   /* keep Mintlify padding; customize if you like */
 }
 
-/* Title → force white over text-gray-800 */
-.doccards-blue a.card [data-component-part="card-title"] {
-  color: #fff !important;
-  font-weight: 800 !important;
+/* Title */
+.doccards-gray a.card [data-component-part="card-title"] {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 17px !important;
 }
 
 /* Body text → force soft white over prose defaults */
-.doccards-blue a.card [data-component-part="card-content"],
-.doccards-blue a.card [data-component-part="card-content"] * {
-  color: rgba(255,255,255,.92) !important;
+.doccards-gray a.card [data-component-part="card-content"],
+.doccards-gray a.card [data-component-part="card-content"] * {
+  color: #000000 !important;
 }
 
 /* Icon: Mintlify uses a masked SVG whose visible "color" is its background */
-.doccards-blue a.card [data-component-part="card-icon"] {
-  color: #fff !important;    /* for font icons */
-  fill: #fff !important;     /* for inline SVG fills */
+.doccards-gray a.card [data-component-part="card-icon"] {
+  color: #000000 !important;    /* for font icons */
+  fill: #000000 !important;     /* for inline SVG fills */
 }
-.doccards-blue a.card [data-component-part="card-icon"] > svg {
-  background-color: #fff !important; /* <- this paints the masked glyph white */
+.doccards-gray a.card [data-component-part="card-icon"] > svg {
+  background-color: #000000 !important; /* <- this paints the masked glyph white */
 }
 
 /* Optional: adjust the little arrow icon on hover */
-.doccards-blue a.card #card-link-arrow-icon {
-  color: rgba(255,255,255,.85) !important;
+.doccards-gray a.card #card-link-arrow-icon {
+  color: #000000 !important;
 }
-.doccards-blue a.card:hover #card-link-arrow-icon {
-  color: #fff !important;
+.doccards-gray a.card:hover #card-link-arrow-icon {
+  color: #000000 !important;
 }
 
 /* ======================================
