@@ -330,7 +330,7 @@ Flutter Web에서 **웹 푸시 알림을 사용하는 경우에만** 아래 단�
 
 ---
 
-### 4-1. Service Worker 등록
+### 5-1. Service Worker 등록
 
 웹 푸시 알림 수신을 위해 **Service Worker**를 등록해야 합니다.
 
@@ -345,7 +345,7 @@ self.importScripts(
 
 <Info> 이 파일은 브라우저 백그라운드에서 푸시 알림을 수신/표시하는 핵심 역할을 합니다. </Info>
 
-### 4-2. 웹 푸시 권한 요청
+### 5-2. 웹 푸시 권한 요청
 
 웹 푸시 알림은 브라우저에서 사용자의 명시적 권한이 필요합니다.
 
@@ -371,7 +371,7 @@ await NotiflyPlugin.requestPermission();
 
 <Info> `requestPermission()`은 콘솔 설정에서 “자동 권한 요청”이 **OFF인 경우에만** 동작합니다. </Info>
 
-### 4-3. 권한 동작 방식
+### 5-3. 권한 동작 방식
 
 1. 사용자가 아직 권한을 설정하지 않은 경우, 팝업이 표시됩니다.
 
@@ -380,6 +380,39 @@ await NotiflyPlugin.requestPermission();
 2. 사용자가 이미 승인한 경우, 팝업은 다시 표시되지 않습니다.
 
 3. 사용자가 거부한 경우, 브라우저 정책상 팝업이 다시 표시되지 않습니다.
+
+---
+
+## 6. 연동 테스트
+
+SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부를 테스트하세요.  
+👉 [Client SDK - 연동 Test](https://docs.notifly.tech/ko/developer-guide/client-sdk/sdk_test)
+
+---
+
+## 7. 심화 연동
+
+<div class="card-group doccards-gray">
+<Columns cols={2}>
+
+  <Card
+    title="Push Icon & Consent"
+    icon="bell"
+    href="/sdk/android-advanced#push-icon-consent"
+  >
+    푸시 알림 아이콘 등록 (Android) & 푸시 알림 동의 프롬프트
+  </Card>
+
+  <Card
+    title="Click Event Subscription"
+    icon="mouse-pointer"
+    href="/sdk/android-advanced#click-event"
+  >
+    푸시 알림 클릭 이벤트 구독
+  </Card>
+
+</Columns>
+</div>
 
 ## FAQ
 

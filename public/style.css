@@ -215,8 +215,8 @@ code {
 /* Load Pretendard (variable) once globally */
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
 
-/* Notifly Blue Cards — scoped to .doccards-blue */
-.doccards-blue > a.card {
+/* Notifly Blue Cards — scoped to .doccards-gray */
+.doccards-gray > a.card {
   background-color: #E2E8F0 !important;
   border-color: #E2E8F0 !important;
   color: #fff !important;
@@ -229,8 +229,8 @@ code {
 }
 
 /* Hover / focus */
-.doccards-blue > a.card:hover,
-.doccards-blue > a.card:focus-visible {
+.doccards-gray > a.card:hover,
+.doccards-gray > a.card:focus-visible {
   background-color: #E2E8F0 !important;
   border-color: #E2E8F0 !important;
   transform: translateY(-3px);
@@ -239,34 +239,34 @@ code {
 }
 
 /* Title (h2) */
-.doccards-blue [data-component-part="card-title"] {
+.doccards-gray [data-component-part="card-title"] {
   color: #fff !important;
   font-weight: 800 !important;
 }
 
 /* Body text */
-.doccards-blue [data-component-part="card-content"],
-.doccards-blue [data-component-part="card-content"] * {
+.doccards-gray [data-component-part="card-content"],
+.doccards-gray [data-component-part="card-content"] * {
   color: rgba(255,255,255,.92) !important;
 }
 
 /* Icon (Mintlify uses a masked SVG whose color comes from its background) */
-.doccards-blue [data-component-part="card-icon"] {
+.doccards-gray [data-component-part="card-icon"] {
   color: #fff !important;
   fill: #fff !important;
 }
-.doccards-blue [data-component-part="card-icon"] svg {
+.doccards-gray [data-component-part="card-icon"] svg {
   background: #fff !important;   /* <- fills the masked glyph */
 }
 
 /* Remove the subtle gray border that Tailwind sets */
-.doccards-blue > a.card.border {
+.doccards-gray > a.card.border {
   border-width: 1px !important;
   border-color: #E2E8F0 !important;
 }
 
 /* Optional: keep arrow icon subtle on blue */
-.doccards-blue #card-link-arrow-icon {
+.doccards-gray #card-link-arrow-icon {
   color: rgba(255,255,255,.85) !important;
 }
 
@@ -275,7 +275,7 @@ code {
    Works with nested <Columns> → <Card> DOM
    ========================================= */
 
-.doccards-blue a.card {
+.doccards-gray a.card {
   background-color: #E2E8F0 !important;   /* override bg-white */
   border-color: #E2E8F0 !important;
   color: #000000 !important;
@@ -287,8 +287,8 @@ code {
                "Noto Sans KR", sans-serif !important;
 }
 
-.doccards-blue a.card:hover,
-.doccards-blue a.card:focus-visible {
+.doccards-gray a.card:hover,
+.doccards-gray a.card:focus-visible {
   background-color: #E2E8F0 !important;
   border-color: #E2E8F0 !important;
   transform: translateY(-3px);
@@ -297,36 +297,36 @@ code {
 }
 
 /* Inner padding container that Mintlify injects */
-.doccards-blue a.card [data-component-part="card-content-container"] {
+.doccards-gray a.card [data-component-part="card-content-container"] {
   /* keep Mintlify padding; customize if you like */
 }
 
 /* Title → force white over text-gray-800 */
-.doccards-blue a.card [data-component-part="card-title"] {
+.doccards-gray a.card [data-component-part="card-title"] {
   color: #000000 !important;
   font-weight: 800 !important;
 }
 
 /* Body text → force soft white over prose defaults */
-.doccards-blue a.card [data-component-part="card-content"],
-.doccards-blue a.card [data-component-part="card-content"] * {
+.doccards-gray a.card [data-component-part="card-content"],
+.doccards-gray a.card [data-component-part="card-content"] * {
   color: #000000 !important;
 }
 
 /* Icon: Mintlify uses a masked SVG whose visible "color" is its background */
-.doccards-blue a.card [data-component-part="card-icon"] {
+.doccards-gray a.card [data-component-part="card-icon"] {
   color: #000000 !important;    /* for font icons */
   fill: #000000 !important;     /* for inline SVG fills */
 }
-.doccards-blue a.card [data-component-part="card-icon"] > svg {
+.doccards-gray a.card [data-component-part="card-icon"] > svg {
   background-color: #000000 !important; /* <- this paints the masked glyph white */
 }
 
 /* Optional: adjust the little arrow icon on hover */
-.doccards-blue a.card #card-link-arrow-icon {
+.doccards-gray a.card #card-link-arrow-icon {
   color: #000000!important;
 }
-.doccards-blue a.card:hover #card-link-arrow-icon {
+.doccards-gray a.card:hover #card-link-arrow-icon {
   color: #000000 !important;
 }
 
