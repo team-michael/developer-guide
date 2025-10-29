@@ -150,7 +150,6 @@ code {
 .nav-tag-pill, .NavTagPill {
   background: var(--notifly-primary-100);
   color: var(--notifly-primary);
-  border: 1px solid var(--notifly-primary);
   font-weight: 600;
 }
 
