@@ -81,9 +81,3 @@ components:
           type: string
           description: 오류 메시지입니다
           example: Error message describing what went wrong
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: 인증 토큰을 Authorization 헤더에 포함해주시기 바랍니다
