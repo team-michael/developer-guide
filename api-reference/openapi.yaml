@@ -1,0 +1,366 @@
+openapi: 3.0.3
+info:
+  title: Notifly API
+  version: 1.0.0
+  contact:
+    email: contact@notifly.tech
+servers:
+  - url: https://api.notifly.tech
+    description: Notifly API 서버입니다
+paths:
+  /authenticate:
+    post:
+      summary: Authentication
+      operationId: authenticate
+      x-mint:
+        metadata:
+          title: "API 인증 토큰 발급하기"
+          description: "Access Key와 Secret Key를 사용하여 1시간 유효한 인증 토큰을 발급받습니다. 모든 API 요청 시 Authorization 헤더에 포함해주시기 바랍니다. 과도한 호출을 방지하기 위해 1시간 이내의 재호출은 기존 토큰을 재활용하는 것을 권장합니다."
+          og:title: "Notifly 인증 API"
+          og:description: "안전하고 빠르게 API 인증 토큰 발급하기"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - accessKey
+                - secretKey
+              properties:
+                accessKey:
+                  type: string
+                  description: Notifly 프로젝트 설정 페이지에서 확인하실 수 있습니다. 각 프로젝트별로 1개의 Access Key가 존재합니다.
+                  example: example1234567890abcdef1234567890ab
+                secretKey:
+                  type: string
+                  description: Notifly 프로젝트 설정 페이지에서 확인하실 수 있습니다. 각 프로젝트별로 1개의 Secret Key가 존재합니다.
+                  example: EXAMPLEabc9%
+      responses:
+        '200':
+          description: 성공적인 인증입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: 클라이언트 오류입니다 (잘못된 요청, 인증 실패 등)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /track-event:
+    post:
+      summary: Track Event
+      operationId: trackEvent
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "이벤트 트래킹"
+          description: "사용자 행동 이벤트나 전역 이벤트를 Notifly 엔진으로 전송합니다. 수집된 이벤트 데이터는 캠페인 트리거, 세그먼트 설정, 메시지 개인화 등에 사용됩니다."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - projectID
+                  - eventName
+                  - userID
+                properties:
+                  projectID:
+                    type: string
+                    description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+                  eventName:
+                    type: string
+                    description: 이벤트 이름
+                  eventParams:
+                    type: object
+                    description: 이벤트와 관련된 추가 파라미터
+                  segmentationEventParamKeys:
+                    type: array
+                    items:
+                      type: string
+                    description: 세그먼트 분류 시 특별 처리되는 파라미터 키 목록 (최대 1개만 허용)
+                  userID:
+                    type: string
+                    description: 사용자 식별자
+            example:
+              - projectID: "example_project_1234567890abcdef"
+                eventName: "product_view"
+                eventParams:
+                  product_id: "SH-12345"
+                  product_name: "라코스테 폴로 셔츠"
+                  brand: "라코스테"
+                  category: "셔츠"
+                  price: 89000
+                  discount_rate: 30
+                segmentationEventParamKeys:
+                  - brand
+                userID: "user_abc123"
+      responses:
+        '200':
+          description: 성공적인 이벤트 전송입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 성공 메시지
+              example:
+                message: "Successfully tracked events 3 events"
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /set-user-properties:
+    post:
+      summary: Set User Properties
+      operationId: setUserProperties
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "사용자 속성 설정"
+          description: "사용자 속성을 Notifly 엔진에 등록하거나 업데이트합니다. 등록된 속성은 세그먼트 분류 및 개인화 메시지에 활용됩니다."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserPropertySingle'
+              description: 사용자 배열 (최대 1,000명)
+            example:
+              - projectID: "example_project_1234567890abcdef"
+                userID: "user_abc123"
+                userProperties:
+                  $email: "user@example.com"
+                  $phone_number: "01012345678"
+                  hobby: "coding"
+                  age: 30
+                  gender: "Male"
+      responses:
+        '200':
+          description: 성공적인 속성 업데이트입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    description: 업데이트된 행 수
+              example:
+                data: 3
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: 요청 크기 초과입니다 (1,000명 이상 요청)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users:
+    delete:
+      summary: Delete Users
+      operationId: deleteUsers
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "사용자 삭제"
+          description: "Notifly에 등록된 사용자를 삭제합니다. 사용자 ID, 이메일, 전화번호 중 하나를 기준으로 단일 또는 다중 삭제를 지원합니다."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserDeleteSingle'
+              description: 사용자 배열 (최대 1,000명)
+            example:
+              - projectID: "example_project_1234567890abcdef"
+                userID: "user_abc123"
+              - projectID: "example_project_1234567890abcdef"
+                userProperties:
+                  $email: "delete@example.com"
+      responses:
+        '200':
+          description: 성공적인 사용자 삭제입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    description: 삭제된 행 수
+              example:
+                data: 5
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: 요청 크기 초과입니다 (1,000명 이상 요청)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    UserPropertySingle:
+      type: object
+      required:
+        - projectID
+        - userProperties
+        - userID
+      properties:
+        projectID:
+          type: string
+          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+        userProperties:
+          type: object
+          description: 사용자 속성(key-value)
+        userID:
+          type: string
+          description: 사용자 식별자
+      example:
+        projectID: "example_project_1234567890abcdef"
+        userID: "user_abc123"
+        userProperties:
+          $email: "user@example.com"
+          $phone_number: "01012345678"
+          hobby: "coding"
+          age: 30
+          gender: "Male"
+
+    UserDeleteSingle:
+      type: object
+      required:
+        - projectID
+      properties:
+        projectID:
+          type: string
+          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+        userID:
+          type: string
+          description: 삭제할 사용자의 ID
+        userProperties:
+          type: object
+          description: 삭제할 사용자 속성 (이메일, 전화번호 기반 삭제 지원)
+          properties:
+            $email:
+              type: string
+              description: 삭제할 사용자의 이메일 주소
+            $phone_number:
+              type: string
+              description: 삭제할 사용자의 전화번호
+      example:
+        projectID: "example_project_1234567890abcdef"
+        userID: "user_abc123"
+
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: string
+          description: 인증 토큰 값입니다 (1시간 유효)
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example
+        error:
+          type: string
+          nullable: true
+          description: 성공 시 null입니다
+          example: null
+
+    ErrorResponse:
+      type: object
+      properties:
+        data:
+          type: string
+          nullable: true
+          description: 오류 시 null
+          example: null
+        error:
+          type: string
+          description: 에러 메시지
+        projectId:
+          type: string
+          nullable: true
+          description: 프로젝트 ID (500 오류 시에만 포함)
+          example: null
+        durationMs:
+          type: integer
+          nullable: true
+          description: 처리 시간(ms) (500 오류 시에만 포함)
+          example: null
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: POST /authenticate로 발급받은 인증 토큰
