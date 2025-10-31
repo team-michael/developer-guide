@@ -12,17 +12,19 @@ Notifly Flutter Plugin은 노티플라이의 푸시 및 인앱 캠페인 기능�
 
 <Info> Android 인앱 팝업은 **Android 11(API 30) 이상**에서만 지원됩니다. </Info>
 
-## Before You Start
+## 시작하기 전에
 
-SDK 설치 전, 아래를 먼저 완료하세요.
+1. **Firebase 프로젝트 연동 완료**  
+Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
+  > 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration)
 
-1. Firebase 프로젝트 연동
-👉 sdk/firebase-integration(파이어베이스 프로젝트/앱 연결, FCM 설정 포함)
+2. **iOS APNs 인증 등록**  
+  > 👉 [APNs 인증서 등록](sdk/firebase-integration#1-3-apns-%EC%9D%B8%EC%A6%9D%EC%84%9C-%EB%93%B1%EB%A1%9D)
 
-2. iOS APNs 인증 등록
-👉 sdk/firebase-integration#ios-apns (APNs 인증 키/인증서 등록)
-
-<Info> 권장 환경: iOS 13+ / Android 7.0(API 24)+. iOS는 반드시 **Runner.xcworkspace**로 빌드하세요. </Info>
+<Info>
+- iOS 13 이상, Android 7.0(API 24) 이상 환경을 권장합니다.  
+- iOS는 `Runner.xcworkspace` 파일을 반드시 Xcode로 열어야 정상적으로 빌드됩니다.
+</Info>
 
 ## 1. 플러그인 셋업
 
@@ -82,7 +84,7 @@ ios/Runner/AppDelegate.mm
 
 <Tabs>
 <Tab title="Swift">
-```swift title="AppDelegate.swift"
+```swift title="AppDelegate.swift" highlight={13, 21-23, 30-32, 39-41, 48-51}
 import Flutter
 import notifly_sdk
 import UIKit
@@ -194,21 +196,18 @@ Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인
 NotiflyPlugin.setUserId(userId);
 ```
 
----
-
-<Warning>
-`setUserId(null)`을 호출하면 해당 유저의 프로퍼티, 캠페인 히스토리, 피로도 데이터가 **모두 삭제됩니다.**  
-로그아웃 시점에만 호출하세요.
-</Warning>
+#### 유저 ID 해제
+로그아웃 시에는 `setUserId(null)`을 호출하여 유저 등록을 해제하는 것이 권장됩니다. 이 호출은 현재 기기와 유저 간의 연결을 끊고, 관련된 유저 데이터(유저 프로퍼티, 캠페인 피로도, 이벤트 로그 등)를 삭제합니다.
+따라서, 동일한 유저 데이터를 유지하려면 서버 또는 앱 내부에서 별도로 관리해야 합니다.
 
 <Tabs>
 <Tab title="Dart">
-```dart title="setUserId"
+```dart title="setUserId" highlight={5, 17}
 ElevatedButton(
     onPressed: () async {
         try {
             final userIdInput = _userIdTextInputController.text;
-            await NotiflyPlugin.setUserId(userIdInput); // Set User Id
+            await NotiflyPlugin.setUserId(userIdInput); // 유저 ID 등록
         } catch (error) {
             ...
         }
@@ -220,7 +219,7 @@ ElevatedButton(
     onPressed: () async {
         try {
             final userIdInput = _userIdTextInputController.text;
-            await NotiflyPlugin.setUserId(null); // Unregister User Id
+            await NotiflyPlugin.setUserId(null); // 유저 ID 등록 해제
         } catch (error) {
             ...
         }
@@ -254,7 +253,7 @@ NotiflyPlugin.setUserProperties(params)
 <Tabs>
 <Tab title="Dart">
 
-```dart title="setUserProperties"
+```dart title="setUserProperties" highlight={5}
 ElevatedButton(
     onPressed: () async {
         try {
@@ -311,6 +310,8 @@ await NotiflyPlugin.trackEvent(
 </Tab>
 </Tabs>
 
+---
+
 ## 4. 내부 유저 ID 확인
 
 `getNotiflyUserId()` 메서드는 노티플라이가 내부적으로 관리하는 고유 User ID를 반환합니다.  
@@ -322,6 +323,8 @@ await NotiflyPlugin.trackEvent(
 ```dart
 NotiflyPlugin.getNotiflyUserId();
 ```
+
+---
 
 ## 5. (Only Web) Web Push Notification 설정
 

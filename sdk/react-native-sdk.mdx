@@ -14,22 +14,25 @@ Notifly React Native SDK는 **노티플라이의 푸시 및 인앱 캠페인 기
  
 SDK를 설치하기 전, 아래 과정을 반드시 완료하세요.
 
-1. **Firebase 프로젝트 연동**  
-  > 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration.mdx)
+1. **Firebase 프로젝트 연동 완료**  
+Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
+  > 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration)
 
 2. **iOS APNs 인증 등록**  
-  > 👉 [APNs 인증서 등록](https://docs.notifly.tech/ko/developer-guide/client-sdk/firebase_project_setup#1-3-apns-인증서-등록)
+  > 👉 [APNs 인증서 등록](sdk/firebase-integration#1-3-apns-%EC%9D%B8%EC%A6%9D%EC%84%9C-%EB%93%B1%EB%A1%9D)
 
 <Info>
-iOS 13 이상, Android 7.0(API 24) 이상 환경을 권장합니다.  
-iOS는 `.xcworkspace` 파일을 반드시 Xcode로 열어야 정상적으로 빌드됩니다.
+- iOS 13 이상, Android 7.0(API 24) 이상 환경을 권장합니다.  
+- iOS는 `.xcworkspace` 파일을 반드시 Xcode로 열어야 정상적으로 빌드됩니다.
 </Info>
 
 ## 1. SDK 설치
 
 ### SDK 설치
 
-- [notifly-sdk npm](https://www.npmjs.com/package/notifly-sdk)
+[notifly-sdk npm](https://www.npmjs.com/package/notifly-sdk)를 설치합니다.
+
+[![Npm](https://img.shields.io/npm/v/notifly-sdk.svg)](https://www.npmjs.com/package/notifly-sdk)
 
 <Tabs>
 <Tab title="npm">
@@ -46,7 +49,7 @@ cd ios && pod install
 </Tab>
 </Tabs>
 
-<Info> `package.json` 파일에 `notifly-sdk`가 추가됩니다. 현재 최신 버전: [![Npm](https://img.shields.io/npm/v/notifly-sdk.svg)](https://www.npmjs.com/package/notifly-sdk) </Info>
+<Info> `package.json` 파일에 `notifly-sdk`가 추가됩니다. </Info>
 
 ### iOS 설정
 
@@ -75,8 +78,6 @@ ios/{ProjectName}/AppDelegate.mm
 ```JavaScript
 #import "notifly_sdk-Swift.h"
 ```
-
-<Info> 이 코드는 Notifly SDK와 Swift 브리지 연결**을 위한 필수 import입니다. </Info>
 
 3. `UNUserNotificationCenterDelegate` 프로토콜 추가
 
@@ -119,30 +120,40 @@ ios/{ProjectName}/AppDelegate.mm
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    /* Your Code */
     [FIRApp configure];
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-    return YES;
+    /* Your Code */
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    /* Your Code */
     [Notifly application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    /* Your Code */
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    /* Your Code */
     [Notifly application:application didFailToRegisterForRemoteNotificationsWithError:error];
+    /* Your Code */
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    /* Your Code */
     [Notifly userNotificationCenter:center didReceive:response];
     completionHandler();
+    /* Your Code */
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    [Notifly userNotificationCenter:center willPresent:notification withCompletionHandler:completionHandler];
+    /* Your Code */
+   [Notifly userNotificationCenter:center willPresent:notification withCompletionHandler:completionHandler];
+    /* Your Code */
 }
 
+/* Your Code */
 @end
 ```
 </Tab>
@@ -165,7 +176,7 @@ Notification Service Extension을 설정하면 리치 푸시(Rich Push) 기능�
 
 앱 진입점(`index.js` 또는 `App.js`)에 초기화 코드를 추가합니다.
 
-```js title="index.js"
+```js title="index.js" highlight={2, 6}
 ...
 import notifly from 'notifly-sdk';
 
@@ -183,6 +194,8 @@ AppRegistry.registerComponent(...);
 ```
 
 <Info> `projectId`, `username`, `password`는 Notifly 관리자 페이지에서 확인할 수 있습니다. </Info>
+
+---
 
 ## 2. 유저 정보 등록
 
@@ -204,25 +217,22 @@ Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인
 notifly.setUserId(userId);
 ```
 
----
-
-<Warning>
-`setUserId(null)`을 호출하면 해당 유저의 프로퍼티, 캠페인 히스토리, 피로도 데이터가 **모두 삭제됩니다.**  
-로그아웃 시점에만 호출하세요.
-</Warning>
+#### 유저 ID 해제
+로그아웃 시에는 `setUserId(null)`을 호출하여 유저 등록을 해제하는 것이 권장됩니다. 이 호출은 현재 기기와 유저 간의 연결을 끊고, 관련된 유저 데이터(유저 프로퍼티, 캠페인 피로도, 이벤트 로그 등)를 삭제합니다.
+따라서, 동일한 유저 데이터를 유지하려면 서버 또는 앱 내부에서 별도로 관리해야 합니다.
 
 <Tabs>
 <Tab title="JavaScript">
-```js title="setUserId JavaScript"
+```JavaScript title="setUserId"
 const handleLogin = () => {
     ...
-    notifly.setUserId('example_user_id'); // Set User Id
+    notifly.setUserId('example_user_id'); // 유저 ID 등록
     ...
 }
 
 const handleLogout = () => {
     ...
-    notifly.setUserId(); // Unregister User Id
+    notifly.setUserId(); // 유저 ID 등록 해제
     ...
 }
 ```
@@ -266,6 +276,8 @@ const handleRejectPushNotification = () => {
 </Tab>
 </Tabs>
 
+---
+
 ## 3. 이벤트 로깅
 
 유저 행동을 기록하여 **캠페인 트리거**, **세그먼트 조건**, **성과 분석** 등에 활용할 수 있습니다.  
@@ -297,10 +309,14 @@ notifly.trackEvent(eventName, eventParams, segmentationEventParamKeys);
 ```js title="trackEvent"
 const handlePurchaseTicket = () => {
     ...
-    notifly.trackEvent("ticket_purchase", {
+    notifly.trackEvent(
+      "ticket_purchase", 
+      {
         "show_id": "sample_show_id",
         "performance_start_time": 1674104659
-    }, ["show_id"]);
+      }, 
+      ["show_id"]
+    );
     ...
 }
 
@@ -314,10 +330,12 @@ const handleLogin = () => {
 </Tab>
 </Tabs>
 
+---
+
 ## 4. 연동 테스트
 
 SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부를 테스트하세요.  
-👉 [Client SDK - 연동 Test](https://docs.notifly.tech/ko/developer-guide/client-sdk/sdk_test)
+👉 [SDK 연동 Test](integration-test)
 
 ## 5. 심화 연동
 
