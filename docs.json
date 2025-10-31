@@ -83,7 +83,7 @@
       },
       {
         "tab": "API Reference",
-        "openapi": "api-reference/openapi/authenticate.yaml",
+        "openapi": "api-reference/openapi/getting-started/authenticate.yaml",
         "groups": [
           {
             "group": "시작하기",
@@ -94,7 +94,7 @@
             ]
           },
           {
-            "group": "Events & Users",
+            "group": "이벤트 & 사용자",
             "pages": [
               "api-reference/users-events/track-event",
               "api-reference/users-events/set-user-properties",
@@ -102,11 +102,11 @@
             ]
           },
           {
-            "group": "Campaigns",
+            "group": "캠페인",
             "pages": ["api-reference/campaign-triggering", "api-reference/user-journey-triggering"]
           },
           {
-            "group": "Messaging",
+            "group": "메시징",
             "pages": [
               "api-reference/messaging-text",
               "api-reference/messaging-kakao-alimtalk",
@@ -114,10 +114,10 @@
             ]
           },
           {
-            "group": "Messaging Management",
+            "group": "메시징 관리",
             "pages": [
               {
-                "group": "Kakao Alimtalk Template",
+                "group": "카카오 알림톡 템플릿",
                 "pages": [
                   "api-reference/kakao-template-list",
                   "api-reference/kakao-template-create",
@@ -126,7 +126,7 @@
                 ]
               },
               {
-                "group": "080 Block Service",
+                "group": "080 블록 서비스",
                 "pages": [
                   "api-reference/text-080-block-list",
                   "api-reference/text-080-block-register", 
@@ -136,10 +136,10 @@
             ]
           },
           {
-            "group": "Exports & Analytics",
+            "group": "내보내기 & 분석",
             "pages": [
               {
-                "group": "Campaign Event Export",
+                "group": "캠페인 이벤트 내보내기",
                 "pages": [
                   "api-reference/campaign-event-export-create",
                   "api-reference/campaign-event-export-get"
