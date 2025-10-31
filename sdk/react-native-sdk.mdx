@@ -10,7 +10,7 @@ Notifly React Native SDK는 **노티플라이의 푸시 및 인앱 캠페인 기
 - 이벤트 및 유저 정보를 노티플라이와 연동하여 **캠페인 타깃팅 및 분석 활용**
 - 유저 행동 데이터를 기반으로 한 **이벤트 로깅 및 성과 측정**
 
-## Before You Start
+## 시작하기 전에
  
 SDK를 설치하기 전, 아래 과정을 반드시 완료하세요.
 
@@ -72,7 +72,7 @@ ios/{ProjectName}/AppDelegate.mm
 
 2. `notifly_sdk` import 추가
 
-```objc
+```JavaScript
 #import "notifly_sdk-Swift.h"
 ```
 
@@ -84,7 +84,7 @@ ios/{ProjectName}/AppDelegate.mm
 
 <Tabs>
 <Tab title="AppDelegate.h"> 
-```objc title="header" 
+```swift title="header" 
 #import <RCTAppDelegate.h> 
 #import <UIKit/UIKit.h> 
 #import <UserNotifications/UNUserNotificationCenter.h>
@@ -110,7 +110,7 @@ ios/{ProjectName}/AppDelegate.mm
 
 <Tabs>
 <Tab title="AppDelegate.mm">
-```objc title="AppDelegate.mm"
+```swift title="AppDelegate.mm"
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import "AppDelegate.h"
@@ -327,14 +327,14 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
  <Card
     title="푸시 알림 사전 동의"
     icon="bell"
-    href="advanced/push-notification-consent"
+    href="/advanced/push-notification-consent"
   >
   </Card>
 
   <Card
     title="푸시 알림 클릭 이벤트 구독"
     icon="mouse-pointer"
-    href="advanced/push-notification-click-events"
+    href="/advanced/push-notification-click-events"
   >
   </Card>
 
