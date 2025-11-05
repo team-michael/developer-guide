@@ -476,7 +476,7 @@ event1Button.addEventListener('click', function () {
 </Tab>
 </Tabs> 
 
-<Warning> **호출 순서 중요**: 로그인 등 **userId 변경 직후**에는 `setUserId → setUserProperties → trackEvent` 순서로 호출하는 것을  </Warning>
+<Warning> **호출 순서 중요**: 로그인 등 **userId 변경 직후**에는 `setUserId → setUserProperties → trackEvent` 순서로 호출하는 것을 권장합니다. </Warning>
 
 ```JavaScript
 const handleLogin = (userId) => {
