@@ -108,9 +108,9 @@
           {
             "group": "메시징",
             "pages": [
-              "api-reference/messaging-text",
-              "api-reference/messaging-kakao-alimtalk",
-              "api-reference/messaging-kakao-friendtalk"
+              "POST /messages/text-message",
+              "POST /messages/kakao-alimtalk",
+              "POST /messages/kakao-friendtalk"
             ]
           },
           {
@@ -119,18 +119,18 @@
               {
                 "group": "카카오 알림톡 템플릿",
                 "pages": [
-                  "api-reference/kakao-template-list",
-                  "api-reference/kakao-template-create",
-                  "api-reference/kakao-template-update",
-                  "api-reference/kakao-template-delete"
+                  "GET /projects/{projectId}/messages/kakao-alimtalk/templates",
+                  "POST /projects/{projectId}/messages/kakao-alimtalk/templates",
+                  "PUT /projects/{projectId}/messages/kakao-alimtalk/templates/{templateCode}",
+                  "DELETE /projects/{projectId}/messages/kakao-alimtalk/templates/{templateCode}"
                 ]
               },
               {
                 "group": "080 블록 서비스",
                 "pages": [
-                  "api-reference/text-080-block-list",
-                  "api-reference/text-080-block-register", 
-                  "api-reference/text-080-block-remove"
+                  "GET /projects/{projectId}/messages/text-message/blockservice/recipients",
+                  "POST /projects/{projectId}/messages/text-message/blockservice/recipients",
+                  "DELETE /projects/{projectId}/messages/text-message/blockservice/recipients/removes"
                 ]
               }
             ]
