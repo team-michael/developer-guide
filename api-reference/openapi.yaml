@@ -350,35 +350,34 @@ paths:
               example:
                 success: true
         '400':
-          description: 요청 본문 형식 오류입니다
+          description: 발신자 정보가 등록되지 않았습니다
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '401':
-          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '405':
-          description: 지원되지 않는 HTTP 메서드입니다
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '413':
-          description: 요청 크기 초과입니다
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+              example:
+                data: null
+                error: "Sender info is not registered."
         '500':
           description: 서버 내부 오류입니다
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                success: false
+                error: "Internal Server Error"
 
   /messages/kakao-alimtalk:
     post:
@@ -477,36 +476,41 @@ paths:
                     type: boolean
               example:
                 success: true
-        '400':
-          description: 요청 본문 형식 오류입니다
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '401':
-          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '405':
-          description: 지원되지 않는 HTTP 메서드입니다
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
         '413':
-          description: 요청 크기 초과입니다
+          description: 발신자 정보가 등록되지 않았습니다
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+              example:
+                data: null
+                error: "Sender info is not registered."
         '500':
           description: 서버 내부 오류입니다
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                internal_error:
+                  value:
+                    success: false
+                    error: "Internal Server Error"
+                resend_sender_not_registered:
+                  value:
+                    success: false
+                    error: "The sender information for resending text message has not been registered. Please register it in the Notify console first."
 
   /messages/kakao-friendtalk:
     post:
@@ -590,36 +594,35 @@ paths:
                     type: boolean
               example:
                 success: true
-        '400':
-          description: 요청 본문 형식 오류입니다
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '401':
-          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
-        '405':
-          description: 지원되지 않는 HTTP 메서드입니다
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
         '413':
-          description: 요청 크기 초과입니다
+          description: 발신자 정보가 등록되지 않았습니다
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+              example:
+                data: null
+                error: "Sender info is not registered."
         '500':
           description: 서버 내부 오류입니다
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SimpleErrorResponse'
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                success: false
+                error: "Internal Server Error"
 
   /projects/{projectId}/messages/kakao-alimtalk/templates:
     get:
@@ -850,7 +853,7 @@ paths:
           required: false
           schema:
             type: string
-          description: 알림톡 채널 ID
+          description: 알림톡 채널 ID. 등록된 채널이 여러개일 경우 사용됩니다. 넘기지 않을 경우 먼저 등록된 채널로 지정됩니다.
       responses:
         '200':
           description: 성공적인 템플릿 삭제입니다
@@ -958,6 +961,17 @@ paths:
                           type: string
                         requestDate:
                           type: string
+              example:
+                pageNum: 1
+                pageSize: 15
+                totalCount: 1
+                data:
+                  - unsubscribeNo: "0808888888"
+                    recipientNo: "01000000000"
+                    requestDate: "2018-05-14 17:07:29.0"
+                  - unsubscribeNo: "0808888888"
+                    recipientNo: "010012341234"
+                    requestDate: "2018-05-14 17:07:29.0"
         '400':
           description: 요청 본문 형식 오류입니다
           content:
@@ -1070,12 +1084,14 @@ paths:
           schema:
             type: string
           description: 080 수신 거부 번호 (최대 20자)
+          example: "0800000000"
         - name: recipientNoList
           in: query
           required: true
           schema:
             type: string
           description: 삭제할 수신 거부 번호 (콤마로 구분)
+          example: "0100000000,0100000001"
       responses:
         '200':
           description: 성공적인 수신거부 삭제입니다
@@ -1288,12 +1304,64 @@ components:
         templateItem:
           type: object
           description: 아이템 정보
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                required:
+                  - title
+                  - description
+                properties:
+                  title:
+                    type: string
+                    description: 아이템 타이틀 (최대 6자)
+                  description:
+                    type: string
+                    description: 아이템 디스크립션 (최대 23자)
+              description: 아이템 리스트 (최소 2개, 최대 10개)
+            summary:
+              type: object
+              required:
+                - title
+                - description
+              properties:
+                title:
+                  type: string
+                  description: 요약 타이틀 (최대 6자)
+                description:
+                  type: string
+                  description: 요약 디스크립션 (변수 및 화폐 단위, 숫자, 쉼표, 마침표만 사용 가능, 최대 14자)
+              description: 아이템 요약 정보
         templateItemHighlight:
           type: object
           description: 아이템 하이라이트
+          properties:
+            title:
+              type: string
+              description: 하이라이트 타이틀 (최대 30자, 섬네일 이미지가 있을 경우 21자)
+            description:
+              type: string
+              description: 하이라이트 디스크립션 (최대 19자, 섬네일 이미지가 있을 경우 13자)
+            imageUrl:
+              type: string
+              description: 섬네일 이미지 URL
         templateRepresentLink:
           type: object
           description: 대표 링크
+          properties:
+            linkMo:
+              type: string
+              description: 모바일 웹 링크 (최대 500자)
+            linkPc:
+              type: string
+              description: PC 웹 링크 (최대 500자)
+            schemeIos:
+              type: string
+              description: iOS 앱 링크 (최대 500자)
+            schemeAndroid:
+              type: string
+              description: 안드로이드 앱 링크 (최대 500자)
         templateImageName:
           type: string
           description: 이미지명
@@ -1310,11 +1378,92 @@ components:
           type: array
           items:
             type: object
+            required:
+              - ordering
+              - type
+              - name
+            properties:
+              ordering:
+                type: integer
+                description: 버튼 순서 (1~5)
+              type:
+                type: string
+                enum:
+                  - WL
+                  - AL
+                  - DS
+                  - BK
+                  - MD
+                  - BC
+                  - BT
+                  - AC
+                  - BF
+                  - P1
+                  - P2
+                  - P3
+                description: 버튼 타입 (WL-웹링크, AL-앱링크, DS-배송조회, BK-봇키워드, MD-메시지전달, BC-상담톡전환, BT-봇전환, AC-채널추가, BF-비즈니스폼, P1/P2/P3-플러그인)
+              name:
+                type: string
+                description: 버튼 이름 (최대 14자)
+              linkMo:
+                type: string
+                description: 모바일 웹 링크 (WL 타입일 경우 필수, 최대 500자)
+              linkPc:
+                type: string
+                description: PC 웹 링크 (WL 타입일 경우 선택, 최대 500자)
+              schemeIos:
+                type: string
+                description: iOS 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              schemeAndroid:
+                type: string
+                description: 안드로이드 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              bizFormId:
+                type: integer
+                description: 비즈니스폼 ID (BF 타입일 경우 필수)
+              pluginId:
+                type: string
+                description: 플러그인 ID (최대 24자)
           description: 버튼 리스트 (최대 5개)
         quickReplies:
           type: array
           items:
             type: object
+            required:
+              - ordering
+              - type
+              - name
+            properties:
+              ordering:
+                type: integer
+                description: 바로연결 순서
+              type:
+                type: string
+                enum:
+                  - WL
+                  - AL
+                  - BK
+                  - BC
+                  - BT
+                  - BF
+                description: 바로연결 타입 (WL-웹링크, AL-앱링크, BK-봇키워드, BC-상담톡전환, BT-봇전환, BF-비즈니스폼)
+              name:
+                type: string
+                description: 바로연결 이름 (최대 14자)
+              linkMo:
+                type: string
+                description: 모바일 웹 링크 (WL 타입일 경우 필수, 최대 500자)
+              linkPc:
+                type: string
+                description: PC 웹 링크 (WL 타입일 경우 선택, 최대 500자)
+              schemeIos:
+                type: string
+                description: iOS 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              schemeAndroid:
+                type: string
+                description: 안드로이드 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              bizFormId:
+                type: integer
+                description: 비즈니스폼 ID (BF 타입일 경우 필수)
           description: 바로연결 리스트 (최대 5개)
 
   securitySchemes:
