@@ -333,7 +333,7 @@ Flutter Web에서 **웹 푸시 알림을 사용하는 경우에만** 아래 단�
 
 ---
 
-### 5-1. Service Worker 등록
+### 1. Service Worker 등록
 
 웹 푸시 알림 수신을 위해 **Service Worker**를 등록해야 합니다.
 
@@ -348,7 +348,7 @@ self.importScripts(
 
 <Info> 이 파일은 브라우저 백그라운드에서 푸시 알림을 수신/표시하는 핵심 역할을 합니다. </Info>
 
-### 5-2. 웹 푸시 권한 요청
+### 2. 웹 푸시 권한 요청
 
 웹 푸시 알림은 브라우저에서 사용자의 명시적 권한이 필요합니다.
 
@@ -374,7 +374,7 @@ await NotiflyPlugin.requestPermission();
 
 <Info> `requestPermission()`은 콘솔 설정에서 “자동 권한 요청”이 **OFF인 경우에만** 동작합니다. </Info>
 
-### 5-3. 권한 동작 방식
+### 3. 권한 동작 방식
 
 1. 사용자가 아직 권한을 설정하지 않은 경우, 팝업이 표시됩니다.
 

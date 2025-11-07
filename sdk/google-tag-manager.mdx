@@ -1,5 +1,5 @@
 ---
-title: "구글 테그 매니저 설정하기"
+title: "구글 태그 매니저 설정하기"
 ---
 
 Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 없이 손쉽게 SDK 초기화, 사용자/이벤트 연동을 설정할 수 있습니다.
@@ -23,9 +23,11 @@ Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 �
 2. 태그 이름 지정 → 태그 구성 클릭
 3. 맞춤 템플릿 섹션에서 Notifly JavaScript SDK 선택
    ![맞춤 설정](./image/gtm/gtm-init-1.png)
-4. 태그 구성에서 Tag Type: SDK 초기화 선택 후 Project ID, Username, Password 입력. ([Notifly SDK 초기화 옵션](/sdk/javascript-sdk) 참고.)
+4. 태그 구성에서 Tag Type: SDK 초기화 선택 후 Project ID, Username, Password 입력. ([Notifly SDK 초기화 옵션](/sdk/javascript-sdk#2-sdk-%EC%B4%88%EA%B8%B0%ED%99%94) 참고.)
 ![태그 타입](./image/gtm/gtm-init-2.png) 
-5. 고급 설정 → 태그 실행: 페이지당 한 번 / 트리거: Initialization – All Pages 로 지정.
+5. 고급 설정
+- 태그 실행: 페이지당 한 번
+- 트리거: Initialization – All Pages 로 지정.
 ![고급 설정](./image/gtm/gtm-init-3.png)
 ![트리거](./image/gtm/gtm-init-4.png)
 
@@ -37,9 +39,7 @@ Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 �
 반드시 **SDK 초기화 태그**가 선행되어야 합니다.
 </Info>
 
-:::
-
-### 3-1. 유저 아이디 등록 (setUserId)
+### 1. 유저 아이디 등록 (setUserId)
 
 1. 태그 > 새로 만들기 → 태그 이름(예: Notifly – setUserId) 지정 → 태그 구성 클릭. 
 2. Tag Type: 유저 아이디 등록 (setUserId) 선택 후, 유저 아이디 입력란에 [GTM 변수](https://support.google.com/tagmanager/answer/7683362)(예: `{{User ID}}`)를 지정.   
@@ -51,7 +51,7 @@ Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 �
 4. 트리거는 로그인 완료 시점의 맞춤 이벤트(예: login_success)를 사용.
    ![트리거](./image/gtm/gtm-set-user-id-3.png)
 
-### 3-2. 유저 속성 등록 (setUserProperties)
+### 2. 유저 프로퍼티 등록 (setUserProperties)
 
 1. 태그 > 새로 만들기 → 태그 이름(예: Notifly – setUserProperties) 지정 → 태그 구성.
 
@@ -89,12 +89,12 @@ Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 �
 
 ## 5. 연동 테스트
 
-- 설정이 완료되면 Notifly 콘솔에서 사용자/속성/이벤트 수신 여부를 점검하세요.
-- 추가 점검은은 [연동테스트](integration-test) 문서를 참고하세요.
+SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부를 테스트하세요.  
+👉 [SDK 연동 Test](integration-test)
 
 
-## (심화) 웹 푸시 설정
+## 6. (심화) 웹 푸시 설정
 
-- Web Push사용을 위해서는 Google Tag Manager 설정 이외에, 웹사이트에 스크립트를 추가해주셔야 합니다.
-- [Javascript SDK 가이드의 웹 푸시 설정 섹션](/ko/developer-guide/client-sdk/javascript-sdk#web-push)을 참고하여 사이트에 `notifly-service-worker.js` 파일을 추가해주세요.
+- Web Push사용을 위해서는 Google Tag Manager 설정 이외에, 웹사이트에 스크립트를 추가해야 합니다.
+- [Javascript SDK 가이드의 웹 푸시 설정 섹션](/sdk/javascript-sdk#1-%EA%B8%B0%EB%B3%B8-%EC%84%A4%EC%A0%95)을 참고하여 사이트에 `notifly-service-worker.js` 파일을 추가해주세요.
 - 연동 관련 문의 사항은 contact@notifly.tech 으로 이메일 부탁드립니다. 
