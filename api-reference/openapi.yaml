@@ -510,7 +510,7 @@ paths:
                 resend_sender_not_registered:
                   value:
                     success: false
-                    error: "The sender information for resending text message has not been registered. Please register it in the Notify console first."
+                    error: "The sender information for resending text message has not been registered. Please register it in the Notifly console first."
 
   /messages/kakao-friendtalk:
     post:
