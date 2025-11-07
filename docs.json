@@ -103,7 +103,10 @@
           },
           {
             "group": "캠페인",
-            "pages": ["api-reference/campaign-triggering", "api-reference/user-journey-triggering"]
+            "pages": [
+              "POST /projects/{projectId}/campaigns/{campaignId}/send",
+              "POST /projects/{projectId}/user-journeys/{userJourneyId}/enter"
+            ]
           },
           {
             "group": "메시징",

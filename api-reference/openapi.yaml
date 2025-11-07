@@ -10,7 +10,7 @@ servers:
 paths:
   /authenticate:
     post:
-      summary: Authentication
+      summary: 인증
       operationId: authenticate
       x-mint:
         metadata:
@@ -58,7 +58,7 @@ paths:
 
   /track-event:
     post:
-      summary: Track Event
+      summary: 이벤트 트래킹
       operationId: trackEvent
       security:
         - bearerAuth: []
@@ -143,7 +143,7 @@ paths:
 
   /set-user-properties:
     post:
-      summary: Set User Properties
+      summary: 사용자 속성 설정
       operationId: setUserProperties
       security:
         - bearerAuth: []
@@ -209,7 +209,7 @@ paths:
 
   /users:
     delete:
-      summary: Delete Users
+      summary: 사용자 삭제
       operationId: deleteUsers
       security:
         - bearerAuth: []
@@ -269,7 +269,273 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  
+  /projects/{projectId}/campaigns/{campaignId}/send:
+    post:
+      summary: 캠페인 트리거
+      operationId: triggerCampaign
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Info>
+            **API 기반 발송 지원 채널**
+            
+            현재 API 기반 발송은 다음 채널에 대해 지원됩니다.
+            
+            - 푸시 알림
+            - 웹 푸시 알림
+            - 카카오 알림톡
+            - 카카오 친구톡
+            - 문자 메시지
+            - 이메일
+          </Info>
+          
+          <Warning>
+            **수신자 유형 지원 범위와 메시지 개인화**
+            
+            설정된 캠페인의 발송 채널마다 지원되는 수신자 유형이 다를 수 있습니다. 만약 캠페인의 발송 채널이 지원하지 않는 수신자 유형을 사용하면, API 응답으로 400 Bad Request가 반환됩니다.
+            
+            - 푸시 알림: `user-id` 유형의 수신자만 지원됩니다.
+            - 웹 푸시 알림: `user-id` 유형의 수신자만 지원됩니다.
+            - 카카오 알림톡: `user-id` 및 `phone-number` 유형의 수신자를 지원합니다.
+            - 카카오 친구톡: `user-id` 및 `phone-number` 유형의 수신자를 지원합니다.
+            - 문자 메시지: `user-id` 및 `phone-number` 유형의 수신자를 지원합니다.
+            - 이메일: `user-id`, `email` 유형의 수신자만 지원됩니다.
+            
+            수신자 유형이 `user-id`가 아닌 경우, Notifly 서버는 유저 데이터베이스에서 해당 유저에 대한 정보를 받아오지 않고, 요청 payload에 명시되어있는 정보로만 발송을 시도합니다.
+            
+            따라서, 수신자 유형이 `user-id`가 아닌 경우 **유저 기반 메시지 개인화 기능**을 사용하실 수 없습니다. 예를 들어, 이 경우 캠페인의 메시지 내용에 `{{ user["name"] }} 님 안녕하세요`라는 구문이 들어있다면, 개인화는 실패하고 `님 안녕하세요`라는 메시지가 발송됩니다.
+            
+            이벤트 파라미터는 모든 유형에 대해 사용 가능합니다.
+          </Warning>
+          
+          <Info>
+            **중복 제거**
+            
+            API 기반 발송은 중복 발송을 방지하기 위해 수신자의 중복 여부를 체크합니다. 동일한 수신자가 여러 번 포함되어 있는 경우, 중복된 수신자는 한 번만 발송됩니다. 다음은 채널 별 중복 제거 규칙입니다.
+            
+            - 푸시 알림: 동일한 디바이스 토큰일 경우, 하나의 디바이스 토큰에만 메시지를 발송합니다.
+            - 웹 푸시 알림: 동일한 디바이스 토큰일 경우, 하나의 디바이스 토큰에만 메시지를 발송합니다.
+            - 카카오 알림톡: 동일한 전화번호일 경우, 하나의 전화번호에만 메시지를 발송합니다.
+            - 카카오 친구톡: 동일한 전화번호일 경우, 하나의 전화번호에만 메시지를 발송합니다.
+            - 문자 메시지: 동일한 전화번호일 경우, 하나의 전화번호에만 메시지를 발송합니다.
+            - 이메일: 동일한 이메일 주소일 경우, 하나의 이메일 주소에만 메시지를 발송합니다.
+          </Info>
+        metadata:
+          title: "캠페인 트리거"
+          description: "특정 캠페인을 API를 통해 직접 트리거하여 지정된 수신자에게 발송합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 캠페인 ID (콘솔에서 확인)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - recipients
+              properties:
+                recipients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: 수신자 유형 (기본값 user-id). user-id, phone-number, email 지원
+                        enum:
+                          - user-id
+                          - phone-number
+                          - email
+                      userId:
+                        type: string
+                        description: 사용자 ID (type이 user-id인 경우 필수)
+                      phoneNumber:
+                        type: string
+                        description: 전화번호 (type이 phone-number인 경우 필수)
+                      email:
+                        type: string
+                        description: 이메일 주소 (type이 email인 경우 필수)
+                      eventParams:
+                        type: object
+                        description: 메시지 개인화를 위한 이벤트 파라미터
+                  description: 수신자 목록 (최대 1,000명)
+            example:
+              recipients:
+                - userId: "alice"
+                  eventParams:
+                    messageTitle: "Hello Alice!"
+                    messageBody: "How are you?"
+                - userId: "bob"
+                  eventParams:
+                    messageTitle: "Hello Bob!"
+                    messageBody: "How are you?"
+      responses:
+        '200':
+          description: 성공적인 캠페인 트리거입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    nullable: true
+              example:
+                code: 200
+                success: true
+                error: null
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '405':
+          description: 지원되지 않는 HTTP 메서드입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '413':
+          description: 요청 크기 초과입니다 (1,000명 이상 요청)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '501':
+          description: 아직 지원되지 않는 기능입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+  /projects/{projectId}/user-journeys/{userJourneyId}/enter:
+    post:
+      summary: 유저 여정 트리거
+      operationId: triggerUserJourney
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Warning>
+            **주의 사항**
+            
+            HTTP API를 이용한 유저 여정 진입의 경우, 유저 여정의 진입 시점 유형이 **API 기반 진입**으로 설정되어있는 경우에만 사용 가능합니다.
+          </Warning>
+        metadata:
+          title: "유저 여정 트리거"
+          description: "유저 여정을 API로 직접 트리거합니다. 개별 사용자에게 유저 여정 시작 이벤트를 발행할 때 사용합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: userJourneyId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 유저 여정 ID (콘솔에서 확인)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - users
+              properties:
+                users:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - userId
+                    properties:
+                      userId:
+                        type: string
+                        description: 유저 여정에 진입할 유저의 ID
+                      eventParams:
+                        type: object
+                        description: 이벤트 파라미터를 포함하는 객체. 해당 파라미터로 메시지를 개인화시킬 수 있습니다.
+                  description: 유저 여정에 진입할 유저 목록 (최대 1,000명)
+            example:
+              users:
+                - userId: "alice"
+                  eventParams:
+                    messageTitle: "Hello Alice!"
+                    messageBody: "How are you?"
+                - userId: "bob"
+                  eventParams:
+                    messageTitle: "Hello Bob!"
+                    messageBody: "How are you?"
+      responses:
+        '200':
+          description: 성공적인 저니 트리거입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+                    nullable: true
+              example:
+                code: 200
+                success: true
+                error: null
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignErrorResponse'
   /v1/projects/{projectId}/statistics:
     post:
       summary: 캠페인 통계 조회
