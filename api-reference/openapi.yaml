@@ -501,7 +501,7 @@ paths:
                     messageBody: "How are you?"
       responses:
         '200':
-          description: 성공적인 저니 트리거입니다
+          description: 성공적인 유저 여정 트리거입니다
           content:
             application/json:
               schema:
