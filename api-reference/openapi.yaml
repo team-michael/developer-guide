@@ -1270,6 +1270,859 @@ paths:
                 status: "error"
                 message: "An error occurred while processing the data."
 
+  /messages/text-message:
+    post:
+      summary: 문자 메시지 발송
+      operationId: sendTextMessage
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Warning>
+            **주의 사항**
+            
+            - API를 이용한 문자 발송은 **Notifly 문자 자체 발송** 설정이 되어있을 경우에만 가능합니다.
+            - 발신 번호는 자체 발송 설정에 입력된 번호가 사용됩니다.
+            - 아직 API를 이용한 발송 결과에 대한 통계는 UI로 제공되지 않습니다. 정보가 필요하실 경우 contact@notifly.tech으로 문의해주세요.
+          </Warning>
+        metadata:
+          title: "문자 메시지 발송"
+          description: "문자 메시지(SMS, LMS, MMS)를 발송합니다."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - projectId
+                - type
+                - body
+                - recipientList
+              properties:
+                projectId:
+                  type: string
+                  description: Notifly 설정 페이지에서 확인 가능
+                type:
+                  type: string
+                  enum:
+                    - sms
+                    - lms
+                    - mms
+                  description: 메시지 유형
+                title:
+                  type: string
+                  description: 본문 제목 (lms, mms에만 사용)
+                body:
+                  type: string
+                  description: 본문 내용
+                sendNo:
+                  type: string
+                  description: 여러 발신 번호가 등록되어 있을 경우 발송할 번호
+                recipientList:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - recipientNo
+                    properties:
+                      recipientNo:
+                        type: string
+                        description: 수신 번호
+                  description: 수신자 목록 (최대 1,000명)
+            example:
+              projectId: "example_project_1234567890abcdef"
+              type: "sms"
+              body: "Message Body"
+              recipientList:
+                - recipientNo: "01012345678"
+                - recipientNo: "01045671234"
+      responses:
+        '200':
+          description: 성공적인 메시지 발송입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success: true
+        '400':
+          description: 발신자 정보가 등록되지 않았습니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+              example:
+                data: null
+                error: "Sender info is not registered."
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                success: false
+                error: "Internal Server Error"
+
+  /messages/kakao-alimtalk:
+    post:
+      summary: 카카오 알림톡 발송
+      operationId: sendKakaoAlimtalk
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Warning>
+            **주의 사항**
+            
+            API를 이용한 발송 결과에 대한 통계는 별도 페이지를 통해 제공하고 있습니다. 정보가 필요하실 경우 contact@notifly.tech으로 문의해주세요.
+          </Warning>
+        metadata:
+          title: "카카오 알림톡 발송"
+          description: "알림톡 템플릿 코드와 수신자 리스트를 사용하여 카카오 알림톡 메시지를 발송합니다."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - projectId
+                - templateId
+                - recipientList
+              properties:
+                projectId:
+                  type: string
+                  description: Notifly 설정 페이지에서 확인 가능
+                templateId:
+                  type: string
+                  description: 등록한 발송 템플릿 ID (알림톡 템플릿 리스트에서 확인 가능)
+                channelId:
+                  type: string
+                  description: 발송할 카카오 채널 ID
+                resendSendNo:
+                  type: string
+                  description: 대체 발송 발신 번호 (Notifly 문자 자체 발송이 설정된 번호)
+                senderGroupingKey:
+                  type: string
+                  description: 발신 그룹핑 키 (최대 100자)
+                recipientList:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - recipientNo
+                    properties:
+                      recipientNo:
+                        type: string
+                        description: 수신 번호 (최대 15자)
+                      templateParameter:
+                        type: object
+                        description: 템플릿 파라미터, 치환할 변수가 포함된 경우 필수
+                      resendParameter:
+                        type: object
+                        description: 대체 발송 정보
+                        properties:
+                          isResend:
+                            type: boolean
+                            description: 발송 실패 시 문자 대체 발송 여부 (기본값 false)
+                          resendType:
+                            type: string
+                            enum:
+                              - SMS
+                              - LMS
+                            description: 대체 발송 타입. 템플릿 본문 길이에 따라 타입이 구분됩니다.
+                          resendTitle:
+                            type: string
+                            description: LMS 대체 발송 제목 (기본값은 플러스친구 ID)
+                          resendContent:
+                            type: string
+                            description: 대체 발송 내용 (기본값은 메시지 본문과 웹링크 버튼명 - 웹링크 Mobile 링크)
+                  description: 수신자 목록 (최대 1,000명)
+            example:
+              projectId: "example_project_1234567890abcdef"
+              templateId: "template-id"
+              recipientList:
+                - recipientNo: "01012345678"
+                  templateParameter:
+                    user_name: "Notifly User"
+                - recipientNo: "01056781234"
+                  templateParameter:
+                    user_name: "Notifly Customer"
+      responses:
+        '200':
+          description: 성공적인 메시지 발송입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success: true
+        '413':
+          description: 발신자 정보가 등록되지 않았습니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+              example:
+                data: null
+                error: "Sender info is not registered."
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              examples:
+                internal_error:
+                  value:
+                    success: false
+                    error: "Internal Server Error"
+                resend_sender_not_registered:
+                  value:
+                    success: false
+                    error: "The sender information for resending text message has not been registered. Please register it in the Notifly console first."
+
+  /messages/kakao-friendtalk:
+    post:
+      summary: 카카오 친구톡 발송
+      operationId: sendKakaoFriendtalk
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Warning>
+            **주의 사항**
+            
+            - HTTP REST API를 이용한 카카오 친구톡 발송은 **Notifly 카카오톡 자체 발송** 설정이 되어있을 경우에만 가능합니다.
+            - 아직 API를 이용한 발송 결과에 대한 통계는 UI로 제공되지 않습니다. 정보가 필요하실 경우 contact@notifly.tech으로 문의해주세요.
+          </Warning>
+        metadata:
+          title: "카카오 친구톡 발송"
+          description: "카카오 친구톡 메시지를 발송합니다. 프렌드톡 메시지는 수신자 목록, 광고 여부, 메시지 유형 등을 설정하여 전송합니다."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - projectId
+                - messageType
+                - recipientList
+              properties:
+                projectId:
+                  type: string
+                  description: Notifly 설정 페이지에서 확인 가능
+                channelId:
+                  type: string
+                  description: 여러 카카오 채널이 등록되어 있을 경우 발송할 채널 ID
+                messageType:
+                  type: string
+                  enum:
+                    - text
+                  description: 메시지 타입 (현재 text 타입만 지원)
+                isAd:
+                  type: boolean
+                  description: 광고 여부
+                recipientList:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - recipientNo
+                      - content
+                    properties:
+                      recipientNo:
+                        type: string
+                        description: 수신 번호
+                      content:
+                        type: object
+                        required:
+                          - text
+                        properties:
+                          text:
+                            type: string
+                            description: 본문 내용
+                  description: 수신자 목록 (최대 1,000명)
+            example:
+              projectId: "example_project_1234567890abcdef"
+              messageType: "text"
+              isAd: false
+              recipientList:
+                - recipientNo: "01012345678"
+                  content:
+                    text: "test"
+      responses:
+        '200':
+          description: 성공적인 메시지 발송입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success: true
+        '413':
+          description: 발신자 정보가 등록되지 않았습니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
+                  error:
+                    type: string
+              example:
+                data: null
+                error: "Sender info is not registered."
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                success: false
+                error: "Internal Server Error"
+
+  /projects/{projectId}/messages/kakao-alimtalk/templates:
+    get:
+      summary: 알림톡 템플릿 리스트 조회
+      operationId: listKakaoAlimtalkTemplates
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "알림톡 템플릿 리스트 조회"
+          description: "등록된 카카오 알림톡 템플릿 목록을 조회합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: channelId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 알림톡 채널 ID. 등록된 채널이 여러개일 경우 사용됩니다.
+        - name: templateCode
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 템플릿 코드
+        - name: templateName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 템플릿 이름
+        - name: templateStatus
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 템플릿 상태 코드
+        - name: pageNum
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: 페이지 번호
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 15
+            maximum: 1000
+          description: 조회 건수
+      responses:
+        '200':
+          description: 성공적인 템플릿 리스트 조회입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KakaoTemplateListResponse'
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
+    post:
+      summary: 알림톡 템플릿 등록
+      operationId: createKakaoAlimtalkTemplate
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Warning>
+            **주의 사항**
+            
+            - **템플릿 메시지 유형**이 `EX` 또는 `MI`일 경우, `templateExtra` 필드를 반드시 포함해야 합니다.
+            - **템플릿 강조 표시 타입**이 `TEXT`일 경우, `templateTitle`과 `templateSubtitle` 필드를 필수로 포함해야 합니다.
+            - **템플릿 강조 표시 타입**이 `IMAGE`일 경우, `templateImageName`과 `templateImageUrl` 필드를 필수로 포함해야 합니다.
+            - **템플릿 아이템 리스트**는 최소 2개에서 최대 10개까지 포함할 수 있습니다.
+            - **버튼 타입**에 따라 필수 필드가 다릅니다.
+          </Warning>
+        metadata:
+          title: "알림톡 템플릿 등록"
+          description: "새로운 카카오 알림톡 템플릿을 등록합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KakaoTemplateInput'
+      responses:
+        '200':
+          description: 성공적인 템플릿 등록입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KakaoTemplateResponse'
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
+  /projects/{projectId}/messages/kakao-alimtalk/templates/{templateCode}:
+    put:
+      summary: 알림톡 템플릿 수정
+      operationId: updateKakaoAlimtalkTemplate
+      security:
+        - bearerAuth: []
+      x-mint:
+        content: |
+          <Warning>
+            **주의 사항**
+            
+            - 템플릿 수정 시, **템플릿 메시지 유형** 및 **템플릿 강조 표시 타입**에 따른 필수 필드를 준수해야 합니다.
+            - **버튼 타입**에 따라 필수 필드가 다르므로 주의하여 입력해야 합니다.
+          </Warning>
+        metadata:
+          title: "알림톡 템플릿 수정"
+          description: "기존 카카오 알림톡 템플릿을 수정합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: templateCode
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 수정할 템플릿 코드
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KakaoTemplateInput'
+      responses:
+        '200':
+          description: 성공적인 템플릿 수정입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KakaoTemplateResponse'
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
+    delete:
+      summary: 알림톡 템플릿 삭제
+      operationId: deleteKakaoAlimtalkTemplate
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "알림톡 템플릿 삭제"
+          description: "카카오 알림톡 템플릿을 삭제합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: templateCode
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 삭제할 템플릿 코드
+        - name: channelId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 알림톡 채널 ID. 등록된 채널이 여러개일 경우 사용됩니다. 넘기지 않을 경우 먼저 등록된 채널로 지정됩니다.
+      responses:
+        '200':
+          description: 성공적인 템플릿 삭제입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KakaoTemplateResponse'
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
+  /projects/{projectId}/messages/text-message/blockservice/recipients:
+    get:
+      summary: 080 수신거부 목록 조회
+      operationId: list080BlockRecipients
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "080 수신거부 목록 조회"
+          description: "080 수신 거부 서비스에 등록된 수신거부 대상자 목록을 조회합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: unsubscribeNo
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 080 수신 거부 번호 (최대 25자)
+        - name: recipientNo
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 수신 거부 대상자 번호 (최대 25자)
+        - name: startRequestDate
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 수신 거부 요청 시작값 (yyyy-MM-dd HH:mm:ss)
+        - name: endRequestDate
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 수신 거부 요청 종료값 (yyyy-MM-dd HH:mm:ss)
+        - name: pageNum
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: 페이지 번호
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 15
+            maximum: 1000
+          description: 검색 수
+      responses:
+        '200':
+          description: 성공적인 수신거부 목록 조회입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pageNum:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  totalCount:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        unsubscribeNo:
+                          type: string
+                        recipientNo:
+                          type: string
+                        requestDate:
+                          type: string
+              example:
+                pageNum: 1
+                pageSize: 15
+                totalCount: 1
+                data:
+                  - unsubscribeNo: "0808888888"
+                    recipientNo: "01000000000"
+                    requestDate: "2018-05-14 17:07:29.0"
+                  - unsubscribeNo: "0808888888"
+                    recipientNo: "010012341234"
+                    requestDate: "2018-05-14 17:07:29.0"
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
+    post:
+      summary: 080 수신거부 등록
+      operationId: register080BlockRecipients
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "080 수신거부 등록"
+          description: "080 수신 거부 서비스에 수신거부 대상자를 등록합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - unsubscribeNo
+                - recipientNoList
+              properties:
+                unsubscribeNo:
+                  type: string
+                  description: 080 수신거부번호 (최대 25자)
+                recipientNoList:
+                  type: array
+                  items:
+                    type: string
+                  description: 수신 거부 대상자 번호 (최대 10개)
+            example:
+              unsubscribeNo: "0800000000"
+              recipientNoList:
+                - "0100000000"
+                - "0100000001"
+      responses:
+        '200':
+          description: 성공적인 수신거부 등록입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success: true
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
+  /projects/{projectId}/messages/text-message/blockservice/recipients/removes:
+    delete:
+      summary: 080 수신거부 삭제
+      operationId: remove080BlockRecipients
+      security:
+        - bearerAuth: []
+      x-mint:
+        metadata:
+          title: "080 수신거부 삭제"
+          description: "080 수신 거부 서비스에서 수신거부 대상자를 삭제합니다."
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 프로젝트 ID
+        - name: unsubscribeNo
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 080 수신 거부 번호 (최대 20자)
+          example: "0800000000"
+        - name: recipientNoList
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 삭제할 수신 거부 번호 (콤마로 구분)
+          example: "0100000000,0100000001"
+      responses:
+        '200':
+          description: 성공적인 수신거부 삭제입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success: true
+        '400':
+          description: 요청 본문 형식 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '401':
+          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '500':
+          description: 서버 내부 오류입니다
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+
 components:
   schemas:
     UserPropertySingle:
@@ -1358,6 +2211,260 @@ components:
           description: 처리 시간(ms) (500 오류 시에만 포함)
           example: null
 
+    SimpleErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: 에러 메시지
+      example:
+        error: "some-error-message"
+
+    KakaoTemplateResponse:
+      type: object
+      properties:
+        resultCode:
+          type: integer
+          description: 결과 코드
+        resultMessage:
+          type: string
+          description: 결과 메시지
+      example:
+        resultCode: 0
+        resultMessage: "Success"
+
+    KakaoTemplateListResponse:
+      type: object
+      properties:
+        resultCode:
+          type: integer
+          description: 결과 코드
+        resultMessage:
+          type: string
+          description: 결과 메시지
+        templateListResponse:
+          type: object
+          properties:
+            templates:
+              type: array
+              items:
+                type: object
+              description: 템플릿 목록
+            totalCount:
+              type: integer
+              description: 전체 템플릿 수
+
+    KakaoTemplateInput:
+      type: object
+      required:
+        - templateCode
+        - templateName
+        - templateContent
+      properties:
+        channelId:
+          type: string
+          description: 알림톡 채널 ID
+        templateCode:
+          type: string
+          description: 템플릿 코드 (최대 20자, Unique)
+        templateName:
+          type: string
+          description: 템플릿명 (최대 150자)
+        templateContent:
+          type: string
+          description: 템플릿 본문 (최대 1000자)
+        templateMessageType:
+          type: string
+          enum:
+            - BA
+            - EX
+            - AD
+            - MI
+          description: 템플릿 메시지 유형 (BA-기본형, EX-부가정보형, AD-채널추가형, MI-복합형)
+        templateEmphasizeType:
+          type: string
+          enum:
+            - NONE
+            - TEXT
+            - IMAGE
+            - ITEM_LIST
+          description: 템플릿 강조 표시 타입
+        templateExtra:
+          type: string
+          description: 템플릿 부가 정보 (EX 또는 MI일 경우 필수)
+        templateTitle:
+          type: string
+          description: 템플릿 제목 (최대 50자)
+        templateSubtitle:
+          type: string
+          description: 템플릿 보조 문구 (최대 50자)
+        templateHeader:
+          type: string
+          description: 템플릿 헤더 (최대 16자)
+        templateItem:
+          type: object
+          description: 아이템 정보
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                required:
+                  - title
+                  - description
+                properties:
+                  title:
+                    type: string
+                    description: 아이템 타이틀 (최대 6자)
+                  description:
+                    type: string
+                    description: 아이템 디스크립션 (최대 23자)
+              description: 아이템 리스트 (최소 2개, 최대 10개)
+            summary:
+              type: object
+              required:
+                - title
+                - description
+              properties:
+                title:
+                  type: string
+                  description: 요약 타이틀 (최대 6자)
+                description:
+                  type: string
+                  description: 요약 디스크립션 (변수 및 화폐 단위, 숫자, 쉼표, 마침표만 사용 가능, 최대 14자)
+              description: 아이템 요약 정보
+        templateItemHighlight:
+          type: object
+          description: 아이템 하이라이트
+          properties:
+            title:
+              type: string
+              description: 하이라이트 타이틀 (최대 30자, 섬네일 이미지가 있을 경우 21자)
+            description:
+              type: string
+              description: 하이라이트 디스크립션 (최대 19자, 섬네일 이미지가 있을 경우 13자)
+            imageUrl:
+              type: string
+              description: 섬네일 이미지 URL
+        templateRepresentLink:
+          type: object
+          description: 대표 링크
+          properties:
+            linkMo:
+              type: string
+              description: 모바일 웹 링크 (최대 500자)
+            linkPc:
+              type: string
+              description: PC 웹 링크 (최대 500자)
+            schemeIos:
+              type: string
+              description: iOS 앱 링크 (최대 500자)
+            schemeAndroid:
+              type: string
+              description: 안드로이드 앱 링크 (최대 500자)
+        templateImageName:
+          type: string
+          description: 이미지명
+        templateImageUrl:
+          type: string
+          description: 이미지 URL
+        securityFlag:
+          type: boolean
+          description: 보안 템플릿 여부
+        categoryCode:
+          type: string
+          description: 템플릿 카테고리 코드 (기본값 999999)
+        buttons:
+          type: array
+          items:
+            type: object
+            required:
+              - ordering
+              - type
+              - name
+            properties:
+              ordering:
+                type: integer
+                description: 버튼 순서 (1~5)
+              type:
+                type: string
+                enum:
+                  - WL
+                  - AL
+                  - DS
+                  - BK
+                  - MD
+                  - BC
+                  - BT
+                  - AC
+                  - BF
+                  - P1
+                  - P2
+                  - P3
+                description: 버튼 타입 (WL-웹링크, AL-앱링크, DS-배송조회, BK-봇키워드, MD-메시지전달, BC-상담톡전환, BT-봇전환, AC-채널추가, BF-비즈니스폼, P1/P2/P3-플러그인)
+              name:
+                type: string
+                description: 버튼 이름 (최대 14자)
+              linkMo:
+                type: string
+                description: 모바일 웹 링크 (WL 타입일 경우 필수, 최대 500자)
+              linkPc:
+                type: string
+                description: PC 웹 링크 (WL 타입일 경우 선택, 최대 500자)
+              schemeIos:
+                type: string
+                description: iOS 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              schemeAndroid:
+                type: string
+                description: 안드로이드 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              bizFormId:
+                type: integer
+                description: 비즈니스폼 ID (BF 타입일 경우 필수)
+              pluginId:
+                type: string
+                description: 플러그인 ID (최대 24자)
+          description: 버튼 리스트 (최대 5개)
+        quickReplies:
+          type: array
+          items:
+            type: object
+            required:
+              - ordering
+              - type
+              - name
+            properties:
+              ordering:
+                type: integer
+                description: 바로연결 순서
+              type:
+                type: string
+                enum:
+                  - WL
+                  - AL
+                  - BK
+                  - BC
+                  - BT
+                  - BF
+                description: 바로연결 타입 (WL-웹링크, AL-앱링크, BK-봇키워드, BC-상담톡전환, BT-봇전환, BF-비즈니스폼)
+              name:
+                type: string
+                description: 바로연결 이름 (최대 14자)
+              linkMo:
+                type: string
+                description: 모바일 웹 링크 (WL 타입일 경우 필수, 최대 500자)
+              linkPc:
+                type: string
+                description: PC 웹 링크 (WL 타입일 경우 선택, 최대 500자)
+              schemeIos:
+                type: string
+                description: iOS 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              schemeAndroid:
+                type: string
+                description: 안드로이드 앱 링크 (AL 타입일 경우 필수, 최대 500자)
+              bizFormId:
+                type: integer
+                description: 비즈니스폼 ID (BF 타입일 경우 필수)
+          description: 바로연결 리스트 (최대 5개)
     CampaignStatistics:
       type: object
       properties:

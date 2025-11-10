@@ -148,7 +148,8 @@ code {
 .method-pill, .MethodPill,
 .method-nav-pill, .MethodNavPill,
 .nav-tag-pill, .NavTagPill {
-  background: var(--notifly-primary-100);
+  /* background: var(--notifly-primary-100); */
+  text-align: center;
   color: var(--notifly-primary);
   font-weight: 600;
 }
