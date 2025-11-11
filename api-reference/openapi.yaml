@@ -10,7 +10,7 @@ servers:
 paths:
   /authenticate:
     post:
-      summary: 인증
+      summary: authenticate
       operationId: authenticate
       x-mint:
         metadata:
@@ -58,7 +58,7 @@ paths:
 
   /track-event:
     post:
-      summary: 이벤트 트래킹
+      summary: track-event
       operationId: trackEvent
       security:
         - bearerAuth: []
@@ -143,7 +143,7 @@ paths:
 
   /set-user-properties:
     post:
-      summary: 사용자 속성 설정
+      summary: set-user-properties
       operationId: setUserProperties
       security:
         - bearerAuth: []
@@ -209,7 +209,7 @@ paths:
 
   /users:
     delete:
-      summary: 사용자 삭제
+      summary: delete-users
       operationId: deleteUsers
       security:
         - bearerAuth: []
@@ -272,7 +272,7 @@ paths:
   
   /projects/{projectId}/campaigns/{campaignId}/send:
     post:
-      summary: 캠페인 트리거
+      summary: trigger-campaign
       operationId: triggerCampaign
       security:
         - bearerAuth: []
@@ -439,7 +439,7 @@ paths:
                 $ref: '#/components/schemas/CampaignErrorResponse'
   /projects/{projectId}/user-journeys/{userJourneyId}/enter:
     post:
-      summary: 유저 여정 트리거
+      summary: trigger-user-journey
       operationId: triggerUserJourney
       security:
         - bearerAuth: []
@@ -501,7 +501,7 @@ paths:
                     messageBody: "How are you?"
       responses:
         '200':
-          description: 성공적인 저니 트리거입니다
+          description: 성공적인 유저 여정 트리거입니다
           content:
             application/json:
               schema:
@@ -538,7 +538,7 @@ paths:
                 $ref: '#/components/schemas/CampaignErrorResponse'
   /v1/projects/{projectId}/statistics:
     post:
-      summary: 캠페인 통계 조회
+      summary: get-campaign-statistics
       operationId: getCampaignStatistics
       security:
         - bearerAuth: []
@@ -714,7 +714,7 @@ paths:
 
   /projects/{projectId}/campaigns/{campaignId}/stats:
     get:
-      summary: 캠페인 통계 상세 조회
+      summary: get-campaign-statistics-retrieval
       operationId: getCampaignStatisticsRetrieval
       security:
         - bearerAuth: []
@@ -870,7 +870,7 @@ paths:
 
   /projects/{projectId}/campaign-event-data/exports:
     post:
-      summary: 캠페인 이벤트 데이터 내보내기 요청
+      summary: create-campaign-event-export
       operationId: createCampaignEventExport
       security:
         - bearerAuth: []
@@ -971,7 +971,7 @@ paths:
 
   /projects/{projectId}/campaign-event-data/exports/{exportId}/result:
     get:
-      summary: 캠페인 이벤트 데이터 내보내기 결과 조회
+      summary: get-campaign-event-export-result
       operationId: getCampaignEventExportResult
       security:
         - bearerAuth: []
@@ -1272,7 +1272,7 @@ paths:
 
   /messages/text-message:
     post:
-      summary: 문자 메시지 발송
+      summary: send-text-message
       operationId: sendTextMessage
       security:
         - bearerAuth: []
@@ -1381,7 +1381,7 @@ paths:
 
   /messages/kakao-alimtalk:
     post:
-      summary: 카카오 알림톡 발송
+      summary: send-kakao-alimtalk
       operationId: sendKakaoAlimtalk
       security:
         - bearerAuth: []
@@ -1514,7 +1514,7 @@ paths:
 
   /messages/kakao-friendtalk:
     post:
-      summary: 카카오 친구톡 발송
+      summary: send-kakao-friendtalk
       operationId: sendKakaoFriendtalk
       security:
         - bearerAuth: []
@@ -1626,7 +1626,7 @@ paths:
 
   /projects/{projectId}/messages/kakao-alimtalk/templates:
     get:
-      summary: 알림톡 템플릿 리스트 조회
+      summary: list-kakao-alimtalk-templates
       operationId: listKakaoAlimtalkTemplates
       security:
         - bearerAuth: []
@@ -1707,7 +1707,7 @@ paths:
                 $ref: '#/components/schemas/SimpleErrorResponse'
 
     post:
-      summary: 알림톡 템플릿 등록
+      summary: create-kakao-alimtalk-template
       operationId: createKakaoAlimtalkTemplate
       security:
         - bearerAuth: []
@@ -1766,7 +1766,7 @@ paths:
 
   /projects/{projectId}/messages/kakao-alimtalk/templates/{templateCode}:
     put:
-      summary: 알림톡 템플릿 수정
+      summary: update-kakao-alimtalk-template
       operationId: updateKakaoAlimtalkTemplate
       security:
         - bearerAuth: []
@@ -1827,7 +1827,7 @@ paths:
                 $ref: '#/components/schemas/SimpleErrorResponse'
 
     delete:
-      summary: 알림톡 템플릿 삭제
+      summary: delete-kakao-alimtalk-template
       operationId: deleteKakaoAlimtalkTemplate
       security:
         - bearerAuth: []
@@ -1882,7 +1882,7 @@ paths:
 
   /projects/{projectId}/messages/text-message/blockservice/recipients:
     get:
-      summary: 080 수신거부 목록 조회
+      summary: list-080-block-recipients
       operationId: list080BlockRecipients
       security:
         - bearerAuth: []
@@ -1992,7 +1992,7 @@ paths:
                 $ref: '#/components/schemas/SimpleErrorResponse'
 
     post:
-      summary: 080 수신거부 등록
+      summary: register-080-block-recipients
       operationId: register080BlockRecipients
       security:
         - bearerAuth: []
@@ -2063,7 +2063,7 @@ paths:
 
   /projects/{projectId}/messages/text-message/blockservice/recipients/removes:
     delete:
-      summary: 080 수신거부 삭제
+      summary: remove-080-block-recipients
       operationId: remove080BlockRecipients
       security:
         - bearerAuth: []

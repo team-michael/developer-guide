@@ -89,8 +89,13 @@
             "group": "시작하기",
             "pages":[
               "api-reference/getting-started", 
-              "POST /authenticate",
               "api-reference/error" 
+            ]
+          },
+          {
+            "group": "인증",
+            "pages": [
+              "POST /authenticate"
             ]
           },
           {
