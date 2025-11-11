@@ -1,9 +1,9 @@
 ---
-title: 에러
-description: Notifly API 표준 에러 응답과 상태코드 테이블
+title: API 에러 코드 및 응답 형식
+description: Notifly API의 표준 에러 응답 구조와 HTTP 상태코드별 처리 가이드
 ---
 
-# API 에러
+# API 에러 응답 구조
 
 Notifly API는 공통적으로 아래 **표준 응답 포맷**을 사용합니다.
 
@@ -31,7 +31,7 @@ Notifly API는 공통적으로 아래 **표준 응답 포맷**을 사용합니�
 
 ---
 
-## Status Codes
+## HTTP 상태 코드
 
 | Code | Name                      | 의미/원인 (예시)                                  | 주로 발생하는 위치                  | 권장 조치 |
 |-----:|---------------------------|---------------------------------------------------|-------------------------------------|-----------|
@@ -49,31 +49,31 @@ Notifly API는 공통적으로 아래 **표준 응답 포맷**을 사용합니�
 
 ---
 
-## Error Payload Examples
+## 에러 응답 예시
 
-### 400 Bad Request
+### 400 잘못된 요청
 ```json
 { "success": false, "code": 400, "error": "Bad request: eventName missing" }
 ```
 
-### 401 Unauthorized
+### 401 인증 실패
 ```json
 { "success": false, "code": 401, "error": "Unauthorized: Invalid token" }
 ```
 
-### 413 Payload Too Large
+### 413 요청 크기 초과
 ```json
 { "success": false, "code": 413, "error": "Payload too large" }
 ```
 
-### 500 Internal Server Error
+### 500 서버 내부 오류
 ```json
 { "success": false, "code": 500, "error": "Internal Server Error" }
 ```
 
 ---
 
-## 사용 팁
+## 에러 처리 가이드
 
 - **토큰 만료**가 의심되면 `POST /authenticate`로 즉시 재발급 후 재시도하세요.  
 - **배치 한도(예: 1,000건)**를 넘는 경우 요청을 **여러 청크**로 분할하세요.  
