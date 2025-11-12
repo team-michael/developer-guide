@@ -341,7 +341,7 @@ code {
 /* =======================
    Dark mode
    ======================= */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .mdx-content table {
     border-color: #000000;
   }
@@ -361,7 +361,7 @@ code {
   .mdx-content tr:hover td {
     background-color: #eff6ff;
   }
-}
+} */
 
 /* Steps component styling using Notifly theme tokens */
 .steps .step [data-component-part="step-number"] .size-7 {
