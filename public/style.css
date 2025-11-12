@@ -240,11 +240,6 @@ code {
   outline: none;
 }
 
-/* Inner padding container that Mintlify injects */
-.doccards-gray a.card [data-component-part="card-content-container"] {
-  /* keep Mintlify padding; customize if you like */
-}
-
 /* Title */
 .doccards-gray a.card [data-component-part="card-title"] {
   color: #000000 !important;
