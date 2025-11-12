@@ -220,8 +220,8 @@ code {
    ========================================= */
 
 .doccards-gray a.card {
-  background-color: #E2E8F0 !important;   /* override bg-white */
-  border-color: #E2E8F0 !important;
+  background-color: #FFFFFF !important;   /* override bg-white */
+  border-color: #B6BBC1 !important;
   color: #000000 !important;
   border-radius: 1.25rem;                  /* rounded-2xl */
   box-shadow: none !important;
@@ -233,8 +233,8 @@ code {
 
 .doccards-gray a.card:hover,
 .doccards-gray a.card:focus-visible {
-  background-color: #E2E8F0 !important;
-  border-color: #E2E8F0 !important;
+  background-color: #FFFFFF !important;
+  border-color: #000000 !important;
   transform: translateY(-3px);
   box-shadow: 0 8px 18px rgba(1, 68, 205, .35);
   outline: none;
@@ -290,18 +290,10 @@ code {
                "Noto Sans KR", sans-serif;
   font-size: 0.95rem;
   line-height: 1.6;
-  border: 1px solid #d0d7de;
+  border: 1px solid #000000;
 }
 
-/* Header */
-.mdx-content th {
-  background-color: #0144CD;
-  color: #ffffff;
-  font-weight: 600;
-  text-align: center;
-  padding: 12px 14px;
-  border-bottom: 2px solid #0039A6;
-}
+
 /* Make sure tbody and thead match table width */
 .mdx-content thead,
 .mdx-content tbody {
@@ -317,19 +309,6 @@ code {
   width: 100%;
 }
 
-/* Header */
-.mdx-content thead tr {
-  background-color: #0144CD;
-}
-
-/* Body cells */
-.mdx-content td {
-  background-color: #ffffff;
-  color: #1b1f23;
-  padding: 10px 14px;
-  border-bottom: 1px solid #e5e7eb;
-  vertical-align: middle;
-}
 
 /* Left-align the first column */
 .mdx-content td:first-child,
@@ -364,23 +343,23 @@ code {
    ======================= */
 @media (prefers-color-scheme: dark) {
   .mdx-content table {
-    border-color: #2d333b;
+    border-color: #000000;
   }
   .mdx-content th {
-    background-color: #0039A6;
-    border-bottom: 2px solid #0144CD;
-    color: #ffffff;
+    background-color: #ffffff !important;
+    border: 1px solid #000000;
+    color: #000000;
   }
   .mdx-content td {
-    background-color: #1b1f23;
-    color: #e6edf3;
-    border-bottom: 1px solid #30363d;
+    background-color: #ffffff !important;
+    color: #1b1f23;
+    border: 1px solid #e5e7eb;
   }
   .mdx-content tr:nth-child(even) td {
-    background-color: #23292f;
+    background-color: #f9fafc;
   }
   .mdx-content tr:hover td {
-    background-color: #0144CD33;
+    background-color: #eff6ff;
   }
 }
 
