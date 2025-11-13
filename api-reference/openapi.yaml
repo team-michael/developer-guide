@@ -374,17 +374,36 @@ paths:
                   description: 수신자 목록 (최대 1,000명)
             example:
               recipients:
-                - userId: "alice"
+                - type: "phone-number"
+                  phoneNumber: "010-1234-5678"
                   eventParams:
-                    messageTitle: "Hello Alice!"
-                    messageBody: "How are you?"
-                - userId: "bob"
+                    nickname: "홍길동"
+                    customerName: "노티플라이"
+                    campaignId: "example_campaign"
+                    title: "고객님, 안녕하세요!"
+                    productName: "프리미엄 서비스"
+                    discountRate: "20%"
+                - type: "user-id"
+                  userId: "user_12345"
                   eventParams:
-                    messageTitle: "Hello Bob!"
-                    messageBody: "How are you?"
+                    nickname: "김철수"
+                    customerName: "노티플라이"
+                    campaignId: "example_campaign"
+                    title: "고객님, 안녕하세요!"
+                    productName: "스탠다드 서비스"
+                    discountRate: "15%"
+                - type: "email"
+                  email: "customer@example.com"
+                  eventParams:
+                    nickname: "이영희"
+                    customerName: "노티플라이"
+                    campaignId: "example_campaign"
+                    title: "고객님, 안녕하세요!"
+                    productName: "엔터프라이즈 서비스"
+                    discountRate: "10%"
       responses:
         '200':
-          description: 성공적인 캠페인 트리거입니다
+          description: The campaign was triggered successfully.
           content:
             application/json:
               schema:
@@ -402,41 +421,107 @@ paths:
                 success: true
                 error: null
         '400':
-          description: 요청 본문 형식 오류입니다
+          description: The request is incorrect.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignErrorResponse'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                code: 400
+                success: false
+                error: "Bad request: some-error-message"
         '401':
-          description: 인증 실패입니다 (만료 또는 잘못된 토큰)
+          description: The token has expired, or the authentication information is invalid.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignErrorResponse'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                code: 401
+                success: false
+                error: "Unauthorized: Invalid token"
         '405':
-          description: 지원되지 않는 HTTP 메서드입니다
+          description: Unsupported HTTP Method.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignErrorResponse'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                code: 405
+                success: false
+                error: "Method not allowed: some-error-message"
         '413':
-          description: 요청 크기 초과입니다 (1,000명 이상 요청)
+          description: The request payload is too large.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignErrorResponse'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                code: 413
+                success: false
+                error: "Payload too large: some-error-message"
         '500':
-          description: 서버 내부 오류입니다
+          description: Notifly server error. If 500 errors persist, please contact the Notifly team.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignErrorResponse'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                code: 500
+                success: false
+                error: "some-error-message"
         '501':
-          description: 아직 지원되지 않는 기능입니다
+          description: The feature is not yet supported.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignErrorResponse'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                code: 501
+                success: false
+                error: "Not implemented: some-error-message"
   /projects/{projectId}/user-journeys/{userJourneyId}/enter:
     post:
       summary: trigger-user-journey
