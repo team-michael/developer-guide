@@ -75,11 +75,11 @@ paths:
               items:
                 type: object
                 required:
-                  - projectID
+                  - projectId
                   - eventName
-                  - userID
+                  - userId
                 properties:
-                  projectID:
+                  projectId:
                     type: string
                     description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
                   eventName:
@@ -93,11 +93,11 @@ paths:
                     items:
                       type: string
                     description: 세그먼트 분류 시 특별 처리되는 파라미터 키 목록 (최대 1개만 허용)
-                  userID:
+                  userId:
                     type: string
                     description: 사용자 식별자
             example:
-              - projectID: "example_project_1234567890abcdef"
+              - projectId: "example_project_1234567890abcdef"
                 eventName: "product_view"
                 eventParams:
                   product_id: "SH-12345"
@@ -108,7 +108,7 @@ paths:
                   discount_rate: 30
                 segmentationEventParamKeys:
                   - brand
-                userID: "user_abc123"
+                userId: "user_abc123"
       responses:
         '200':
           description: 성공적인 이벤트 전송입니다
@@ -161,8 +161,8 @@ paths:
                 $ref: '#/components/schemas/UserPropertySingle'
               description: 사용자 배열 (최대 1,000명)
             example:
-              - projectID: "example_project_1234567890abcdef"
-                userID: "user_abc123"
+              - projectId: "example_project_1234567890abcdef"
+                userId: "user_abc123"
                 userProperties:
                   $email: "user@example.com"
                   $phone_number: "01012345678"
@@ -227,9 +227,9 @@ paths:
                 $ref: '#/components/schemas/UserDeleteSingle'
               description: 사용자 배열 (최대 1,000명)
             example:
-              - projectID: "example_project_1234567890abcdef"
-                userID: "user_abc123"
-              - projectID: "example_project_1234567890abcdef"
+              - projectId: "example_project_1234567890abcdef"
+                userId: "user_abc123"
+              - projectId: "example_project_1234567890abcdef"
                 userProperties:
                   $email: "delete@example.com"
       responses:
@@ -2213,22 +2213,22 @@ components:
     UserPropertySingle:
       type: object
       required:
-        - projectID
+        - projectId
         - userProperties
-        - userID
+        - userId
       properties:
-        projectID:
+        projectId:
           type: string
           description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
         userProperties:
           type: object
           description: 사용자 속성(key-value)
-        userID:
+        userId:
           type: string
           description: 사용자 식별자
       example:
-        projectID: "example_project_1234567890abcdef"
-        userID: "user_abc123"
+        projectId: "example_project_1234567890abcdef"
+        userId: "user_abc123"
         userProperties:
           $email: "user@example.com"
           $phone_number: "01012345678"
@@ -2239,12 +2239,12 @@ components:
     UserDeleteSingle:
       type: object
       required:
-        - projectID
+        - projectId
       properties:
-        projectID:
+        projectId:
           type: string
           description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
-        userID:
+        userId:
           type: string
           description: 삭제할 사용자의 ID
         userProperties:
@@ -2258,8 +2258,8 @@ components:
               type: string
               description: 삭제할 사용자의 전화번호
       example:
-        projectID: "example_project_1234567890abcdef"
-        userID: "user_abc123"
+        projectId: "example_project_1234567890abcdef"
+        userId: "user_abc123"
 
     SuccessResponse:
       type: object
