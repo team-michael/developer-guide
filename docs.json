@@ -134,7 +134,7 @@
                 ]
               },
               {
-                "group": "080 블록 서비스",
+                "group": "080 수신 거부 서비스",
                 "pages": [
                   "GET /projects/{projectId}/messages/text-message/blockservice/recipients",
                   "POST /projects/{projectId}/messages/text-message/blockservice/recipients",
