@@ -134,7 +134,7 @@
                 ]
               },
               {
-                "group": "080 블록 서비스",
+                "group": "080 수신 거부 서비스",
                 "pages": [
                   "GET /projects/{projectId}/messages/text-message/blockservice/recipients",
                   "POST /projects/{projectId}/messages/text-message/blockservice/recipients",
@@ -147,7 +147,7 @@
             "group": "내보내기 & 분석",
             "pages": [
               {
-                "group": "캠페인 이벤트 내보내기",
+                "group": "메시지 이벤트 데이터 내보내기",
                 "pages": [
                   "POST /projects/{projectId}/campaign-event-data/exports",
                   "GET /projects/{projectId}/campaign-event-data/exports/{exportId}/result"

@@ -73,10 +73,10 @@ const res = await fetch("https://api.notifly.tech/track-event", {
     "Authorization": authToken
   },
   body: JSON.stringify({
-    projectID: "your-project-id",
+    projectId: "your-project-id",
     eventName: "view_home",
     isGlobalEvent: false,
-    userID: "alice",
+    userId: "alice",
     eventParams: { plan: "premium" }
   })
 });
@@ -240,7 +240,7 @@ console.log(await res.json());
     icon="file-export"
     href="/api-reference/create-campaign-event-export"
   >
-    캠페인 이벤트 내보내기
+    메시지 이벤트 데이터 내보내기
   </Card>
 
     <Card
@@ -248,7 +248,7 @@ console.log(await res.json());
     icon="chart-line"
     href="/api-reference/get-campaign-statistics"
   >
-    캠페인 통계 조회
+    메시지 통계 조회
   </Card>
 
   <Card

@@ -75,13 +75,13 @@ paths:
               items:
                 type: object
                 required:
-                  - projectID
+                  - projectId
                   - eventName
-                  - userID
+                  - userId
                 properties:
-                  projectID:
+                  projectId:
                     type: string
-                    description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+                    description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 설정 > 프로젝트 정보에서 확인하실 수 있습니다.
                   eventName:
                     type: string
                     description: 이벤트 이름
@@ -93,11 +93,11 @@ paths:
                     items:
                       type: string
                     description: 세그먼트 분류 시 특별 처리되는 파라미터 키 목록 (최대 1개만 허용)
-                  userID:
+                  userId:
                     type: string
                     description: 사용자 식별자
             example:
-              - projectID: "example_project_1234567890abcdef"
+              - projectId: "example_project_1234567890abcdef"
                 eventName: "product_view"
                 eventParams:
                   product_id: "SH-12345"
@@ -108,7 +108,7 @@ paths:
                   discount_rate: 30
                 segmentationEventParamKeys:
                   - brand
-                userID: "user_abc123"
+                userId: "user_abc123"
       responses:
         '200':
           description: 성공적인 이벤트 전송입니다
@@ -161,8 +161,8 @@ paths:
                 $ref: '#/components/schemas/UserPropertySingle'
               description: 사용자 배열 (최대 1,000명)
             example:
-              - projectID: "example_project_1234567890abcdef"
-                userID: "user_abc123"
+              - projectId: "example_project_1234567890abcdef"
+                userId: "user_abc123"
                 userProperties:
                   $email: "user@example.com"
                   $phone_number: "01012345678"
@@ -227,9 +227,9 @@ paths:
                 $ref: '#/components/schemas/UserDeleteSingle'
               description: 사용자 배열 (최대 1,000명)
             example:
-              - projectID: "example_project_1234567890abcdef"
-                userID: "user_abc123"
-              - projectID: "example_project_1234567890abcdef"
+              - projectId: "example_project_1234567890abcdef"
+                userId: "user_abc123"
+              - projectId: "example_project_1234567890abcdef"
                 userProperties:
                   $email: "delete@example.com"
       responses:
@@ -642,12 +642,12 @@ paths:
           </Info>
           
           <Info>
-            **Campaign Statistics Retrieval의 차이점**
+            **메세지 통계 상세 조회와 차이점**
             
-            Campaign Statistics Retrieval은 캠페인을 특정해야하지만 Campaign Statistics는 요청한 기간동안 집계된 모든 캠페인/유저여정에 대해 일자별 집계 수를 제공합니다.
+            [메세지 통계 상세 조회](/api-reference/get-campaign-statistics-retrieval)는 캠페인을 특정해야하지만 메시지 통계 조회는 요청한 기간동안 집계된 모든 캠페인/유저여정에 대해 일자별 집계 수를 제공합니다.
           </Info>
         metadata:
-          title: "캠페인 통계 조회"
+          title: "메시지 통계 조회"
           description: "일자, 캠페인, 채널 별로 발송 성공, 실패, 도달, 클릭, 전환 수를 조회합니다. (조회 당일 제외)"
       parameters:
         - name: projectId
@@ -817,8 +817,8 @@ paths:
             2025-07-06 부터, conversionType 필드가 추가되었습니다.
           </Note>
         metadata:
-          title: "캠페인 통계 상세 조회"
-          description: "특정 캠페인의 발송 현황을 조회합니다."
+          title: "메시지 통계 상세 조회"
+          description: "특정 메시지의 발송 현황을 조회합니다."
       parameters:
         - name: projectId
           in: path
@@ -850,7 +850,7 @@ paths:
           example: "2024-10-29T15:00:00.000Z"
       responses:
         '200':
-          description: 성공적인 캠페인 통계 조회입니다
+          description: 성공적인 메시지 통계 조회입니다
           content:
             application/json:
               schema:
@@ -2213,22 +2213,22 @@ components:
     UserPropertySingle:
       type: object
       required:
-        - projectID
+        - projectId
         - userProperties
-        - userID
+        - userId
       properties:
-        projectID:
+        projectId:
           type: string
-          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 설정 > 프로젝트 정보에서 확인하실 수 있습니다.
         userProperties:
           type: object
           description: 사용자 속성(key-value)
-        userID:
+        userId:
           type: string
           description: 사용자 식별자
       example:
-        projectID: "example_project_1234567890abcdef"
-        userID: "user_abc123"
+        projectId: "example_project_1234567890abcdef"
+        userId: "user_abc123"
         userProperties:
           $email: "user@example.com"
           $phone_number: "01012345678"
@@ -2239,12 +2239,12 @@ components:
     UserDeleteSingle:
       type: object
       required:
-        - projectID
+        - projectId
       properties:
-        projectID:
+        projectId:
           type: string
-          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
-        userID:
+          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 설정 > 프로젝트 정보에서 확인하실 수 있습니다.
+        userId:
           type: string
           description: 삭제할 사용자의 ID
         userProperties:
@@ -2258,8 +2258,8 @@ components:
               type: string
               description: 삭제할 사용자의 전화번호
       example:
-        projectID: "example_project_1234567890abcdef"
-        userID: "user_abc123"
+        projectId: "example_project_1234567890abcdef"
+        userId: "user_abc123"
 
     SuccessResponse:
       type: object
