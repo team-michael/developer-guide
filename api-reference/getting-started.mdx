@@ -73,10 +73,10 @@ const res = await fetch("https://api.notifly.tech/track-event", {
     "Authorization": authToken
   },
   body: JSON.stringify({
-    projectID: "your-project-id",
+    projectId: "your-project-id",
     eventName: "view_home",
     isGlobalEvent: false,
-    userID: "alice",
+    userId: "alice",
     eventParams: { plan: "premium" }
   })
 });
