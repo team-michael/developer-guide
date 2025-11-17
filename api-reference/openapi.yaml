@@ -81,7 +81,7 @@ paths:
                 properties:
                   projectId:
                     type: string
-                    description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+                    description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 설정 > 프로젝트 정보에서 확인하실 수 있습니다.
                   eventName:
                     type: string
                     description: 이벤트 이름
@@ -2219,7 +2219,7 @@ components:
       properties:
         projectId:
           type: string
-          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 설정 > 프로젝트 정보에서 확인하실 수 있습니다.
         userProperties:
           type: object
           description: 사용자 속성(key-value)
@@ -2243,7 +2243,7 @@ components:
       properties:
         projectId:
           type: string
-          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 문의 - contact@notifly.tech
+          description: Notifly 팀에서 제공하는 프로젝트 ID입니다. 설정 > 프로젝트 정보에서 확인하실 수 있습니다.
         userId:
           type: string
           description: 삭제할 사용자의 ID
