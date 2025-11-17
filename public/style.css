@@ -251,16 +251,17 @@ code {
 /* Body text → force soft white over prose defaults */
 .doccards-gray a.card [data-component-part="card-content"],
 .doccards-gray a.card [data-component-part="card-content"] * {
-  color: #000000 !important;
+  color: #727272 !important;
+  font-size: 14px !important;
 }
 
 /* Icon: Mintlify uses a masked SVG whose visible "color" is its background */
 .doccards-gray a.card [data-component-part="card-icon"] {
-  color: #000000 !important;    /* for font icons */
-  fill: #000000 !important;     /* for inline SVG fills */
+  color: #727272 !important;    /* for font icons */
+  fill: #727272 !important;     /* for inline SVG fills */
 }
 .doccards-gray a.card [data-component-part="card-icon"] > svg {
-  background-color: #000000 !important; /* <- this paints the masked glyph white */
+  background-color: #727272 !important; /* <- this paints the masked glyph white */
 }
 
 /* Optional: adjust the little arrow icon on hover */
