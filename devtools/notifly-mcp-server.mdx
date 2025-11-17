@@ -1,0 +1,179 @@
+---
+title: "Notifly MCP 서버"
+---
+
+Notifly MCP Server는 대규모 언어 모델이 외부 도구와 데이터 소스와 상호작용할 수 있도록 하는 오픈 표준인 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)을 구현합니다.
+
+Notifly 연동 동안 흐름을 끊지 않도록 개발자 중심의 두 가지 도구를 제공합니다.
+
+- **문서 검색 (Documentation Search)** — Notifly 문서 전반(유저 가이드, API 레퍼런스, 문제 해결, 베스트 프랙티스)을 의미 기반으로 빠르게 검색합니다.
+
+- **SDK 검색 (SDK Search)** — Notifly SDK(iOS, Android, Flutter, React Native, JavaScript), Google Tag Manager 템플릿과 연동 예제를 탐색합니다. SDK 심볼(타입, 메서드, 파라미터)을 빠르게 찾아 프로덕션에서 바로 사용할 수 있는 스니펫을 제공합니다.
+
+## 통합 가이드
+
+### 요구 사항
+
+- Node.js 18 이상
+- MCP 호환 클라이언트 (예: Cursor, Visual Studio Code, Claude Code CLI, Codex CLI)
+
+### 설치
+
+<CodeGroup>
+
+```bash npm
+npm i -g notifly-mcp-server
+```
+
+```bash yarn
+yarn global add notifly-mcp-server
+```
+
+</CodeGroup>
+
+### .mcp.json 구성
+
+프로젝트 루트(또는 사용하는 MCP 클라이언트의 설정 위치)에 `.mcp.json`을 생성하거나 업데이트하세요.
+
+`npx`를 사용하는 권장 구성:
+
+```json
+{
+  "mcpServers": {
+    "notifly-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "notifly-mcp-server"]
+    }
+  }
+}
+```
+
+### 주요 MCP 클라이언트에서 사용하기
+
+<Tabs>
+
+<Tab title="Cursor">
+  <p><strong>설정</strong></p>
+  <ul>
+    <li>Cursor Settings 열기</li>
+    <li>Tool & MCP 선택</li>
+    <li>New MCP Server 선택</li>
+    <li>아래 JSON을 붙여넣고 Cursor를 재시작합니다.</li>
+  </ul>
+
+```json
+{
+  "mcpServers": {
+    "notifly-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "notifly-mcp-server"]
+    }
+  }
+}
+```
+</Tab>
+
+<Tab title="GitHub Copilot in VS Code">
+  <p><strong>설정</strong></p>
+  <ul>
+    <li>`~/.vscode/mcp.json` 파일을 엽니다.</li>
+    <li>아래 JSON을 붙여넣고 VS Code를 재시작합니다.</li>
+  </ul>
+
+```json
+{
+  "mcpServers": {
+    "notifly-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "notifly-mcp-server"]
+    }
+  }
+}
+```
+</Tab>
+
+<Tab title="Claude Code CLI">
+  <p><strong>설정</strong></p>
+  <ul>
+    <li>터미널에서 Claude Code CLI를 실행합니다.</li>
+    <li>아래 명령어로 Notifly MCP Server를 등록합니다.</li>
+  </ul>
+
+```bash
+claude mcp add --transport stdio notifly-mcp-server -- npx -y notifly-mcp-server@latest
+```
+</Tab>
+
+<Tab title="Codex CLI">
+  <p><strong>설정</strong></p>
+  <ul>
+    <li>`~/.codex/config.toml` 파일을 엽니다.</li>
+    <li>아래 설정을 추가하고 Codex CLI를 재시작합니다.</li>
+  </ul>
+
+```toml
+[mcp_servers]
+  [mcp_servers.notifly]
+  command = "npx"
+  args = ["-y", "notifly-mcp-server"]
+```
+</Tab>
+
+<Tab title="Claude Desktop App">
+  <p><strong>설정</strong></p>
+  <ul>
+    <li>
+      <p>기존 설정 파일을 엽니다. 파일 경로는 다음과 같습니다.</p>
+      <ul>
+        <li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+        <li>Windows: <code>%APPDATA%\\Claude\\claude_desktop_config.json</code></li>
+      </ul>
+    </li>
+    <li>아래 JSON을 붙여넣고 앱을 재시작합니다.</li>
+  </ul>
+
+```json
+{
+  "mcpServers": {
+    "notifly-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "notifly-mcp-server"]
+    }
+  }
+}
+```
+</Tab>
+
+</Tabs>
+
+### 소스에서 빌드(선택)
+
+소스에서 직접 빌드하거나 최신 개발 버전이 필요한 경우:
+
+```bash
+git clone https://github.com/notifly-tech/notifly-mcp-server
+cd notifly-mcp-server
+npm install
+npm run build
+```
+
+이후, 빌드 산출물을 가리키도록 `.mcp.json`을 구성합니다.
+
+```json
+{
+  "mcpServers": {
+    "notifly": {
+      "command": "node",
+      "args": ["/path/to/notifly-mcp-server/dist/index.js"]
+    }
+  }
+}
+```
+
+### 피드백 & 기여
+
+버그 리포트, 기능 제안, 커뮤니티 기여를 환영합니다. 의견이 있다면 이슈 또는 PR을 열어주세요.
+
+- **GitHub 저장소**: [notifly-tech/notifly-mcp-server](https://github.com/notifly-tech/notifly-mcp-server)
+- **패키지 & 릴리스 노트**: [npm에서 보기](https://www.npmjs.com/package/notifly-mcp-server)
+
