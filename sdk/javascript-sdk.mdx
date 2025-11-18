@@ -1,8 +1,8 @@
 ---
-title: "자바스크립트 연동하기"
+title: "JavaScript 연동하기"
 ---
 
-Notifly JavaScript SDK는 **웹 애플리케이션에서 푸시/인앱 캠페인, 유저/이벤트 동기화**를 지원합니다.
+노티플라이 JavaScript SDK는 **웹 앱에서 푸시/인앱 캠페인, 유저/이벤트 동기화**를 지원합니다.
 
 ## 시작하기 전에
 
@@ -64,15 +64,15 @@ self.importScripts(
 ### 2. SDK 초기화
 
 <ParamField path="projectId" type="string" required>
-  Notifly 프로젝트 ID
+  노티플라이 프로젝트 ID
 </ParamField>
 
 <ParamField path="username" type="string" required>
-  프로젝트 사용자 이름
+  프로젝트 유저 이름
 </ParamField>
 
 <ParamField path="password" type="string" required>
-  프로젝트 사용자 비밀번호
+  프로젝트 유저 비밀번호
 </ParamField>
 
 <ParamField path="sessionDuration" type="number" deprecated>
@@ -109,11 +109,11 @@ self.importScripts(
 
 권한 요청은 다음 규칙을 따릅니다.
 
-- 사용자가 아직 알림 권한을 설정하지 않은 경우 → 안내 팝업을 보여준 뒤 브라우저 권한을 요청합니다.
+- 유저가 아직 알림 권한을 설정하지 않은 경우 → 안내 팝업을 보여준 뒤 브라우저 권한을 요청합니다.
 
-- 사용자가 이미 “허용”한 경우 → 더 이상 팝업을 띄우거나 권한을 다시 묻지 않습니다.
+- 유저가 이미 “허용”한 경우 → 더 이상 팝업을 띄우거나 권한을 다시 묻지 않습니다.
 
-- 사용자가 “차단(거부)”한 경우 → 다시 요청하지 않습니다. 팝업도 노출되지 않습니다.
+- 유저가 “차단(거부)”한 경우 → 다시 요청하지 않습니다. 팝업도 노출되지 않습니다.
 
 ![](./image/javascript-sdk/web-push/web_push_permission_prompt.png)
 
@@ -125,7 +125,7 @@ self.importScripts(
 
 - 완전히 커스텀 UI를 쓰고 싶다면:
 
-  - SDK 2.5.0 이상: Notifly 콘솔에서 “자동 노출”을 꺼주세요.
+  - SDK 2.5.0 이상: 노티플라이 콘솔에서 “자동 노출”을 꺼주세요.
   - SDK 2.5.0 미만: SDK 초기화 시 askPermission: false로 설정하세요.
   - 그 후 원하는 UI에서 직접 권한 요청을 구현할 수 있습니다. 
   - [MDN Web Docs - Notification: `requestPermission`](https://developer.mozilla.org/en-US/docs/Web/API/Notification/requestPermission_static) 을 참고해 주세요.
@@ -150,7 +150,7 @@ SDK가 표시하는 권한 요청 팝업은 다음 언어를 지원합니다.
 
 <Info> 
 - SDK 버전은 2.7.0 이상이어야 합니다.
-- 콘솔에서 “권한 팝업 자동 노출”이 비활성화되어 있어야 합니다. (Notifly 콘솔 → 설정 → SDK 설정 → 웹사이트)
+- 콘솔에서 “권한 팝업 자동 노출”이 비활성화되어 있어야 합니다. (노티플라이 콘솔 → 설정 → SDK 설정 → 웹사이트)
 </Info>
 
 ```
@@ -168,7 +168,7 @@ notifly.requestPermission("en");    // 강제 언어(≥ 2.8.0)
 
 #### 기본 노출 언어
 
-<Note> 이 설정은 **Notifly JavaScript SDK 2.8.0 이상**에서 지원됩니다. 2.8.0 미만 버전에서는 기본 언어가 항상 한국어(`ko`)입니다. </Note>
+<Note> 이 설정은 **노티플라이 JavaScript SDK 2.8.0 이상**에서 지원됩니다. 2.8.0 미만 버전에서는 기본 언어가 항상 한국어(`ko`)입니다. </Note>
 
 “기본 노출 언어”는 다음 상황에서 사용됩니다.
 
@@ -176,23 +176,23 @@ notifly.requestPermission("en");    // 강제 언어(≥ 2.8.0)
 
 - 브라우저 언어가 SDK에서 지원하지 않는 경우
 
-해당 언어는 Notifly 콘솔의 설정 → SDK 설정 → 웹사이트 설정 → 권한 요청 팝업 언어 설정에서 변경할 수 있습니다.
+해당 언어는 노티플라이 콘솔의 설정 → SDK 설정 → 웹사이트 설정 → 권한 요청 팝업 언어 설정에서 변경할 수 있습니다.
 
 #### 팝업 커스터마이즈
 
 <Warning> 
-- 이 커스터마이징 기능은 **Notifly JavaScript SDK 2.7.0 이상**에서 지원됩니다. 더 낮은 버전에서는 SDK 기본 팝업이 노출됩니다. 
+- 이 커스터마이징 기능은 **노티플라이 JavaScript SDK 2.7.0 이상**에서 지원됩니다. 더 낮은 버전에서는 SDK 기본 팝업이 노출됩니다. 
 ![](./image/javascript-sdk/web-push/web_push_permission_prompt.png)
-- 콘솔에서 수정한 디자인이 실제 사용자 환경에 반영되기까지 최대 몇 분 정도 지연될 수 있습니다. 
+- 콘솔에서 수정한 디자인이 실제 유저 환경에 반영되기까지 최대 몇 분 정도 지연될 수 있습니다. 
 </Warning>
 
-Notifly 콘솔에서 설정 → SDK 설정 → 웹사이트 설정 → 권한 요청 팝업 설정 으로 이동합니다.
+노티플라이 콘솔에서 설정 → SDK 설정 → 웹사이트 설정 → 권한 요청 팝업 설정 으로 이동합니다.
 
 “디자인 설정”을 클릭해 팝업의 텍스트/스타일을 수정합니다.
 
 ![](./image/javascript-sdk/web-push/web_push_permission_prompt_customizing-1.png)
 
-적용하면, 수정된 스타일이 사용자에게 노출됩니다.
+적용하면, 수정된 스타일이 유저에게 노출됩니다.
 
 ![](./image/javascript-sdk/web-push/web_push_permission_prompt_customizing-2.png)
 
@@ -339,7 +339,7 @@ useEffect(() => {
 
 ## 3. 유저 정보 등록
 
-Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`userProperties`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
+노티플라이는 유저 식별자(`userId`)와 유저 프로퍼티(`userProperties`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
 등록된 유저 정보는 세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅에 활용됩니다.
 
 ### 1. 유저 ID 등록
@@ -351,7 +351,7 @@ notifly.setUserId(userId?: string | null);
 #### Parameters
 
 <ParamField path="userId" type="String">
-  로그인 사용자 ID. 로그아웃 시 `null`로 설정하여 해제
+  로그인 유저 ID. 로그아웃 시 `null`로 설정하여 해제
 </ParamField>
 
 <Tabs>
@@ -390,7 +390,7 @@ notifly.setUserProperties(userProperties);
 #### Parameters
 
 <ParamField path="userProperties" type="Record<string, any>" required>
-  로그인 사용자 ID. 로그아웃 시 `null`로 설정하여 해제
+  로그인 유저 ID. 로그아웃 시 `null`로 설정하여 해제
 </ParamField>
 
 <Tabs>
@@ -425,7 +425,7 @@ subscribeButton.addEventListener('click', function () {
 ## 4. 이벤트 로깅
 
 유저 행동을 기록하여 **캠페인 트리거**, **세그먼트 조건**, **성과 분석** 등에 활용할 수 있습니다.  
-예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 사용자 행동을 이벤트로 수집합니다.
+예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 유저 행동을 이벤트로 수집합니다.
 
 ```JavaScript
 notifly.trackEvent(eventName, eventParams, segmentationEventParamKeys);
@@ -497,18 +497,18 @@ const handleLogin = (userId) => {
 
 ## 6. 웹 팝업에서 커스텀 이벤트 로깅 (선택)
 
-웹 팝업 HTML에서 사용자 정의 이벤트를 기록하려면 ≥ 2.17.2 및 다음 옵션이 필요합니다.
+웹 팝업 HTML에서 유저 정의 이벤트를 기록하려면 ≥ 2.17.2 및 다음 옵션이 필요합니다.
 
 ```
 notifly.initialize({
   projectId,
   username,
   password,
-  allowUserSuppliedLogEvent: true, // 팝업 내 사용자 JS 이벤트 허용
+  allowUserSuppliedLogEvent: true, // 팝업 내 유저 JS 이벤트 허용
 });
 ```
 
-팝업 템플릿에서 로깅 코드 삽입 방식은 Notifly 팀에 문의하세요.
+팝업 템플릿에서 로깅 코드 삽입 방식은 노티플라이 팀에 문의하세요.
 
 ## 7. 연동 테스트
 

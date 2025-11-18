@@ -2,9 +2,9 @@
 title: "구글 태그 매니저 설정하기"
 ---
 
-Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 없이 손쉽게 SDK 초기화, 사용자/이벤트 연동을 설정할 수 있습니다.
+Google Tag Manager(GTM)에 노티플라이 맞춤 템플릿을 추가해 코드 수정 없이 손쉽게 SDK 초기화, 유저/이벤트 연동을 설정할 수 있습니다.
 
-## 1. Notifly 맞춤 템플릿 설치
+## 1. 노티플라이 맞춤 템플릿 설치
 
 1. 최신 템플릿 다운로드
 [릴리스 페이지](https://github.com/team-michael/notifly-gtm-template/releases)에서 템플릿을 내려받습니다.
@@ -17,13 +17,13 @@ Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 �
 4. 저장을 클릭하면 좌측 하단에 템플릿이 생성됨 팝업이 표시되고 설치가 완료됩니다.
    ![템플릿 생성](./image/gtm/gtm-import-3.png)
 
-## 2. Notifly SDK 초기화 태그
+## 2. 노티플라이 SDK 초기화 태그
 
 1. Google Tag Manager 좌측 태그 메뉴 → 새로 만들기
 2. 태그 이름 지정 → 태그 구성 클릭
-3. 맞춤 템플릿 섹션에서 Notifly JavaScript SDK 선택
+3. 맞춤 템플릿 섹션에서 노티플라이 JavaScript SDK 선택
    ![맞춤 설정](./image/gtm/gtm-init-1.png)
-4. 태그 구성에서 Tag Type: SDK 초기화 선택 후 Project ID, Username, Password 입력. ([Notifly SDK 초기화 옵션](/sdk/javascript-sdk#2-sdk-%EC%B4%88%EA%B8%B0%ED%99%94) 참고.)
+4. 태그 구성에서 Tag Type: SDK 초기화 선택 후 Project ID, Username, Password 입력. ([노티플라이 SDK 초기화 옵션](/sdk/javascript-sdk#2-sdk-%EC%B4%88%EA%B8%B0%ED%99%94) 참고.)
 ![태그 타입](./image/gtm/gtm-init-2.png) 
 5. 고급 설정
 - 태그 실행: 페이지당 한 번
@@ -73,7 +73,7 @@ Google Tag Manager(GTM)에 Notifly 맞춤 템플릿을 추가해 코드 수정 �
 
 ## 4. 이벤트 로깅 (trackEvent)
 
-사용자 행동(클릭, 조회, 구매 등)을 이벤트로 전송해 세그먼트/트리거/성과 분석에 활용합니다.
+유저 행동(클릭, 조회, 구매 등)을 이벤트로 전송해 세그먼트/트리거/성과 분석에 활용합니다.
 <Info> 
 - 반드시 **SDK 초기화 태그 실행 후** 동작하도록 태그 시퀀싱을 설정하세요. 
 - **유저 세그먼트 이벤트 변수 목록**(segmentationEventParamKeys)에 **최대 1개의 키**만 지정 가능합니다. 

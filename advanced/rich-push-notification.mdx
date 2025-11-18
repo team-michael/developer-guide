@@ -38,7 +38,7 @@ SDK 버전 요구사항
 
 ## 2. App Groups 설정
 
-1. 그룹 ID는 `group.notifly.{username}` 형식을 사용합니다. (username은 Notifly 콘솔의 SDK 인증 정보에서 확인 가능)
+1. 그룹 ID는 `group.notifly.{username}` 형식을 사용합니다. (username은 노티플라이 콘솔의 SDK 인증 정보에서 확인 가능)
 
 2. 메인 앱(Target)과 새로 생성된 Extension(Target) 각각의 Signing & Capabilities 탭에서 App Groups를 추가하고 동일한 그룹 이름(`group.notifly.{username}`)을 설정합니다.
 
@@ -49,7 +49,7 @@ SDK 버전 요구사항
 <Tabs>
 <Tab title="Cocoapods">
 
-Notifly SDK를 Extension Target에 static 라이브러리로 설치해야 합니다.
+노티플라이 SDK를 Extension Target에 static 라이브러리로 설치해야 합니다.
 
 ```swift
 target 'NotiflyNotificationExtension' do
@@ -61,7 +61,7 @@ end
 </Tab>
 <Tab title="Swift Package Manager">
 
-Notifly SDK를 Extension Target에 static 라이브러리로 설치해야 합니다.
+Noti노티플라이fly SDK를 Extension Target에 static 라이브러리로 설치해야 합니다.
 
 1. Xcode에서 프로젝트를 열고 TARGETS → `NotiflyNotificationExtension` 선택
 

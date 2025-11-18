@@ -2,7 +2,7 @@
 title: "Android"
 ---
 
-Notifly Android SDK는 Android 애플리케이션에 노티플라이 서비스를 연동하기 위한 SDK입니다.  
+노티플라이 Android SDK는 Android 앱에 노티플라이 서비스를 연동하기 위한 SDK입니다.  
 다음 기능을 지원합니다:
 
 - 기기 정보를 등록해 앱 푸시 및 인앱 팝업 수신
@@ -13,7 +13,7 @@ Notifly Android SDK는 Android 애플리케이션에 노티플라이 서비스�
 ## 시작하기 전에
 
 1. **Firebase 프로젝트 연동 완료**  
-   Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
+   노티플라이 iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
 > 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration)
 
 2. **Android 11 (API Level 30) 이상**  
@@ -23,7 +23,7 @@ Notifly Android SDK는 Android 애플리케이션에 노티플라이 서비스�
 
 ## 1. SDK 설치
 
-Notifly Android SDK는 [JitPack](https://jitpack.io/)을 통해 배포됩니다.
+노티플라이 Android SDK는 [JitPack](https://jitpack.io/)을 통해 배포됩니다.
 
 ### Gradle 설정
 
@@ -128,7 +128,7 @@ public class MainApplication extends Application {
 
 ## 2. 유저 정보 등록
 
-Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
+노티플라이는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
 등록된 유저 정보는 **세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅**에 활용됩니다.
 
 <Note> SDK 초기화(`Notifly.initialize()`)를 완료한 후 호출해야 합니다. </Note>
@@ -139,14 +139,14 @@ Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반
 Notifly.setUserId(context: Context, userId: String?)
 ```
 
-`userId`는 앱 내부의 로그인 사용자 식별자와 매핑됩니다.  
-Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인을 개인화합니다.
+`userId`는 앱 내부의 로그인 유저 식별자와 매핑됩니다.  
+노티플라이는 이 값을 기준으로 유저 이벤트를 추적하고 캠페인을 개인화합니다.
 
 <ParamField path="context" type="Context" required>
   Android 컨텍스트 객체
 </ParamField>
 <ParamField path="userId" type="String" required>
-  로그인 사용자 ID. 로그아웃 시 `null`로 설정하여 해제
+  로그인 유저 ID. 로그아웃 시 `null`로 설정하여 해제
 </ParamField>
 
 #### 유저 ID 해제
@@ -186,7 +186,7 @@ Notifly.setUserId(context, null);
 
 ### 유저 프로퍼티 등록 (`Notifly.setUserProperties()`)
 
-`setUserProperties`는 사용자의 속성 정보를 등록합니다.  
+`setUserProperties`는 유저의 속성 정보를 등록합니다.  
 이 정보는 **세그먼트 타깃팅**, **메시지 개인화**, **발송 채널 선택** 등에 사용됩니다.
 
 ```kotlin
@@ -198,7 +198,7 @@ Notifly.setUserProperties(context: Context, params: Map<String, Any?>)
   Android 컨텍스트 객체
 </ParamField>
 <ParamField path="params" type="Map<String, Any?>" required>
-  사용자 속성 key-value 쌍. `$email`, `$phone_number` 등 사전 정의된 키 지원
+  유저 속성 key-value 쌍. `$email`, `$phone_number` 등 사전 정의된 키 지원
 </ParamField>
 
 <Info>
@@ -248,7 +248,7 @@ Notifly.setUserProperties(context, userProperties);
 ## 3. 이벤트 로깅 (`Notifly.trackEvent()`)
 
 유저 행동을 기록하여 **캠페인 트리거**, **세그먼트 조건**, **성과 분석** 등에 활용할 수 있습니다.  
-예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 사용자 행동을 이벤트로 수집합니다.
+예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 유저 행동을 이벤트로 수집합니다.
 
 ```kotlin
 Notifly.trackEvent(
@@ -374,7 +374,7 @@ button.setOnClickListener(new View.OnClickListener() {
 ## 4. 내부 유저 ID 확인
 
 `getNotiflyUserId()` 메서드는 노티플라이가 내부적으로 관리하는 고유 User ID를 반환합니다.  
-이는 `setUserId()` 로 등록한 사용자 ID와는 **별개의 식별자**이며, 일반적인 상황에서는 사용할 필요가 없습니다.  
+이는 `setUserId()` 로 등록한 유저 ID와는 **별개의 식별자**이며, 일반적인 상황에서는 사용할 필요가 없습니다.  
 다만 외부 CRM 또는 서드파티 서비스와의 연동 과정에서 내부 User ID 값이 필요한 경우 활용할 수 있습니다.
 
 ```kotlin
@@ -439,6 +439,6 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
 
 <AccordionGroup>
   <Accordion title="이미 Firebase Cloud Messaging을 사용 중인데 어떻게 해야 할까요?">
-    Notifly Android SDK는 기존 앱에서 사용하고 있을 수 있는 Firebase Cloud Messaging과 함께 사용하실 수 있습니다.
+    노티플라이 Android SDK는 기존 앱에서 사용하고 있을 수 있는 Firebase Cloud Messaging과 함께 사용하실 수 있습니다.
   </Accordion>
 </AccordionGroup>
