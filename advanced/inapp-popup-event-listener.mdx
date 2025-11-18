@@ -87,74 +87,74 @@ description: "Notifly SDK 심화 기능 연동"
 
 
  ```dart
- import 'package:flutter/material.dart';
- import 'package:notifly_flutter/notifly_flutter.dart';
- import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:notifly_flutter/notifly_flutter.dart';
+import 'dart:async';
 
-  class MyApp extends StatefulWidget {
-    const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-    @override
-    State<MyApp> createState() => _MyAppState();
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  StreamSubscription<InAppMessageEvent>? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _initNotifly();
   }
 
-  class _MyAppState extends State<MyApp> {
-    StreamSubscription<InAppMessageEvent>? _subscription;
+  Future<void> _initNotifly() async {
+    // Initialize Notifly SDK
+    await NotiflyPlugin.initialize(
+      projectId: 'YOUR_PROJECT_ID',
+      username: 'YOUR_USERNAME',
+      password: 'YOUR_PASSWORD',
+    );
 
-    @override
-    void initState() {
-      super.initState();
-      _initNotifly();
-    }
-
-    Future<void> _initNotifly() async {
-      // Initialize Notifly SDK
-      await NotiflyPlugin.initialize(
-        projectId: 'YOUR_PROJECT_ID',
-        username: 'YOUR_USERNAME',
-        password: 'YOUR_PASSWORD',
-      );
-
-      // Subscribe to in-app message events
-      _subscription = NotiflyPlugin.inAppEvents.listen(
-        (event) {
-          print('InAppMessage event dispatched: ${event.eventName}');
-          print('Event params: ${event.eventParams}');
-          
-          // Handle specific events
-          switch (event.eventName) {
-            case 'main_button_click':
-              // Handle main button click
-              break;
-            case 'close_button_click':
-              // Handle close button click
-              break;
-          }
-        },
-        onError: (error, stackTrace) {
-          print('InAppMessage event error: $error');
-          print('Stack trace: $stackTrace');
-        },
-        cancelOnError: false, // Continue listening even after an error
-      );
-    }
-
-    @override
-    void dispose() {
-      _subscription?.cancel();
-      super.dispose();
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(title: const Text('Notifly Sample')),
-          body: const Center(child: Text('Notifly Initialized')),
-        ),
-      );
-    }
+    // Subscribe to in-app message events
+    _subscription = NotiflyPlugin.inAppEvents.listen(
+      (event) {
+        print('InAppMessage event dispatched: ${event.eventName}');
+        print('Event params: ${event.eventParams}');
+        
+        // Handle specific events
+        switch (event.eventName) {
+          case 'main_button_click':
+            // Handle main button click
+            break;
+          case 'close_button_click':
+            // Handle close button click
+            break;
+        }
+      },
+      onError: (error, stackTrace) {
+        print('InAppMessage event error: $error');
+        print('Stack trace: $stackTrace');
+      },
+      cancelOnError: false, // Continue listening even after an error
+    );
   }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Notifly Sample')),
+        body: const Center(child: Text('Notifly Initialized')),
+      ),
+    );
+  }
+}
 
  ```
 </Tab>
