@@ -369,7 +369,7 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
     Podfile에 `use_frameworks! :linkage => :static` 라인을 추가하여 Static Linking을 시도해주세요. (기존에 `use_frameworks!` 라인이 존재한다면, `:linkage => :static` 옵션만 추가해주세요.)
   </Accordion>
 
-  <Accordion title="iOS기기에서 Foreground 상태에서 푸시 알림이 오지 않습니다.">
+  <Accordion title="iOS 기기에서 Foreground 상태에서 푸시 알림이 오지 않습니다.">
     Firebase Messaging을 이미 사용하시고 계시다면, firebase.json 파일에 아래 안내에 따라 설정해주세요.
     
     [React Native Firebase의 Foreground Presentation Options](https://rnfirebase.io/messaging/usage#foreground-presentation-options-ios)의 가이드에 따라 firebase.json 파일에 다음 코드를 추가해주세요.
@@ -389,7 +389,7 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
   </Accordion>
 
   <Accordion title="`notifly_sdk-Swift.h` 파일을 찾을 수 없다는 에러가 뜹니다">
-    - notifly_sdk(ios)는 Swift로 작성되어 있습니다. 이에 Objective-C 환경으로 노출시키기 위해 빌드되는 과정에서 Swift Compatibility Header가 생성되는데, 이 헤더 파일의 이름이 notifly_sdk-Swift.h입니다. 빌드를 진행하고자하는 타겟의 Builld Option의 Header Search Paths에 "${PODS_CONFIGURATION_BUILD_DIR}"를 추가해주세요.
+    - notifly_sdk(ios)는 Swift로 작성되어 있습니다. 이에 Objective-C 환경으로 노출시키기 위해 빌드되는 과정에서 Swift Compatibility Header가 생성되는데, 이 헤더 파일의 이름이 notifly_sdk-Swift.h입니다. 빌드를 진행하고자 하는 타겟의 Builld Option의 Header Search Paths에 "${PODS_CONFIGURATION_BUILD_DIR}"를 추가해주세요.
     - [참고](https://developer.apple.com/documentation/swift/importing-swift-into-objective-c)
   </Accordion>
 </AccordionGroup>
