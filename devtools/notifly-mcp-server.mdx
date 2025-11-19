@@ -1,14 +1,13 @@
 ---
-title: "Notifly MCP 서버"
+title: "노티플라이 MCP 서버"
 ---
 
-Notifly MCP 서버는 대규모 언어 모델(LLM)이 외부 도구와 데이터 소스와 상호작용하도록 돕는 오픈 표준 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)을 구현합니다.
+노티플라이 MCP 서버는 대규모 언어 모델(LLM)이 외부 도구 및 데이터와 상호작용하도록 돕는 오픈 표준 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)을 구현합니다.
 
-Notifly를 연동하는 과정에서도 작업 흐름이 끊기지 않도록, 개발자에게 두 가지 핵심 도구를 제공합니다.
+노티플라이를 연동하는 과정에서 도움을 받을 수 있도록, 두 가지 주요 기능을 제공합니다.
 
-- **문서 검색 (Documentation Search)** — Notifly 문서 전반(사용자 가이드, API 레퍼런스, 문제 해결, 베스트 프랙티스)을 의미 기반 검색 기능으로 빠르게 찾아볼 수 있습니다.
-
-- **SDK 검색 (SDK Search)** — Notifly SDK(iOS, Android, Flutter, React Native, JavaScript)와 Google Tag Manager 템플릿, 연동 예제를 한 번에 살펴볼 수 있습니다. 필요한 SDK 심볼(타입, 메서드, 파라미터)을 신속하게 찾아 실제 운영 환경에 바로 적용 가능한 코드 스니펫을 제공합니다.
+- **문서 검색**: 노티플라이 문서 전반(사용자 가이드, API 레퍼런스, FAQ 등)을 의미 기반 검색 기능으로 빠르게 찾아볼 수 있습니다.
+- **SDK 검색**: 노티플라이 SDK(iOS, Android, Flutter, React Native, JavaScript)와 Google Tag Manager 템플릿, 연동 예제를 한 번에 살펴볼 수 있습니다. 필요한 SDK 정보(타입, 메서드, 파라미터)를 찾아 바로 적용 가능한 코드 스니펫을 제공합니다.
 
 ## 통합 가이드
 
@@ -35,7 +34,7 @@ yarn global add notifly-mcp-server@latest
 
 프로젝트 루트(또는 사용하는 MCP 클라이언트의 설정 경로)에 `.mcp.json` 파일을 새로 만들거나 업데이트하세요.
 
-아래는 `npx`를 사용하는 권장 구성입니다.
+아래는 `npx`를 사용하는 구성 예시입니다.
 
 ```json
 {
@@ -54,9 +53,9 @@ yarn global add notifly-mcp-server@latest
 
 <Tab title="Android 스튜디오">
   <p><strong>옵션 1: Android 스튜디오용 GitHub Copilot 플러그인</strong></p>
-  1. **파일**(macOS의 경우 **Android 스튜디오**) > **설정** > **플러그인** > **GitHub Copilot - Your AI Pair Programmer** 순서로 이동해 GitHub Copilot 플러그인을 설치합니다.
-  2. 같은 설정 화면에서 **도구** > **GitHub Copilot** > **Model Context Protocol (MCP)** > **구성**으로 이동해 Notifly MCP 서버를 등록합니다.
-  3. `mcp.json`에 Notifly MCP 서버 설정을 추가합니다.
+  1. 파일(macOS의 경우 Android 스튜디오) > 설정 > 플러그인 > GitHub Copilot - Your AI Pair Programmer 순서로 이동해 GitHub Copilot 플러그인을 설치합니다.
+  2. 같은 설정 화면에서 도구 > GitHub Copilot > Model Context Protocol (MCP) > 구성으로 이동해 Notifly MCP 서버를 등록합니다.
+  3. `mcp.json`에 노티플라이 MCP 서버 설정을 추가합니다.
   
   ```json
   {
@@ -71,8 +70,8 @@ yarn global add notifly-mcp-server@latest
 
   <p><strong>옵션 2: JetBrains MCP 서버 플러그인 + 선호하는 MCP 클라이언트</strong></p>
   JetBrains MCP 서버를 프록시로 사용하면 Android 스튜디오의 기능을 그대로 활용하면서도 익숙한 MCP 클라이언트에서 작업할 수 있습니다.
-  1. **파일**(macOS의 경우 **Android 스튜디오**) > **설정** > **플러그인** > **MCP 플러그인**으로 이동해 JetBrains MCP 서버 플러그인을 설치합니다.
-  2. 사용하는 MCP 클라이언트 설정에 Notifly MCP 서버와 JetBrains MCP 프록시 구성을 함께 추가합니다.
+  1. 파일(macOS의 경우 Android 스튜디오) > 설정 > 플러그인 > MCP 플러그인으로 이동해 JetBrains MCP 서버 플러그인을 설치합니다.
+  2. 사용하는 MCP 클라이언트 설정에 노티플라이 MCP 서버와 JetBrains MCP 프록시 구성을 함께 추가합니다.
   ```json
   {
     "mcpServers": {
@@ -101,7 +100,7 @@ yarn global add notifly-mcp-server@latest
       Android 스튜디오의 Gemini에 MCP 서버를 추가합니다.
     </a>
   </li>
-  <li>`mcp.json`에 Notifly MCP 서버 설정을 붙여넣습니다.</li>
+  <li>`mcp.json`에 노티플라이 MCP 서버 설정을 붙여넣습니다.</li>
 </ol>
 
 ```json
@@ -126,9 +125,9 @@ yarn global add notifly-mcp-server@latest
       </a>
     </li>
     <li>
-      GitHub Copilot for Xcode 설정을 열고 <strong>MCP Configuration</strong> &gt; <strong>Edit Config</strong>로 이동합니다.
+      GitHub Copilot for Xcode 설정을 열고 MCP Configuration &gt; Edit Config로 이동합니다.
     </li>
-    <li>아래의 Notifly MCP 서버 설정을 추가합니다.</li>
+    <li>아래의 노티플라이 MCP 서버 설정을 추가합니다.</li>
   </ol>
 
 ```json
@@ -149,7 +148,7 @@ yarn global add notifly-mcp-server@latest
 </p>
 <ol>
   <li>
-    MCP 클라이언트 설정에 Notifly MCP 서버와 XcodeBuildMCP를 함께 추가합니다.
+    MCP 클라이언트 설정에 노티플라이 MCP 서버와 XcodeBuildMCP를 함께 추가합니다.
   </li>
 </ol>
 
@@ -255,7 +254,7 @@ yarn global add notifly-mcp-server@latest
   <p><strong>설정</strong></p>
   <ul>
     <li>터미널에서 Claude Code CLI를 실행합니다.</li>
-    <li>아래 명령어로 Notifly MCP 서버를 등록합니다.</li>
+    <li>아래 명령어로 노티플라이 MCP 서버를 등록합니다.</li>
   </ul>
 
 ```bash
@@ -319,7 +318,7 @@ npm install
 npm run build
 ```
 
-이후에는 `.mcp.json`을 수정해 방금 빌드한 산출물을 참조하도록 설정합니다.
+이후에는 `.mcp.json`을 수정해 방금 빌드한 결과물을 참조하도록 설정합니다.
 
 ```json
 {
@@ -334,7 +333,7 @@ npm run build
 
 ### 기여 및 피드백
 
-버그 제보, 기능 제안, 커뮤니티 기여를 언제든 환영합니다. 의견이나 개선 사항이 있다면 GitHub 이슈를 등록하거나 풀 리퀘스트(Pull Request, PR)를 보내주세요.
+버그 제보, 기능 제안 및 직접 기여해 주시는 것을 언제나 환영합니다. 의견이나 개선 사항이 있다면 GitHub 이슈를 등록하거나 Pull Request를 열어주세요.
 
-- **GitHub 저장소**: [notifly-tech/notifly-mcp-server](https://github.com/notifly-tech/notifly-mcp-server)
-- **패키지 및 릴리스 노트**: [npm에서 확인](https://www.npmjs.com/package/notifly-mcp-server)
+- GitHub repository: [notifly-tech/notifly-mcp-server](https://github.com/notifly-tech/notifly-mcp-server)
+- 패키지 및 릴리스 노트: [npm에서 확인](https://www.npmjs.com/package/notifly-mcp-server)
