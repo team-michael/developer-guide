@@ -2,7 +2,7 @@
 title: "Notifly MCP 서버"
 ---
 
-Notifly MCP Server는 대규모 언어 모델(LLM)이 외부 도구와 데이터 소스와 상호작용하도록 돕는 오픈 표준 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)을 구현합니다.
+Notifly MCP 서버는 대규모 언어 모델(LLM)이 외부 도구와 데이터 소스와 상호작용하도록 돕는 오픈 표준 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)을 구현합니다.
 
 Notifly를 연동하는 과정에서도 작업 흐름이 끊기지 않도록, 개발자에게 두 가지 핵심 도구를 제공합니다.
 
@@ -52,6 +52,118 @@ yarn global add notifly-mcp-server@latest
 
 <Tabs>
 
+<Tab title="Android Studio">
+  <p><strong>옵션 1: Android Studio용 GitHub Copilot 플러그인</strong></p>
+  1. **파일**(macOS의 경우 **Android 스튜디오**) > **설정** > **플러그인** > **GitHub Copilot - Your AI Pair Programmer**를 선택해 GitHub Copilot 플러그인을 설치합니다.
+  2. 같은 경로에서 **도구** > **GitHub Copilot** > **Model Context Protocol (MCP)** > **Configure**로 이동해 Notifly MCP 서버를 등록합니다.
+  3. `mcp.json`에 Notifly MCP 서버 설정을 추가합니다.
+  
+  ```json
+  {
+    "mcpServers": {
+      "notifly-mcp-server": {
+        "command": "npx",
+        "args": ["-y", "notifly-mcp-server@latest"]
+      }
+    }
+  }
+  ```
+
+  <p><strong>옵션 2: JetBrains MCP 서버 플러그인 + 선호하는 MCP 클라이언트</strong></p>
+  JetBrains MCP 서버를 프록시로 사용하면 Android Studio의 기능을 그대로 활용하면서도 익숙한 MCP 클라이언트에서 작업할 수 있습니다.
+  1. **파일**(macOS의 경우 **Android 스튜디오**) > **설정** > **플러그인** > **MCP 플러그인**으로 이동해 JetBrains MCP 서버 플러그인을 설치합니다.
+  2. 사용하는 MCP 클라이언트 설정에 Notifly MCP 서버와 JetBrains MCP 프록시 구성을 함께 추가합니다.
+  ```json
+  {
+    "mcpServers": {
+      "notifly-mcp-server": {
+        "command": "npx",
+        "args": ["-y", "notifly-mcp-server@latest"]
+      },
+      "jetbrains": {
+        "command": "npx",
+        "args": ["-y", "@jetbrains/mcp-proxy"]
+      }
+    }
+  }
+  ```
+  3. Android Studio와 MCP 클라이언트를 동시에 실행한 뒤, MCP 클라이언트에서 프로젝트를 계속 진행합니다.
+
+  <p><strong>옵션 3: Android Studio Agent의 Gemini</strong></p>
+  <ol>
+    <li>
+      <a href="https://developer.android.com/studio/gemini/add-mcp-server" target="_blank" rel="noopener noreferrer">
+        Android Studio의 Gemini에 MCP 서버를 추가합니다.
+      </a>
+    </li>
+    <li>`mcp.json`에 Notifly MCP 서버 설정을 붙여넣습니다.</li>
+  </ol>
+
+  ```json
+  {
+    "mcpServers": {
+      "notifly-mcp-server": {
+        "command": "npx",
+        "args": ["-y", "notifly-mcp-server@latest"]
+      }
+    }
+  }
+  ```
+
+</Tab>
+
+<Tab title="Xcode">
+  <p><strong>옵션 1: Xcode용 GitHub Copilot</strong></p>
+  <ol>
+    <li>
+      <a href="https://github.com/github/CopilotForXcode" target="_blank" rel="noopener noreferrer">
+        GitHub Copilot for Xcode를 설치합니다.
+      </a>
+    </li>
+    <li>
+      GitHub Copilot for Xcode 설정을 열고 <strong>MCP Configuration</strong> &gt; <strong>Edit Config</strong>로 이동합니다.
+    </li>
+    <li>아래의 Notifly MCP 서버 설정을 추가합니다.</li>
+  </ol>
+
+  ```json
+  {
+    "servers": {
+      "notifly-mcp-server": {
+        "command": "npx",
+        "args": ["-y", "notifly-mcp-server@latest"]
+      }
+    }
+  }
+  ```
+
+  <p><strong>옵션 2: 선호하는 MCP 클라이언트 + XcodeBuildMCP</strong></p>
+  <p>XcodeBuildMCP를 사용하면 Xcode의 네이티브 기능을 호출하면서도 익숙한 MCP 클라이언트 환경에서 계속 개발할 수 있습니다.</p>
+  <ol>
+    <li>MCP 클라이언트 설정에 Notifly MCP 서버와 XcodeBuildMCP를 함께 추가합니다.</li>
+  </ol>
+
+  ```json
+  {
+    "mcpServers": {
+      "notifly-mcp-server": {
+        "command": "npx",
+        "args": ["-y", "notifly-mcp-server@latest"]
+      },
+      "XcodeBuildMCP": {
+        "command": "npx",
+        "args": ["-y", "xcodebuildmcp@latest"]
+      }
+    }
+  }
+  ```
+
+  <ol start="2">
+    <li>Xcode와 MCP 클라이언트를 동시에 실행하고 MCP 클라이언트에서 개발을 이어갑니다.</li>
+  </ol>
+
+</Tab>
+
 <Tab title="Cursor">
   <p>
     <a
@@ -69,7 +181,7 @@ yarn global add notifly-mcp-server@latest
   <ul>
     <li>Cursor Settings를 엽니다.</li>
     <li>Tool & MCP를 선택합니다.</li>
-    <li>New MCP Server를 선택합니다.</li>
+    <li>New MCP 서버를 선택합니다.</li>
     <li>아래 JSON을 붙여넣고 Cursor를 재시작합니다.</li>
   </ul>
 
@@ -86,23 +198,39 @@ yarn global add notifly-mcp-server@latest
 
 </Tab>
 
-<Tab title="GitHub Copilot in VS Code">
+<Tab title="VS Code">
+
+  <p>
+    <a
+      href="https://insiders.vscode.dev/redirect/mcp/install?name=clix-mcp-server&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40clix-so%2Fclix-mcp-server%40latest%22%5D%7D"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="VS Code에서 Notifly MCP 서버 설치"
+    >
+      <img
+        src="https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Server&color=0098FF"
+        alt="Install in VS Code"
+        height="32"
+        style={{ pointerEvents: "none" }}
+      />
+    </a>
+  </p>
   <p><strong>설정</strong></p>
   <ul>
     <li>`~/.vscode/mcp.json` 파일을 엽니다.</li>
     <li>아래 JSON을 붙여넣고 VS Code를 재시작합니다.</li>
   </ul>
 
-```json
-{
-  "mcpServers": {
-    "notifly-mcp-server": {
-      "command": "npx",
-      "args": ["-y", "notifly-mcp-server@latest"]
+  ```json
+  {
+    "mcpServers": {
+      "notifly-mcp-server": {
+        "command": "npx",
+        "args": ["-y", "notifly-mcp-server@latest"]
+      }
     }
   }
-}
-```
+  ```
 
 </Tab>
 
@@ -110,7 +238,7 @@ yarn global add notifly-mcp-server@latest
   <p><strong>설정</strong></p>
   <ul>
     <li>터미널에서 Claude Code CLI를 실행합니다.</li>
-    <li>아래 명령어로 Notifly MCP Server를 등록합니다.</li>
+    <li>아래 명령어로 Notifly MCP 서버를 등록합니다.</li>
   </ul>
 
 ```bash
