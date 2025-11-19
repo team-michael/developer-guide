@@ -70,13 +70,19 @@
               ]
               },
               {
-                  "group": "웹용 SDK",
-                  "pages": [
-                    "sdk/javascript-sdk",
-                    "sdk/google-tag-manager"
-                 ]
+                "group": "웹용 SDK",
+                "pages": [
+                  "sdk/javascript-sdk",
+                  "sdk/google-tag-manager"
+                ]
               },
               "integration-test"
+            ]
+          },
+          {
+            "group": "개발자 도구",
+            "pages": [
+              "devtools/notifly-mcp-server"
             ]
           }
         ]
