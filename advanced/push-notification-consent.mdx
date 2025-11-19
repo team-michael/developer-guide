@@ -2,8 +2,8 @@
 title: "푸시 알림 사전 동의"
 ---
 
-Notifly SDK는 **푸시 알림 권한 요청을 자동으로 처리하지 않습니다.**  
-즉, 사용자가 알림을 받을 수 있도록 **앱에서 직접 권한 요청 로직을 구현해야 합니다.**
+노티플라이 SDK는 **푸시 알림 권한 요청을 자동으로 처리하지 않습니다.**  
+즉, 유저가 알림을 받을 수 있도록 **앱에서 직접 권한 요청 로직을 구현해야 합니다.**
 
 아래는 플랫폼별 구현 방법입니다.
 
@@ -13,7 +13,7 @@ Notifly SDK는 **푸시 알림 권한 요청을 자동으로 처리하지 않습
   ## Android 푸시 알림 사전 동의
 
   - Android **TIRAMISU(API 33)** 이상에서는 런타임 권한 요청이 필수입니다.  
-  - Notifly Android SDK와는 별개로, 앱에서 직접 권한 요청 코드를 작성해야 합니다.
+  - 노티플라이 Android SDK와는 별개로, 앱에서 직접 권한 요청 코드를 작성해야 합니다.
 
   👉 [Android Developers: Notification runtime permission](https://developer.android.com/develop/ui/views/notifications/notification-permission)
 
@@ -40,7 +40,7 @@ Notifly SDK는 **푸시 알림 권한 요청을 자동으로 처리하지 않습
   ## iOS 푸시 알림 사전 동의
 
 - iOS에서 유저에게 푸시 알림을 전송하기 위해서는 푸시 알림 수신 동의를 받아야 합니다.
-- Notifly iOS SDK와는 별개로, 앱에서 직접 사용자 알림 수신 동의를 구현해야 합니다.
+- 노티플라이 iOS SDK와는 별개로, 앱에서 직접 유저 알림 수신 동의를 구현해야 합니다.
 
 다음 코드는 예시입니다. 실제 알림 요청 타이밍, UI, 문구 등은 앱의 특성에 맞게 구현해 주세요.
 
@@ -65,7 +65,7 @@ UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge
 <Tab title="Flutter">
   Flutter 푸시 알림 사전 동의
 
-    Notifly Flutter Plugin도 자체적으로 권한을 요청하지 않습니다.
+    노티플라이 Flutter Plugin도 자체적으로 권한을 요청하지 않습니다.
 
     FirebaseMessaging의 requestPermission() API를 사용해 직접 권한 요청을 구현해야 합니다.
 

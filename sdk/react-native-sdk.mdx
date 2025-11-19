@@ -2,7 +2,7 @@
 title: "React Native"
 ---
 
-Notifly React Native SDK는 **노티플라이의 푸시 및 인앱 캠페인 기능을 React Native 앱에 통합**할 수 있도록 지원합니다.  
+노티플라이 React Native SDK는 **노티플라이의 푸시 및 인앱 캠페인 기능을 React Native 앱에 통합**할 수 있도록 지원합니다.  
 아래 기능을 제공합니다:
 
 - 기기 정보를 노티플라이에 등록하여 **푸시 알림 및 인앱 팝업** 수신  
@@ -15,7 +15,7 @@ Notifly React Native SDK는 **노티플라이의 푸시 및 인앱 캠페인 기
 SDK를 설치하기 전, 아래 과정을 반드시 완료하세요.
 
 1. **Firebase 프로젝트 연동 완료**  
-Notifly iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
+노티플라이 iOS SDK는 푸시 발송을 위해 [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)을 사용합니다.  
   > 👉 [Firebase 프로젝트 연동 가이드](sdk/firebase-integration)
 
 2. **iOS APNs 인증 등록**  
@@ -98,13 +98,13 @@ ios/{ProjectName}/AppDelegate.mm
 
 4. `AppDelegate` 메서드 수정
 
-`AppDelegate.mm` 내 메소드(`AppDelegate method`)에 Notifly 관련 코드를 추가합니다.
+`AppDelegate.mm` 내 메서드(`AppDelegate method`)에 노티플라이 관련 코드를 추가합니다.
 
 | 메서드 이름 | 설명 |
 |--------------|------|
 | `application:didFinishLaunchingWithOptions:` | Firebase 초기화 및 Notification Center delegate 설정 |
-| `application:didRegisterForRemoteNotificationsWithDeviceToken:` | APNs 토큰을 Notifly에 등록 |
-| `application:didFailToRegisterForRemoteNotificationsWithError:` | APNs 등록 실패 시 Notifly에 알림 |
+| `application:didRegisterForRemoteNotificationsWithDeviceToken:` | APNs 토큰을 노티플라이에 등록 |
+| `application:didFailToRegisterForRemoteNotificationsWithError:` | APNs 등록 실패 시 노티플라이에 알림 |
 | `userNotificationCenter:didReceiveNotificationResponse:` | 푸시 알림 클릭 이벤트 전달 |
 | `userNotificationCenter:willPresentNotification:` | Foreground 상태의 푸시 표시 처리 |
 
@@ -162,7 +162,7 @@ ios/{ProjectName}/AppDelegate.mm
 
 <Info> `notifly-sdk` 버전 1.3.0 이상부터 지원됩니다. </Info>
 
-Notification Service Extension을 설정하면 리치 푸시(Rich Push) 기능을 사용할 수 있습니다. Notifly의 [Push Extension 가이드](/advanced/rich-push-notification)를 참고해 설정하세요.
+Notification Service Extension을 설정하면 리치 푸시(Rich Push) 기능을 사용할 수 있습니다. 노티플라이의 [Push Extension 가이드](/advanced/rich-push-notification)를 참고해 설정하세요.
 
 #### 주요 기능
 
@@ -198,18 +198,18 @@ AppRegistry.registerComponent(...);
 
 ## 2. 유저 정보 등록
 
-Notifly는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
+노티플라이는 유저 식별자(`userId`)와 유저 프로퍼티(`params`)를 기반으로 개인화 마케팅 캠페인을 수행합니다.  
 등록된 유저 정보는 세그먼트 분류, 푸시 발송, 이메일 및 카카오 알림톡 등의 타깃팅에 활용됩니다.
 
 ### 1. 유저 ID 등록 (`Notifly.setUserId()`)
 
-`userId`는 앱 내부의 로그인 사용자 식별자와 매핑됩니다.  
-Notifly는 이 값을 기준으로 사용자 이벤트를 추적하고 캠페인을 개인화합니다.
+`userId`는 앱 내부의 로그인 유저 식별자와 매핑됩니다.  
+노티플라이는 이 값을 기준으로 유저 이벤트를 추적하고 캠페인을 개인화합니다.
 
 ### Parameters
 
 <ParamField path="userId" type="String" required>
-  로그인 사용자 ID. 로그아웃 시 `null`로 설정하여 해제
+  로그인 유저 ID. 로그아웃 시 `null`로 설정하여 해제
 </ParamField>
 
 ```js
@@ -240,7 +240,7 @@ const handleLogout = () => {
 
 ### 2. 유저 프로퍼티 등록
 
-`setUserProperties`는 사용자의 속성 정보를 등록합니다.  
+`setUserProperties`는 유저의 속성 정보를 등록합니다.  
 이 정보는 **세그먼트 타깃팅**, **메시지 개인화**, **발송 채널 선택** 등에 사용됩니다.
 
 ```js
@@ -248,7 +248,7 @@ notifly.setUserProperties(params);
 ```
 
 <ParamField path="param" type="Object" required>
-  사용자 속성 key-value 쌍. `$email`, `$phone_number` 등 사전 정의된 키 지원
+  유저 속성 key-value 쌍. `$email`, `$phone_number` 등 사전 정의된 키 지원
 </ParamField>
 
 <Info>
@@ -280,7 +280,7 @@ const handleRejectPushNotification = () => {
 ## 3. 이벤트 로깅
 
 유저 행동을 기록하여 **캠페인 트리거**, **세그먼트 조건**, **성과 분석** 등에 활용할 수 있습니다.  
-예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 사용자 행동을 이벤트로 수집합니다.
+예를 들어 버튼 클릭, 페이지 진입, 구매 완료 같은 유저 행동을 이벤트로 수집합니다.
 
 ```js
 notifly.trackEvent(eventName, eventParams, segmentationEventParamKeys);
@@ -362,14 +362,14 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
 
 <AccordionGroup>
   <Accordion title="이미 Firebase Cloud Messaging을 사용 중인데 어떻게 해야 할까요?">
-    Notifly Android SDK는 기존 앱에서 사용하고 있을 수 있는 Firebase Cloud Messaging과 함께 사용하실 수 있습니다.
+    노티플라이 Android SDK는 기존 앱에서 사용하고 있을 수 있는 Firebase Cloud Messaging과 함께 사용하실 수 있습니다.
   </Accordion>
 
-  <Accordion title="Build시 AppDelegate.mm 파일에서 Notifly 클래스 관련 에러가 발생합니다.">
+  <Accordion title="Build시 AppDelegate.mm 파일에서 노티플라이 클래스 관련 에러가 발생합니다.">
     Podfile에 `use_frameworks! :linkage => :static` 라인을 추가하여 Static Linking을 시도해주세요. (기존에 `use_frameworks!` 라인이 존재한다면, `:linkage => :static` 옵션만 추가해주세요.)
   </Accordion>
 
-  <Accordion title="iOS기기에서 Foreground 상태에서 푸시 알림이 오지 않습니다.">
+  <Accordion title="iOS 기기에서 Foreground 상태에서 푸시 알림이 오지 않습니다.">
     Firebase Messaging을 이미 사용하시고 계시다면, firebase.json 파일에 아래 안내에 따라 설정해주세요.
     
     [React Native Firebase의 Foreground Presentation Options](https://rnfirebase.io/messaging/usage#foreground-presentation-options-ios)의 가이드에 따라 firebase.json 파일에 다음 코드를 추가해주세요.
@@ -389,7 +389,7 @@ SDK 설치 후 아래 페이지에서 실제 이벤트 및 푸시 수신 여부�
   </Accordion>
 
   <Accordion title="`notifly_sdk-Swift.h` 파일을 찾을 수 없다는 에러가 뜹니다">
-    - notifly_sdk(ios)는 Swift로 작성되어 있습니다. 이에 Objective-C 환경으로 노출시키기 위해 빌드되는 과정에서 Swift Compatibility Header가 생성되는데, 이 헤더 파일의 이름이 notifly_sdk-Swift.h입니다. 빌드를 진행하고자하는 타겟의 Builld Option의 Header Search Paths에 "${PODS_CONFIGURATION_BUILD_DIR}"를 추가해주세요.
+    - notifly_sdk(ios)는 Swift로 작성되어 있습니다. 이에 Objective-C 환경으로 노출시키기 위해 빌드되는 과정에서 Swift Compatibility Header가 생성되는데, 이 헤더 파일의 이름이 notifly_sdk-Swift.h입니다. 빌드를 진행하고자 하는 타겟의 Builld Option의 Header Search Paths에 "${PODS_CONFIGURATION_BUILD_DIR}"를 추가해주세요.
     - [참고](https://developer.apple.com/documentation/swift/importing-swift-into-objective-c)
   </Accordion>
 </AccordionGroup>

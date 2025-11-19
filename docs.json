@@ -36,7 +36,7 @@
             ]
           },
           {
-            "group": "유저 가이드",
+            "group": "개발자 가이드",
             "expanded": false,
             "pages": [
               "sdk/firebase-integration",
@@ -99,7 +99,7 @@
             ]
           },
           {
-            "group": "이벤트 & 사용자",
+            "group": "이벤트 & 유저",
             "pages": [
               "POST /track-event",
               "POST /set-user-properties",

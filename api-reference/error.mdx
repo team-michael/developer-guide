@@ -1,11 +1,11 @@
 ---
 title: API 에러 코드 및 응답 형식
-description: Notifly API의 표준 에러 응답 구조와 HTTP 상태코드별 처리 가이드
+description: 노티플라이 API의 표준 에러 응답 구조와 HTTP 상태코드별 처리 가이드
 ---
 
 # API 에러 응답 구조
 
-Notifly API는 공통적으로 아래 **표준 응답 포맷**을 사용합니다.
+노티플라이 API는 공통적으로 아래 **표준 응답 포맷**을 사용합니다.
 
 ```json
 { "success": false, "code": 400, "error": "Bad request: 상세 메시지" }
@@ -39,7 +39,7 @@ Notifly API는 공통적으로 아래 **표준 응답 포맷**을 사용합니�
 | 400  | Bad Request               | 스키마 오류, 필수값 누락, 잘못된 값/형식         | Body/Query/Path 검증                | 요청 파라미터/바디 수정 후 재시도 |
 | 401  | Unauthorized              | 토큰 만료/무효, 인증 실패                         | 인증이 필요한 모든 엔드포인트       | 토큰 재발급(POST `/authenticate`) |
 | 403  | Forbidden _(옵션)_        | 프로젝트/리소스 접근 권한 없음                    | 권한 제어가 있는 리소스             | 권한 확인/부여 요청               |
-| 404  | Not Found _(옵션)_        | 대상 리소스(예: campaignId, user) 없음            | 캠페인/사용자 조회형/트리거         | ID/경로 재확인                    |
+| 404  | Not Found _(옵션)_        | 대상 리소스(예: campaignId, user) 없음            | 캠페인/유저 조회형/트리거         | ID/경로 재확인                    |
 | 405  | Method Not Allowed        | 지원하지 않는 HTTP 메서드                         | 오퍼레이션 미스매치                 | 메서드 교정 (예: POST/DELETE)     |
 | 409  | Conflict _(옵션)_         | 중복/상태 충돌(템플릿 상태 등)                    | 리소스 생성/갱신/상태 전이          | 리소스 상태 확인 후 재요청        |
 | 413  | Payload Too Large         | 요청 본문/배치 크기 제한 초과                     | 배치(예: 1000명 초과)               | 청크 분할/크기 축소               |
