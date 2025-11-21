@@ -14,13 +14,158 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Welcome",
+        "tab": "User Docs",
         "groups": [
           {
             "group": "시작하기 전에",
             "expanded": true,
             "pages": [
               "index"
+            ]
+          },
+          {
+            "group": "유저 여정",
+            "expanded": true,
+            "pages": [
+              "user-guide/user-journey/basic",
+              "user-guide/user-journey/basic-info",
+              "user-guide/user-journey/status",
+               {
+                "group": "노드",
+                "pages": [
+                  "user-guide/user-journey/nodes/event_trigger_node",
+                  "user-guide/user-journey/nodes/delay_node",
+                  "user-guide/user-journey/nodes/message_node",
+                  "user-guide/user-journey/nodes/event_branching_node",
+                  "user-guide/user-journey/nodes/user_group_branching_node",
+                  "user-guide/user-journey/nodes/variant_branching_node",
+                  "user-guide/user-journey/nodes/user_update_node"
+                ]
+              },
+              "user-guide/user-journey/statistics",
+              "user-guide/user-journey/examples"
+            ]
+          },
+          {
+            "group": "캠페인",
+            "pages": [
+              "user-guide/campaigns/basic",
+              "user-guide/campaigns/abtest",
+              "user-guide/campaigns/campaign-analytics",
+              {
+                "group": "캠페인 세그먼트",
+                "pages": [
+                  "user-guide/campaigns/campaign-segments/segment",
+                  "user-guide/campaigns/campaign-segments/personalized-user-condition",
+                  "user-guide/campaigns/campaign-segments/random-bucket-number"
+                ]
+              },
+              {
+                "group": "개인화",
+                "pages": [
+                  "user-guide/campaigns/personalization/basic",
+                  "user-guide/campaigns/personalization/advanced"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "채널",
+            "pages": [
+              {
+                "group": "앱 푸시",
+                "pages": [
+                  "user-guide/channel/app-push-notification/guide"
+                ]
+              },
+              {
+                "group": "이메일",
+                "pages": [
+                  "user-guide/channel/email/guide"
+                ]
+              },
+              {
+                "group": "인앱 메시지",
+                "pages": [
+                  "user-guide/channel/in-app-message/guide"
+                ]
+              },
+              {
+                "group": "카카오톡",
+                "pages": [
+                  "user-guide/channel/kakaotalk/setup",
+                  "user-guide/channel/kakaotalk/alimtalk-guide",
+                  "user-guide/channel/kakaotalk/friendtalk-guide"
+                ]
+              },
+              {
+                "group": "문자",
+                "pages": [
+                  "user-guide/channel/text-message/notifly_guide"
+                ]
+              },
+              {
+                "group": "웹 메시지",
+                "pages": [
+                  "user-guide/channel/web-message/guide"
+                ]
+              },
+              {
+                "group": "웹 푸시",
+                "pages": [
+                  "user-guide/channel/web-push-notification/guide",
+                  "user-guide/channel/web-push-notification/web-push-components"
+                ]
+              },
+              {
+                "group": "웹훅",
+                "pages": [
+                  "user-guide/channel/webhook/guide"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "분석",
+            "pages": [
+              {
+                "group": "공유 링크",
+                "pages": [
+                  "user-guide/analytics/share-link/guide"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "연동",
+            "pages": [
+              {
+                "group": "Amplitude",
+                "pages": [
+                  "user-guide/integrations/amplitude/amplitude-introduction"
+                ]
+              },
+              {
+                "group": "Cafe24",
+                "pages": [
+                  "user-guide/integrations/cafe24/cafe24-integration",
+                  "user-guide/integrations/cafe24/cafe24-gtm",
+                  "user-guide/integrations/cafe24/cafe24-spec",
+                  "user-guide/integrations/cafe24/campaign-examples"
+                ]
+              },
+              {
+                "group": "Mixpanel",
+                "pages": [
+                  "user-guide/integrations/mixpanel/mixpanel-introduction"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "FAQ",
+            "pages": [
+              "user-guide/faq"
             ]
           }
         ]
