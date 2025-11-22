@@ -17,7 +17,7 @@ description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 
 
 1. Amplitude의 Data 탭에서 Connections - Catalog 를 선택해 주시고, Destinations 탭을 클릭해 주세요.
 
-2. 노티플라이는 AWS의 Kinesis 라는 서비스를 활용하여 Amplitude와 연동을 제공하고 있습니다. Event Streaming 섹션에서 Kinesis Data Stream을 선택해 주세요. ![Amplitude data destinations](/images/ko/user-guide/amplitude/ko/assets/images/amplitude_data_destinations-60182ba205f07c4ed79d3f0d2d4aeccf.png)
+2. 노티플라이는 AWS의 Kinesis 라는 서비스를 활용하여 Amplitude와 연동을 제공하고 있습니다. Event Streaming 섹션에서 Kinesis Data Stream을 선택해 주세요. ![Amplitude data destinations](/user-guide/images/user-guide/amplitude/ko/assets/images/amplitude_data_destinations-60182ba205f07c4ed79d3f0d2d4aeccf.png)
 
 3. Sync Name에 `notifly`를 입력해 주시고 Create Sync 버튼을 클릭해 주세요.
 
@@ -28,14 +28,14 @@ description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 
    * Stream Name: `notifly-external-event-streaming`
    * Role ARN: `arn:aws:iam::702197142747:role/amplitude-kinesis-role`
 
-![Amplitude destination settings](/images/ko/user-guide/amplitude/ko/assets/images/amplitude_destination_settings-d00780a051d32ec810b6ec58c2008dc0.png)
+![Amplitude destination settings](/user-guide/images/user-guide/amplitude/ko/assets/images/amplitude_destination_settings-d00780a051d32ec810b6ec58c2008dc0.png)
 
 5. Send Events - Events are sent to Kinesis 가 체크되어 있는 것을 확인하신 후에 노티플라이로 보내실 이벤트를 선택해 주세요.
 6. Send Users (optional) - Users are sent to Kinesis 로 체크하시면 Amplitude의 사용자 정보들도 노티플라이에 연동됩니다.
 
 모두 완료하신 후 Save를 클릭하시면 연동이 잘 되었는지를 테스트 하실 수 있는 모달이 생깁니다. 테스트 하시고 Save 하시면 연결이 잘 되었음을 확인 가능하십니다.
 
-![Verify Kinesis Destnation Setup](/images/ko/user-guide/amplitude/ko/assets/images/verify_kinesis_destination_setup-f6176fcb21dca837dba960d90e212018.png)
+![Verify Kinesis Destnation Setup](/user-guide/images/user-guide/amplitude/ko/assets/images/verify_kinesis_destination_setup-f6176fcb21dca837dba960d90e212018.png)
 
 참고자료:
 
@@ -47,17 +47,17 @@ description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 
 2. 노티플라이와 연동할 프로젝트를 선택합니다.
 3. Project ID를 복사합니다.
 
-![Amplitude project settings](/images/ko/user-guide/amplitude/ko/assets/images/amplitude_project_settings-8cd48772e239dc6f72d41307ad07eaed.png)
+![Amplitude project settings](/user-guide/images/user-guide/amplitude/ko/assets/images/amplitude_project_settings-8cd48772e239dc6f72d41307ad07eaed.png)
 
 4. Notifly 제품에서 설정 (프로젝트 설정) - 외부 툴 연동 정보에 Amplitude 연동 정보에 위에 복사한 project\_id를 입력합니다.
 
-![Notifly Amplitude info](/images/ko/user-guide/amplitude/ko/assets/images/notifly_amplitude_info-630d060db4de72151c91195da041ca7e.png)
+![Notifly Amplitude info](/user-guide/images/user-guide/amplitude/ko/assets/images/notifly_amplitude_info-630d060db4de72151c91195da041ca7e.png)
 
 ## 3. 최종 확인[​](#3-최종-확인 "3. 최종 확인에 대한 직접 링크")
 
 위 스텝들을 모두 완료하시면 `amplitude__` 로 시작되는 이벤트들을 노티플라이에서 확인하실 수 있습니다.
 
-![Verify Notifly Amplitude integration](/images/ko/user-guide/amplitude/ko/assets/images/verify_amplitude_integration_end_to_end-75fadc9fefe56371b3a16627e1cb157a.png)
+![Verify Notifly Amplitude integration](/user-guide/images/user-guide/amplitude/ko/assets/images/verify_amplitude_integration_end_to_end-75fadc9fefe56371b3a16627e1cb157a.png)
 
 ## FAQ[​](#faq "FAQ에 대한 직접 링크")
 

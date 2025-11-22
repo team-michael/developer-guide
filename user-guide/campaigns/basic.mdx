@@ -5,7 +5,7 @@ description: "노티플라이 캠페인을 이용하여 하여, 에 로 보내�
 
 ## 1. 기본 정보 및 채널[​](#campaign-basic-info "1. 기본 정보 및 채널에 대한 직접 링크")
 
-![Campaign basic info creation](/images/ko/user-guide/campaigns/ko/assets/images/campaign_basic_info_creation_v2-0cfd811a9221dbb35f71f78d4025f628.png)
+![Campaign basic info creation](/user-guide/images/user-guide/campaigns/ko/assets/images/campaign_basic_info_creation_v2-0cfd811a9221dbb35f71f78d4025f628.png)
 
 * **캠페인 이름**: 캠페인 리스트에 노출되어 관리하실 때, 해당 켐페인이 어떤 메시지 발송인지 알아보기 쉽도록 하는 용도입니다. 기입된 내용은 *메시지 발송에 전혀 영향을 미치지 않습니다.*
 * **캠페인 설명**: (선택 사항) 켐페인에 대한 설명 및 메모를 남기시면 유용합니다. 제목과 마찬가지로 *발송 내용과 무관합니다.*
@@ -22,7 +22,7 @@ description: "노티플라이 캠페인을 이용하여 하여, 에 로 보내�
 
 ### 2.1. 예약 발송[​](#21-예약-발송 "2.1. 예약 발송에 대한 직접 링크")
 
-![Campaign Reservation](/images/ko/user-guide/campaigns/ko/assets/images/campaign_reservation-b317d5d0a96a0c850302170dad4ef6db.png) 노티플라이 캠페인은 선택한 시간에 원하는 유저들에게 알림을 발송할 수 있는 기능을 지원합니다. 예약 발송은 네 가지 타이밍을 지원합니다.
+![Campaign Reservation](/user-guide/images/user-guide/campaigns/ko/assets/images/campaign_reservation-b317d5d0a96a0c850302170dad4ef6db.png) 노티플라이 캠페인은 선택한 시간에 원하는 유저들에게 알림을 발송할 수 있는 기능을 지원합니다. 예약 발송은 네 가지 타이밍을 지원합니다.
 
 1. **즉시 발송**
    * 캠페인을 생성하는 **최종 확인** 버튼을 누르는 즉시 캠페인을 발송하며, 이후에는 발송을 취소할 수 없습니다.
@@ -51,7 +51,7 @@ description: "노티플라이 캠페인을 이용하여 하여, 에 로 보내�
   3. **외부 분석 도구 연동** : [Amplitude](/ko/user-guide/amplitude/amplitude-introduction)를 이미 사용하고 계시다면, 기존에 사용하시던 이벤트를 그대로 노티플라이에게 전달할 수 있습니다.
 </Check>
 
-![Event based campaign - Triggering event 1](/images/ko/user-guide/campaigns/ko/assets/images/campaign_event_based_timing_v5-9c810b1b14e7b1191392874a8fb90433.png)
+![Event based campaign - Triggering event 1](/user-guide/images/user-guide/campaigns/ko/assets/images/campaign_event_based_timing_v5-9c810b1b14e7b1191392874a8fb90433.png)
 
 이벤트 기반 발송 캠페인은 다음과 같이 생성할 수 있습니다.
 
@@ -62,13 +62,13 @@ description: "노티플라이 캠페인을 이용하여 하여, 에 로 보내�
     * ex) `main_button_click` 이벤트에 `menu`라는 이벤트 파라미터가 포함되어 발생한다면, `menu`가 `trial_click`인 경우에만 캠페인을 발송합니다.
 
     <Accordion title="이벤트 파라미터 필터링 예시 더 보기">
-      ![](/images/ko/user-guide/campaigns/ko/assets/images/triggering-event-filters-example-1-0ef9ca99f8b3291881f792ffbc801083.png)
+      ![](/user-guide/images/user-guide/campaigns/ko/assets/images/triggering-event-filters-example-1-0ef9ca99f8b3291881f792ffbc801083.png)
 
       * ex) 구매(`purchase`) 이벤트에 `product_category`라는 이벤트 파라미터가 포함되어 발생한다면, 해당 파라미터 값이 `clothing`인 경우에만 캠페인을 발송합니다.
 
       **AND/OR 조건**을 이용하여 더 복잡한 필터링을 설정해 보세요.
 
-      ![](/images/ko/user-guide/campaigns/ko/assets/images/triggering-event-filters-example-2-85907e6f63211f4242f2cb3700e54d73.png)
+      ![](/user-guide/images/user-guide/campaigns/ko/assets/images/triggering-event-filters-example-2-85907e6f63211f4242f2cb3700e54d73.png)
 
       * ex) 고객이 `blog`를 통해 유입되었고 `/product` 경로를 방문하였으며 `id`라는 쿼리 파라미터가 `123` **이거나** 고객이 `banner`를 통해`메인 화면`으로 유입되었을 때 캠페인을 집행하는 예시입니다.
 
@@ -108,7 +108,7 @@ description: "노티플라이 캠페인을 이용하여 하여, 에 로 보내�
 <Accordion title="API 기반 발송 캠페인 생성 예시 더 보기">
   - 해당 캠페인은 [**Campaign Triggering API**](/ko/developer-guide/http-api/http-api-guide#5-campaign-triggering)의 예시 코드에 기반하여 제작된 캠페인 예시입니다.
 
-  ![api-triggered-campaign-message-example](/images/ko/user-guide/campaigns/ko/assets/images/api_triggered_campaign_message_example-a1aff10c26bf6bea9409e30bc0815ce8.png)
+  ![api-triggered-campaign-message-example](/user-guide/images/user-guide/campaigns/ko/assets/images/api_triggered_campaign_message_example-a1aff10c26bf6bea9409e30bc0815ce8.png)
 
   * 주의) 해당 user의 `name` property가 정의되어있다는 가정 하에, 위와 같은 캠페인을 생성하였습니다.
 </Accordion>
