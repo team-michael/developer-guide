@@ -73,30 +73,32 @@ description: "노티플라이에서는 사용자들에게 이메일을 원하는
 3. 이메일 발송 시도 후 반송된 주소는 '발신 제외 유저' 리스트로 관리되며 이후 이메일 발송에서 제외됩니다.
 4. 휴면 기간이 90일인 특정 도메인을 사용하는 수신자 이메일 주소는 발송을 제한합니다. (발송 제한 도메인: @kakao.com, @daum.net, @hanmail.net, @nate.com)
 
-## FAQ[​](#faq "FAQ에 대한 직접 링크")
+## FAQ
 
-* Q. SPF, DKIM이 뭔가요?
+<AccordionGroup>
+  <Accordion title="SPF, DKIM이 뭔가요?">
+    SPF(Sender Policy Framework)와 DKIM(DomainKeys Identified Mail)은 이메일 수신 서비스(예: Gmail)에서 발신자가 신뢰할만한지 검증해 이메일 수신자에게 스팸 메일이 전달되는 것을 막기 위해 사용되는 방법입니다. 노티플라이와 같은 서비스를 사용하면 발신자 이메일 주소의 도메인과 실제 이메일이 발송되는 도메인이 다를 수 밖에 없습니다. 예를 들어 [user@example.com](mailto:user@example.com)이라는 발신자 주소로 노티플라이를 사용해 이메일을 발송한다면, 실제 발송 도메인은 notifly.tech가 됩니다. SPF, DKIM 설정을 추가하면 노티플라이는 이메일 발신 시에 "example.com 도메인이 인증되었다"는 사실을 이메일에 기록하여 발송하여 신뢰도를 높이고 스팸 분류 확률을 낮출 수 있습니다.
+  </Accordion>
 
-  * A. SPF(Sender Policy Framework)와 DKIM(DomainKeys Identified Mail)은 이메일 수신 서비스(예: Gmail)에서 발신자가 신뢰할만한지 검증해 이메일 수신자에게 스팸 메일이 전달되는 것을 막기 위해 사용되는 방법입니다. 노티플라이와 같은 서비스를 사용하면 발신자 이메일 주소의 도메인과 실제 이메일이 발송되는 도메인이 다를 수 밖에 없습니다. 예를 들어 [user@example.com](mailto:user@example.com)이라는 발신자 주소로 노티플라이를 사용해 이메일을 발송한다면, 실제 발송 도메인은 notifly.tech가 됩니다. SPF, DKIM 설정을 추가하면 노티플라이는 이메일 발신 시에 "example.com 도메인이 인증되었다"는 사실을 이메일에 기록하여 발송하여 신뢰도를 높이고 스팸 분류 확률을 낮출 수 있습니다.
+  <Accordion title="SPF, DKIM 설정을 했지만 도메인이 인증이 안 됩니다.">
+    SPF, DKIM 설정은 서버 상황에 따라 최대 48시간까지 소요될 수 있습니다. 설정 값이 잘 등록됐다면 보통 48시간 이내에 설정이 안정적으로 적용됩니다. 더 빠르게 설정값이 제대로 등록되었는지 확인이 필요하신 경우 노티플라이 팀에 문의해 주세요.
+  </Accordion>
 
-* Q. SPF, DKIM 설정을 했지만 도메인이 인증이 안 됩니다.
-
-  * A. SPF, DKIM 설정은 서버 상황에 따라 최대 48시간까지 소요될 수 있습니다. 설정 값이 잘 등록됐다면 보통 48시간 이내에 설정이 안정적으로 적용됩니다. 더 빠르게 설정값이 제대로 등록되었는지 확인이 필요하신 경우 노티플라이 팀에 문의해 주세요.
-
-* Q. 발송 결과 대시보드의 이메일 수신 거부 수치가 높습니다.
-
-  * A. 아래의 경우 수신자의 이메일 서비스가 메일을 스팸으로 판단할 수 있습니다. 메일 발송 타이밍 설정 및 내용 작성 시 참고해주세요.
+  <Accordion title="발송 결과 대시보드의 이메일 수신 거부 수치가 높습니다.">
+    아래의 경우 수신자의 이메일 서비스가 메일을 스팸으로 판단할 수 있습니다. 메일 발송 타이밍 설정 및 내용 작성 시 참고해주세요.
 
     * 짧은 시간에 너무 많은 수의 이메일을 보낼 경우: [분할 발송](/ko/user-guide/campaigns/campaign-segments/segment#throttling)을 활용하여 간격을 두고 발송해주세요.
     * 메일 본문의 내용이 너무 짧거나 외부 링크만 존재할 경우: 외부 컨텐츠에 대한 메일을 보내시더라도 컨텐츠의 일부를 본문에 포함하고 링크를 첨부해주세요.
     * 발신자의 이름과 메일 주소, 메일의 내용이 일치하지 않을 경우 스팸으로 처리될 수 있습니다. 서비스명과 이메일 도메인이 일치시키는 것을 권장합니다.
+  </Accordion>
 
-* Q. Apple로 로그인(@privaterelay.appleid.com)을 사용한 사용자가 있습니다.
-
-  * A. Apple의 이메일 서버로 이메일을 전송하는 경우 도메인에 DMARC 설정이 추가로 필요합니다.
+  <Accordion title="Apple로 로그인(@privaterelay.appleid.com)을 사용한 사용자가 있습니다.">
+    Apple의 이메일 서버로 이메일을 전송하는 경우 도메인에 DMARC 설정이 추가로 필요합니다.
 
     * 인증받은 이메일 도메인 서버에 아래의 설정값을 추가해주세요.
     * Type: TXT
     * Name: \_dmarc.yourdomain.com (예: \_dmarc.example.com)
     * Value: v=DMARC1; p=none; rua=mailto:dmarc-reports\@example.com; ruf=mailto:forensic-reports\@example.com; pct=100
     * Value의 rua 와 ruf 값은 유효한 이메일 주소로 설정해주세요. 위의 값은 example.com으로 설정된 예시 입니다.
+  </Accordion>
+</AccordionGroup>

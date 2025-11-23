@@ -25,12 +25,12 @@
           },
           {
             "group": "유저 여정",
-            "expanded": true,
             "pages": [
+              "user-guide/user-journey/index",
               "user-guide/user-journey/basic",
               "user-guide/user-journey/basic-info",
               "user-guide/user-journey/status",
-               {
+              {
                 "group": "노드",
                 "pages": [
                   "user-guide/user-journey/nodes/event_trigger_node",
