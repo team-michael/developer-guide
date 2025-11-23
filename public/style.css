@@ -287,9 +287,27 @@ code {
                "Noto Sans KR", sans-serif;
   font-size: 0.95rem;
   line-height: 1.6;
-  border: 1px solid #000000;
+  border: 1px solid #DFE0E4;
 }
 
+/* Header */
+.mdx-content th {
+  background-color: #F6F6F7;
+  color: #000000;
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 18px;
+  border: 1px solid #DFE0E4;
+}
+
+/* Body cells */
+.mdx-content td {
+  background-color: #ffffff;
+  color: #1b1f23;
+  padding: 12px 18px;
+  border: 1px solid #DFE0E4;
+  vertical-align: middle;
+}
 
 /* Make sure tbody and thead match table width */
 .mdx-content thead,
