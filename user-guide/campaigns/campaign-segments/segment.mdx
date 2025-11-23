@@ -3,55 +3,55 @@ title: "발송 대상 설정"
 description: "노티플라이 캠페인은 쉽고 빠르게 원하는 사용자에게 도달할 수 있는 방법을 제공합니다. 발송 대상을 설정하는 방법은 , , 이 지원됩니다."
 ---
 
-*[API 기반 발송 캠페인](/ko/user-guide/campaigns/basic#23-api-%EA%B8%B0%EB%B0%98-%EB%B0%9C%EC%86%A1)인 경우 아래 방법들을 사용할 수 없습니다. 해당 경우 발송 대상은 [Campaign Triggering API](/ko/developer-guide/http-api/http-api-guide#5-campaign-triggering) 를 참고하여 Request Body에 명시해주세요.*
+*[API 기반 발송 캠페인](/user-guide/campaigns/basic#2-3-api-기반-발송)인 경우 아래 방법들을 사용할 수 없습니다. 해당 경우 발송 대상은 [Campaign Triggering API](/api-reference/trigger-campaign) 를 참고하여 Request Body에 명시해주세요.*
 
-## 발송 필수 정보[​](#발송-필수-정보 "발송 필수 정보에 대한 직접 링크")
+## 발송 필수 정보
 
 발송 채널 별로 유저 정보로 등록되어야 할 필수적인 요소들이 존재합니다.
 
-* **푸시 알림 - 디바이스 토큰** : 디바이스 토큰은 현재 [Client SDK](/ko/category/client-sdk)에서 자동으로 수집된 정보로만 사용 가능합니다. 디바이스 토큰을 매뉴얼하게 업로드 할 수 있는 기능도 제공될 예정이니 조금만 기다려주세요.
-* **카카오 알림톡, 카카오 친구톡, 문자 메시지 - 휴대폰 번호** : 휴대폰 번호는 유저 등록 페이지에서 CSV 업로드, 또는 직접 입력하여 등록할 수 있습니다. 휴대폰 번호는 `$phone_number` 특수 필드 이름으로 등록해야 합니다. 자세한 정보는 유저 등록 페이지의 '특수 항목' 섹션을 참고해 주세요. [HTTP API - Set User Properties](/ko/developer-guide/http-api/http-api-guide#3-set-user-properties)나 [Client SDK](/ko/developer-guide/client-sdk/react-native-sdk#2-%EC%9C%A0%EC%A0%80-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0-%EB%93%B1%EB%A1%9D%ED%95%98%EA%B8%B0)를 통해서도 등록할 수 있습니다.
-* **이메일 - 이메일 주소** : 이메일 주소 또한 유저 등록 페이지에서 CSV 업로드, 또는 직접 입력하여 등록할 수 있습니다. 이메일 주소는 `$email` 특수 필드 이름으로 등록해야 합니다. [HTTP API - Set User Properties](/ko/developer-guide/http-api/http-api-guide#3-set-user-properties)나 [Client SDK](/ko/developer-guide/client-sdk/react-native-sdk#2-%EC%9C%A0%EC%A0%80-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0-%EB%93%B1%EB%A1%9D%ED%95%98%EA%B8%B0)를 통해서도 등록할 수 있습니다.
+* **푸시 알림 - 디바이스 토큰** : 디바이스 토큰은 현재 [Client SDK](/sdk/index)에서 자동으로 수집된 정보로만 사용 가능합니다. 디바이스 토큰을 매뉴얼하게 업로드 할 수 있는 기능도 제공될 예정이니 조금만 기다려주세요.
+* **카카오 알림톡, 카카오 친구톡, 문자 메시지 - 휴대폰 번호** : 휴대폰 번호는 유저 등록 페이지에서 CSV 업로드, 또는 직접 입력하여 등록할 수 있습니다. 휴대폰 번호는 `$phone_number` 특수 필드 이름으로 등록해야 합니다. 자세한 정보는 유저 등록 페이지의 '특수 항목' 섹션을 참고해 주세요. [HTTP API - Set User Properties](/api-reference/set-user-properties)나 [Client SDK](/sdk/index)를 통해서도 등록할 수 있습니다.
+* **이메일 - 이메일 주소** : 이메일 주소 또한 유저 등록 페이지에서 CSV 업로드, 또는 직접 입력하여 등록할 수 있습니다. 이메일 주소는 `$email` 특수 필드 이름으로 등록해야 합니다. [HTTP API - Set User Properties](/api-reference/set-user-properties)나 [Client SDK](/sdk/index)를 통해서도 등록할 수 있습니다.
 
-## 1. 유저 그룹 설정[​](#user-group-setup "1. 유저 그룹 설정에 대한 직접 링크")
+## 1. 유저 그룹 설정
 
 노티플라이 데이터베이스에 등록된 사용자들은 유저 리스트에서 확인할 수 있습니다. 사용자의 속성, 디바이스 정보와 이벤트 발생 기록을 활용하여 발송 대상 사용자를 지정할 수 있습니다.
 
-### 그룹과 조건[​](#그룹과-조건 "그룹과 조건에 대한 직접 링크")
+### 그룹과 조건
 
 '그룹'과 '조건'에 대해 유의하여 발송 대상 설정해 주세요.
 
 1. 그룹: 그룹은 조건들의 모임입니다. 그룹은 필요한 만큼 생성할 수 있으며, 각각의 그룹은 `OR` 연산자로 연결됩니다.
-2. 조건: 조건에 대한 자세한 정보는 아래 [조건의 종류](#condition-types) 섹션을 참고해주세요. 그룹 내의 조건들 끼리는 `AND` 연산자로 연결됩니다.
+2. 조건: 조건에 대한 자세한 정보는 아래 [조건의 종류](#조건의-종류) 섹션을 참고해주세요. 그룹 내의 조건들 끼리는 `AND` 연산자로 연결됩니다.
 
 예를 들어, \[그룹 1]이 \[조건 a], \[조건 b], \[조건 c]으로 구성되어있고, \[그룹 2]가 \[조건 d], \[조건 e]로 구성되어 있다면 발송 대상 필터는 `([조건 a] AND [조건 b] AND [조건 c]) OR ([조건 d] AND [조건 e])` 와 같이 정의되게 됩니다.
 
-### 조건 설정에 사용되는 정보[​](#조건-설정에-사용되는-정보 "조건 설정에 사용되는 정보에 대한 직접 링크")
+### 조건 설정에 사용되는 정보
 
 대상을 지정할 때에는 다음 세 가지의 정보를 이용하여 조건을 설정합니다.
 
 1. 사용자의 속성
 
-* 유저 등록 페이지에서 CSV 업로드, 또는 직접 입력하여 등록할 수 있습니다. [HTTP API - Set User Properties](/ko/developer-guide/http-api/http-api-guide#3-set-user-properties)나 [Client SDK](/ko/developer-guide/client-sdk/react-native-sdk#2-%EC%9C%A0%EC%A0%80-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0-%EB%93%B1%EB%A1%9D%ED%95%98%EA%B8%B0)를 통해서도 등록할 수 있습니다.
+* 유저 등록 페이지에서 CSV 업로드, 또는 직접 입력하여 등록할 수 있습니다. [HTTP API - Set User Properties](/api-reference/set-user-properties)나 [Client SDK](/sdk/react-native-sdk#2-유저-정보-등록)를 통해서도 등록할 수 있습니다.
 
 2. 사용자의 디바이스 정보
 
-* 디바이스 정보는 현재 [Client SDK](/ko/category/client-sdk)에서 자동으로 수집된 정보로만 사용 가능합니다. 디바이스 정보를 업로드 할 수 있는 기능도 제공될 예정이니 조금만 기다려주세요.
+* 디바이스 정보는 현재 [Client SDK](/sdk/index)에서 자동으로 수집된 정보로만 사용 가능합니다. 디바이스 정보를 업로드 할 수 있는 기능도 제공될 예정이니 조금만 기다려주세요.
 
 3. 사용자의 이벤트 발생 기록
 
-* 이벤트를 발생시키는 방법은 [캠페인 시작하기 - 이벤트 기반 발송](/ko/user-guide/campaigns/basic#22-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%B0%9C%EC%86%A1) 섹션을 참고해주세요.
+* 이벤트를 발생시키는 방법은 [캠페인 시작하기 - 이벤트 기반 발송](/user-guide/campaigns/#2-2-이벤트-기반-발송) 섹션을 참고해주세요.
 * 노티플라이 엔진은 자동으로 사용자별로 발생한 이벤트를 적재하고 있습니다. 유저 별로 발생한 이벤트의 목록은 유저 리스트 페이지에서 표 항목 클릭 - 유저 상세 정보 페이지에서도 확인할 수 있습니다.
 
 <Warning>
   비회원 상태인 유저에 대해서는 최대 3일간의 이벤트 데이터만 사용할 수 있습니다.
 </Warning>
 
-### 조건의 종류[​](#condition-types "조건의 종류에 대한 직접 링크")
+### 조건의 종류
 
 그룹 조건에는 **사용자 속성 기반 조건**, **이벤트 기반 조건**이 존재합니다.
 
-#### 사용자 속성 기반 조건[​](#사용자-속성-기반-조건 "사용자 속성 기반 조건에 대한 직접 링크")
+#### 사용자 속성 기반 조건
 
 * 사용자의 디바이스 정보 또는 속성을 이용하여 조건을 설정합니다.
 
@@ -62,7 +62,7 @@ description: "노티플라이 캠페인은 쉽고 빠르게 원하는 사용자�
   3. 변수 타입: 변수 타입은 변수값의 형태(텍스트, 숫자 등) 입니다.
   4. 변수값: 변수값은 조건 변수와 연산될 값입니다.
 
-#### 이벤트 기반 조건[​](#이벤트-기반-조건 "이벤트 기반 조건에 대한 직접 링크")
+#### 이벤트 기반 조건
 
 * 사용자의 이벤트 발생 기록을 활용하여 조건을 설정합니다.
 
@@ -86,12 +86,12 @@ description: "노티플라이 캠페인은 쉽고 빠르게 원하는 사용자�
 
 ![Valid segment example](/user-guide/images/user-guide/campaigns/campaign-segments/ko/assets/images/campaign_build_segment_example_v2-47478a1b2870fa10e64a1c2575d41862.png)
 
-### 주의사항[​](#주의사항 "주의사항에 대한 직접 링크")
+### 주의사항
 
-* **유저 그룹 설정**은 노티플라이 시스템 내부에 등록된 유저 정보를 활용하는 기능입니다. 따라서, **메시지 개인화를 할 때에 유저 및 디바이스 정보 뿐만 아니라 발생한 이벤트 파라미터(이벤트 기반 발송일 경우)를 모두 사용**하실 수 있습니다. 메시지 개인화에 대한 자세한 정보는 [메시지 개인화](/ko/category/message-personalization) 섹션을 참고해주세요.
-* [채널 별 발송 필수 정보](#%EB%B0%9C%EC%86%A1-%ED%95%84%EC%88%98-%EC%A0%95%EB%B3%B4)가 노티플라이 유저 데이터베이스에 존재해야 발송이 가능하며, 존재하지 않을 경우에는 발송되지 않습니다.
+* **유저 그룹 설정**은 노티플라이 시스템 내부에 등록된 유저 정보를 활용하는 기능입니다. 따라서, **메시지 개인화를 할 때에 유저 및 디바이스 정보 뿐만 아니라 발생한 이벤트 파라미터(이벤트 기반 발송일 경우)를 모두 사용**하실 수 있습니다. 메시지 개인화에 대한 자세한 정보는 [메시지 개인화](/user-guide/campaigns/personalization) 섹션을 참고해주세요.
+* [채널 별 발송 필수 정보](#발송-필수-정보)가 노티플라이 유저 데이터베이스에 존재해야 발송이 가능하며, 존재하지 않을 경우에는 발송되지 않습니다.
 
-## 2. CSV 업로드[​](#csv-upload "2. CSV 업로드에 대한 직접 링크")
+## 2. CSV 업로드
 
 노티플라이 데이터베이스에 등록되지 않은 사용자를 대상으로 직접 발송하고 싶다면, CSV 업로드 기능을 활용할 수 있습니다. 샘플 파일 (템플릿)을 다운로드 받아 입력해 주시면 됩니다.
 
@@ -103,9 +103,9 @@ description: "노티플라이 캠페인은 쉽고 빠르게 원하는 사용자�
 * 비어있거나 공백문자로만 이루어진 값은 빈 값으로 처리됩니다.
 * 값 양 끝의 공백문자는 제거됩니다.
 
-### 주의사항[​](#주의사항-1 "주의사항에 대한 직접 링크")
+### 주의사항
 
-* CSV 업로드를 할 때, [발송 필수 정보](#%EB%B0%9C%EC%86%A1-%ED%95%84%EC%88%98-%EC%A0%95%EB%B3%B4)가 존재해야 CSV 파일이 정상적으로 업로드 됩니다.
+* CSV 업로드를 할 때, [발송 필수 정보](#발송-필수-정보)가 존재해야 CSV 파일이 정상적으로 업로드 됩니다.
 
   * **푸시 알림**: `user_id` 컬럼이 존재해야 합니다. 푸시 알림은 다른 CSV 업로드 방식과는 다르게, 유저 리스트에 유저가 등록이 되어있어야만 발송이 가능합니다. 또한, 메시지 개인화를 할 때에 **CSV 파일** 속의 데이터는 이용할 수 없으니 주의해주세요.
   * **카카오 알림톡, 카카오 친구톡, 문자 메시지**: `phone_number` 컬럼이 존재해야 합니다.
@@ -113,11 +113,11 @@ description: "노티플라이 캠페인은 쉽고 빠르게 원하는 사용자�
 
 * Microsoft Excel 사용시, Excel 문서를 CSV 파일로 내보낼 때에 문자열 인코딩을 UTF-8로 설정하여 저장해주세요. 만약 인코딩에 문제가 있다면, 발송된 메시지의 문자열이 깨져서 보일 수 있습니다.
 
-![MS Excel csv export settings](data:image/png;base64,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)
+![MS Excel csv export settings](/user-guide/images/user-guide/campaigns/campaign-segments/ko/assets/images/csv-export.png)
 
-* **CSV 업로드** 기능은 노티플라이에 등록된 유저와 무관하게 발송됩니다. 따라서 메시지 개인화를 할 때에는, 노티플라이 데이터베이스에 등록된 유저 정보를 활용할 수 없습니다. CSV 파일 업로드를 했을 때는 **CSV 파일에 등록된 정보만으로 메시지 개인화를 할 수 있으며**, 메시지 개인화에 대한 자세한 정보는 [메시지 개인화](/ko/category/message-personalization) 섹션을 참고해주세요.
+* **CSV 업로드** 기능은 노티플라이에 등록된 유저와 무관하게 발송됩니다. 따라서 메시지 개인화를 할 때에는, 노티플라이 데이터베이스에 등록된 유저 정보를 활용할 수 없습니다. CSV 파일 업로드를 했을 때는 **CSV 파일에 등록된 정보만으로 메시지 개인화를 할 수 있으며**, 메시지 개인화에 대한 자세한 정보는 [메시지 개인화](/user-guide/campaigns/personalization) 섹션을 참고해주세요.
 
-## 분할 발송[​](#throttling "분할 발송에 대한 직접 링크")
+## 분할 발송
 
 ![Throttling](/user-guide/images/user-guide/campaigns/campaign-segments/ko/assets/images/throttling-a735812a30819ce6cc38268ab716163f.png)
 
@@ -126,7 +126,7 @@ description: "노티플라이 캠페인은 쉽고 빠르게 원하는 사용자�
 * 발송 간격으로 설정한 시간의 간격을 두고 메시지가 발송 됩니다.
 * 회당 발송 메시지 수는 회당 발송 되는 **최대** 메시지 갯수입니다. 각 회차에 설정한 메시지 갯수 미만으로 발송 될 수 있습니다. 초과해서 발송 되진 않습니다.
 
-### 설정 예시[​](#설정-예시 "설정 예시에 대한 직접 링크")
+### 설정 예시
 
 * 발송 시점: 18:00
 * 예상 모수: 300

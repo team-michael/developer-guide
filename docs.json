@@ -50,23 +50,23 @@
             "group": "캠페인",
             "pages": [
               "user-guide/campaigns/basic",
-              "user-guide/campaigns/abtest",
-              "user-guide/campaigns/campaign-analytics",
               {
-                "group": "캠페인 세그먼트",
-                "pages": [
-                  "user-guide/campaigns/campaign-segments/segment",
-                  "user-guide/campaigns/campaign-segments/personalized-user-condition",
-                  "user-guide/campaigns/campaign-segments/random-bucket-number"
-                ]
-              },
-              {
-                "group": "개인화",
+                "group": "메시지 개인화",
                 "pages": [
                   "user-guide/campaigns/personalization/basic",
                   "user-guide/campaigns/personalization/advanced"
                 ]
-              }
+              },
+              {
+                "group": "캠페인 발송대상 설정",
+                "pages": [
+                  "user-guide/campaigns/campaign-segments/segment",
+                  "user-guide/campaigns/campaign-segments/random-bucket-number",
+                  "user-guide/campaigns/campaign-segments/personalized-user-condition"
+                ]
+              },
+              "user-guide/campaigns/abtest",
+              "user-guide/campaigns/campaign-analytics"
             ]
           },
           {
@@ -79,15 +79,16 @@
                 ]
               },
               {
-                "group": "이메일",
+                "group": "웹 푸시",
                 "pages": [
-                  "user-guide/channel/email/guide"
+                  "user-guide/channel/web-push-notification/guide",
+                  "user-guide/channel/web-push-notification/web-push-components"
                 ]
               },
               {
-                "group": "인앱 메시지",
+                "group": "문자",
                 "pages": [
-                  "user-guide/channel/in-app-message/guide"
+                  "user-guide/channel/text-message/notifly_guide"
                 ]
               },
               {
@@ -99,9 +100,9 @@
                 ]
               },
               {
-                "group": "문자",
+                "group": "이메일",
                 "pages": [
-                  "user-guide/channel/text-message/notifly_guide"
+                  "user-guide/channel/email/guide"
                 ]
               },
               {
@@ -111,10 +112,9 @@
                 ]
               },
               {
-                "group": "웹 푸시",
+                "group": "인앱 메시지",
                 "pages": [
-                  "user-guide/channel/web-push-notification/guide",
-                  "user-guide/channel/web-push-notification/web-push-components"
+                  "user-guide/channel/in-app-message/guide"
                 ]
               },
               {
