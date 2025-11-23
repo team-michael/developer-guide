@@ -33,13 +33,13 @@
               {
                 "group": "유저 여정 노드",
                 "pages": [
-                  "user-guide/user-journey/nodes/event_trigger_node",
                   "user-guide/user-journey/nodes/delay_node",
                   "user-guide/user-journey/nodes/message_node",
                   "user-guide/user-journey/nodes/event_branching_node",
                   "user-guide/user-journey/nodes/user_group_branching_node",
-                  "user-guide/user-journey/nodes/variant_branching_node",
-                  "user-guide/user-journey/nodes/user_update_node"
+                  "user-guide/user-journey/nodes/user_update_node",
+                  "user-guide/user-journey/nodes/event_trigger_node",
+                  "user-guide/user-journey/nodes/variant_branching_node"
                 ]
               },
               "user-guide/user-journey/statistics",
