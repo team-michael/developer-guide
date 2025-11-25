@@ -1545,16 +1545,6 @@ paths:
               templateId: "template-id"
               recipientList:
                 - recipientNo: "01012345678"
-                  resendParameter:
-                    isResend: true
-                    resendType: "SMS"
-                    resendContent: "대체 발송 메시지 내용입니다."
-                - recipientNo: "01056781234"
-                  resendParameter:
-                    isResend: true
-                    resendType: "LMS"
-                    resendTitle: "대체 발송 제목"
-                    resendContent: "대체 발송 메시지 내용입니다."
       responses:
         '200':
           description: 성공적인 메시지 발송입니다
