@@ -1750,14 +1750,12 @@ paths:
           required: false
           schema:
             type: integer
-            default: 1
           description: 페이지 번호
         - name: pageSize
           in: query
           required: false
           schema:
             type: integer
-            default: 15
             maximum: 1000
           description: 조회 건수
       responses:
