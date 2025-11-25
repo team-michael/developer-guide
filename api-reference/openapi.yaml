@@ -1081,7 +1081,7 @@ paths:
             - iOS SDK: 1.17.2
             - Android SDK: 1.18.1
             - React Native SDK: 3.10.1
-            - JS SDK: 2.17.4
+            - JavaScript SDK: 2.17.4
           </Note>
           
           ### 메시지 데이터 예시
