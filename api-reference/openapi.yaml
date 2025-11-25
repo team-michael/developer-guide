@@ -1680,7 +1680,7 @@ paths:
                             description: LMS 대체 발송 제목. 기본값은 플러스친구 ID입니다.
                           resendContent:
                             type: string
-                            description: 대체 발송 내용. 기본값은 메시지 본문과 웹링크 버튼명 - 웹링크 Mobile 링크입니다.
+                            description: 대체 발송 내용 (기본값은 메시지 본문과 웹링크 버튼명 - 웹링크 Mobile 링크)
                   description: 수신자 목록 (최대 1,000명)
             example:
               projectId: "example_project_1234567890abcdef"
