@@ -1422,7 +1422,6 @@ paths:
               body: "Message Body"
               recipientList:
                 - recipientNo: "01012345678"
-                - recipientNo: "01045671234"
       responses:
         '200':
           description: 성공적인 메시지 발송입니다
