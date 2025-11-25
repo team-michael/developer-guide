@@ -1661,7 +1661,7 @@ paths:
               recipientList:
                 - recipientNo: "01012345678"
                   content:
-                    text: "test"
+                    text: "안녕하세요! 새로운 이벤트 소식을 알려드립니다."
       responses:
         '200':
           description: 성공적인 메시지 발송입니다
