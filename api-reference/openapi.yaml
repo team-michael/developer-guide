@@ -585,13 +585,6 @@ paths:
             example:
               users:
                 - userId: "alice"
-                  eventParams:
-                    messageTitle: "Hello Alice!"
-                    messageBody: "How are you?"
-                - userId: "bob"
-                  eventParams:
-                    messageTitle: "Hello Bob!"
-                    messageBody: "How are you?"
       responses:
         '200':
           description: 성공적인 유저 여정 트리거입니다
