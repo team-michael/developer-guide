@@ -1677,7 +1677,7 @@ paths:
                             description: 대체 발송 타입(SMS, LMS). 템플릿 본문 길이에 따라 타입이 구분됩니다.
                           resendTitle:
                             type: string
-                            description: LMS 대체 발송 제목. 기본값은 플러스친구 ID입니다.
+                            description: LMS 대체 발송 제목 (기본값은 플러스친구 ID)
                           resendContent:
                             type: string
                             description: 대체 발송 내용 (기본값은 메시지 본문과 웹링크 버튼명 - 웹링크 Mobile 링크)
