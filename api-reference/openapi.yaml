@@ -1668,7 +1668,7 @@ paths:
                         properties:
                           isResend:
                             type: boolean
-                            description: 발송 실패 시, 문자 대체 발송 여부. 기본값은 false.
+                            description: 발송 실패 시 문자 대체 발송 여부 (기본값 false)
                           resendType:
                             type: string
                             enum:
