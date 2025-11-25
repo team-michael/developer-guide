@@ -2,22 +2,22 @@
 title: "GTM을 이용한 커스텀 이벤트"
 ---
 
-## 1. Cafe24 쇼핑몰에 GTM 설치하기
+## 1. 카페24 쇼핑몰에 GTM 설치하기
 
 <Note>
-  이미 Cafe24 쇼핑몰에 GTM을 설치하셨다면, 이 단계는 건너뛰셔도 무방합니다.
+  이미 카페24 쇼핑몰에 GTM을 설치하셨다면, 이 단계는 건너뛰셔도 무방합니다.
 </Note>
 
 ### 1-1. GTM Account 생성하기
 
 1. [Google Tag Manager](https://tagmanager.google.com/) > 우측 상단 **계정 만들기** 에 들어가 계정 생성을 진행합니다. ![GTM 계정 생성](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-create-account-25d91583432cb7f652ee51e0fe88f37b.png)
 2. 계정 생성이 완료되면, 화면에 보이는 GTM 설치 코드를 미리 복사해둡니다. ![GTM 코드](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-source-code-25083ecc4f6a7e2c31759e9544c20085.png)
-3. Cafe24 EC Admin > 쇼핑몰 설정 > 기본 설정 > 검색 엔진 최적화 (SEO) > 고급 설정 > 코드 직접입력에 들어가 2번에 나와있는 GTM 설치 코드를 복사하여 붙여넣습니다. ![GTM 코드 삽입](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-inject-script-240b48f88912da58ebd7d12133643c6f.png)
+3. 카페24 EC Admin > 쇼핑몰 설정 > 기본 설정 > 검색 엔진 최적화 (SEO) > 고급 설정 > 코드 직접입력에 들어가 2번에 나와있는 GTM 설치 코드를 복사하여 붙여넣습니다. ![GTM 코드 삽입](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-inject-script-240b48f88912da58ebd7d12133643c6f.png)
 4. 저장 버튼을 누른 후, 2번 화면의 **3. 웹사이트 테스트** > 테스트 버튼 을 눌러 GTM 설치가 정상적으로 되었는지 확인해주세요. ![GTM 설치 확인](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-verify-installation-0db05d948f824bc1f7c431a07944d1c9.png)
 
-## 2. Notifly Cafe24 GTM 템플릿 설치하기
+## 2. 노티플라이 카페24 GTM 템플릿 설치하기
 
-1. [Notifly Cafe24 Template 다운로드](https://github.com/notifly-tech/notifly-gtm-template/releases) 페이지에 접속해 주세요. 최신 버전의 `template-cafe24-custom-event.tpl` 파일을 다운로드 해주세요.
+1. [노티플라이 카페24 Template 다운로드](https://github.com/notifly-tech/notifly-gtm-template/releases) 페이지에 접속해 주세요. 최신 버전의 `template-cafe24-custom-event.tpl` 파일을 다운로드 해주세요.
 
 2. 메뉴 왼쪽 하단 **템플릿** 메뉴를 선택하고 우측 상단에 있는 **태그 템플릿 > 새로 만들기** 버튼을 클릭하여 템플릿 편집기를 실행합니다.
 
@@ -41,7 +41,7 @@ title: "GTM을 이용한 커스텀 이벤트"
 
    ![새로 만들기](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-create-custom-tag-1-06368f9a91ce94aab71d0675da716e51.png)
 
-3. 태그 구성 > 맞춤 설정 에서 [Notifly Cafe24 GTM 템플릿 설치하기](#2-notifly-cafe24-gtm-템플릿-설치하기)에서 설치해 놓았던 템플릿을 선택합니다.
+3. 태그 구성 > 맞춤 설정 에서 [노티플라이 카페24 GTM 템플릿 설치하기](#2-notifly-cafe24-gtm-템플릿-설치하기)에서 설치해 놓았던 템플릿을 선택합니다.
 
    ![맞춤 태그 생성](/user-guide/images/user-guide/cafe24/ko/assets/images/gtm-create-custom-tag-2-58102cb3903638af82716d835cdde8f3.png)
 
@@ -53,13 +53,13 @@ title: "GTM을 이용한 커스텀 이벤트"
 
 #### 3-2-1. 개요
 
-이 섹션에서는 사용자가 Cafe24 쇼핑몰에 들어와서, 돋보기 버튼을 클릭하였을 때 `search-icon-clicked` 이벤트를 Notifly에 전송하는 예제를 보여줍니다.
+이 섹션에서는 유저가 카페24 쇼핑몰에 들어와서, 돋보기 버튼을 클릭하였을 때 `search-icon-clicked` 이벤트를 노티플라이에 전송하는 예제를 보여줍니다.
 
-![Cafe24 샘플 쇼핑몰](/user-guide/images/user-guide/cafe24/ko/assets/images/cafe24-sample-mall-screenshot-26e825e94259d3fb6fb9d77dfc1cadb9.png)
+![카페24 샘플 쇼핑몰](/user-guide/images/user-guide/cafe24/ko/assets/images/cafe24-sample-mall-screenshot-26e825e94259d3fb6fb9d77dfc1cadb9.png)
 
 #### 3-2-2. 돋보기 버튼 특정하기
 
-GTM에서는 태그를 언제 실행할지를 결정하는 **트리거** 라는 개념을 사용합니다. 이를 위해서는, 사용자가 돋보기 버튼을 클릭하였을 때, GTM이 이를 감지할 수 있도록 **트리거** 를 생성해야 하고, 돋보기 버튼을 특정할 수 있어야 합니다.
+GTM에서는 태그를 언제 실행할지를 결정하는 **트리거** 라는 개념을 사용합니다. 이를 위해서는, 유저가 돋보기 버튼을 클릭하였을 때, GTM이 이를 감지할 수 있도록 **트리거** 를 생성해야 하고, 돋보기 버튼을 특정할 수 있어야 합니다.
 
 1. 브라우저에서 돋보기 버튼을 우클릭한 후 **검사** 를 클릭하면 해당 요소의 HTML 코드가 하이라이트 되어 나타납니다.
 
@@ -99,6 +99,6 @@ GTM에서는 태그를 언제 실행할지를 결정하는 **트리거** 라는 
 
 2. 우측 상단 **저장** 버튼을 클릭하여 태그를 저장합니다.
 
-이제 모든 설정이 완료되었습니다. Cafe24 쇼핑몰에 접속하여 돋보기 버튼을 클릭해보세요. Notifly에 `search-icon-clicked` 이벤트가 전송되는 것을 확인할 수 있습니다. 이벤트를 발생시킨 유저를 확인하고 싶다면, **Notifly 콘솔 > 유저 리스트 > 유저 검색하기 > 유저 ID 입력 > 일별 이벤트 발생 빈도** 에서 확인할 수 있습니다.
+이제 모든 설정이 완료되었습니다. 카페24 쇼핑몰에 접속하여 돋보기 버튼을 클릭해보세요. 노티플라이에 `search-icon-clicked` 이벤트가 전송되는 것을 확인할 수 있습니다. 이벤트를 발생시킨 유저를 확인하고 싶다면, **노티플라이 콘솔 > 유저 리스트 > 유저 검색하기 > 유저 ID 입력 > 일별 이벤트 발생 빈도** 에서 확인할 수 있습니다.
 
-![Notifly 콘솔](/user-guide/images/user-guide/cafe24/ko/assets/images/verify-event-tracking-06ea0f5fb6b74c8107ca44aa34b6c1da.png)
+![노티플라이 콘솔](/user-guide/images/user-guide/cafe24/ko/assets/images/verify-event-tracking-06ea0f5fb6b74c8107ca44aa34b6c1da.png)

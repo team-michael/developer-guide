@@ -10,7 +10,7 @@
     "default": "light",
     "strict": true
   },
-  "favicon": "/favicon.png",
+  "favicon": "/favicon.ico",
   "navigation": {
     "tabs": [
       {
@@ -21,29 +21,6 @@
             "expanded": true,
             "pages": [
               "index"
-            ]
-          },
-          {
-            "group": "유저 여정",
-            "pages": [
-              "user-guide/user-journey/index",
-              "user-guide/user-journey/basic",
-              "user-guide/user-journey/basic-info",
-              "user-guide/user-journey/status",
-              {
-                "group": "유저 여정 노드",
-                "pages": [
-                  "user-guide/user-journey/nodes/delay_node",
-                  "user-guide/user-journey/nodes/message_node",
-                  "user-guide/user-journey/nodes/event_branching_node",
-                  "user-guide/user-journey/nodes/user_group_branching_node",
-                  "user-guide/user-journey/nodes/user_update_node",
-                  "user-guide/user-journey/nodes/event_trigger_node",
-                  "user-guide/user-journey/nodes/variant_branching_node"
-                ]
-              },
-              "user-guide/user-journey/statistics",
-              "user-guide/user-journey/examples"
             ]
           },
           {
@@ -67,6 +44,29 @@
               },
               "user-guide/campaigns/abtest",
               "user-guide/campaigns/campaign-analytics"
+            ]
+          },
+          {
+            "group": "유저 여정",
+            "pages": [
+              "user-guide/user-journey/index",
+              "user-guide/user-journey/basic",
+              "user-guide/user-journey/basic-info",
+              "user-guide/user-journey/status",
+              {
+                "group": "유저 여정 노드",
+                "pages": [
+                  "user-guide/user-journey/nodes/delay_node",
+                  "user-guide/user-journey/nodes/message_node",
+                  "user-guide/user-journey/nodes/event_branching_node",
+                  "user-guide/user-journey/nodes/user_group_branching_node",
+                  "user-guide/user-journey/nodes/user_update_node",
+                  "user-guide/user-journey/nodes/event_trigger_node",
+                  "user-guide/user-journey/nodes/variant_branching_node"
+                ]
+              },
+              "user-guide/user-journey/statistics",
+              "user-guide/user-journey/examples"
             ]
           },
           {
@@ -106,13 +106,13 @@
                 ]
               },
               {
-                "group": "웹 메시지",
+                "group": "웹 팝업",
                 "pages": [
                   "user-guide/channel/web-message/guide"
                 ]
               },
               {
-                "group": "인앱 메시지",
+                "group": "인앱 팝업",
                 "pages": [
                   "user-guide/channel/in-app-message/guide"
                 ]
@@ -129,7 +129,7 @@
             "group": "분석",
             "pages": [
               {
-                "group": "공유 링크",
+                "group": "쉐어 링크",
                 "pages": [
                   "user-guide/analytics/share-link/guide"
                 ]
@@ -140,24 +140,24 @@
             "group": "연동",
             "pages": [
               {
+                "group": "Mixpanel",
+                "pages": [
+                  "user-guide/integrations/mixpanel/mixpanel-introduction"
+                ]
+              },
+              {
                 "group": "Amplitude",
                 "pages": [
                   "user-guide/integrations/amplitude/amplitude-introduction"
                 ]
               },
               {
-                "group": "Cafe24",
+                "group": "카페24",
                 "pages": [
                   "user-guide/integrations/cafe24/cafe24-integration",
                   "user-guide/integrations/cafe24/cafe24-gtm",
                   "user-guide/integrations/cafe24/cafe24-spec",
                   "user-guide/integrations/cafe24/campaign-examples"
-                ]
-              },
-              {
-                "group": "Mixpanel",
-                "pages": [
-                  "user-guide/integrations/mixpanel/mixpanel-introduction"
                 ]
               }
             ]
@@ -186,7 +186,7 @@
             "pages": [
               "sdk/firebase-integration",
               { 
-              "group": "모바일용 SDK",
+              "group": "모바일 SDK",
               "expanded": false,
               "pages": [
                 {
@@ -215,7 +215,7 @@
               ]
               },
               {
-                "group": "웹용 SDK",
+                "group": "웹 SDK",
                 "pages": [
                   "sdk/javascript-sdk",
                   "sdk/google-tag-manager"

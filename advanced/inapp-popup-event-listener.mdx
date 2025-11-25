@@ -66,7 +66,7 @@ description: "노티플라이 SDK 심화 기능 연동"
         ) -> Bool {
             ...
             Notifly.initialize(
-                projectId: TestConstant.projectID, username: TestConstant.username,
+                projectId: TestConstant.projectId, username: TestConstant.username,
                 password: TestConstant.password)
 
             Notifly.addInAppMessageEventListener { eventName, eventParams in
