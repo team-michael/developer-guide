@@ -1,6 +1,6 @@
 ---
 title: "Amplitude 연동"
-description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 위해 Amplitude로 수집되고 있는 이벤트와 사용자 정보를 노티플라이에서 그대로 연동해서 활용할 수 있는 기능입니다. 노티플라이에 이벤트를 전송하기 위한 별도의 개발 작업 없이 Amplitude의 데이터를 활용하여 캠페인을 실행할 수 있습니다."
+description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 위해 Amplitude로 수집되고 있는 이벤트와 유저 정보를 노티플라이에서 그대로 연동해서 활용할 수 있는 기능입니다. 노티플라이에 이벤트를 전송하기 위한 별도의 개발 작업 없이 Amplitude의 데이터를 활용하여 캠페인을 실행할 수 있습니다."
 ---
 
 <Check>
@@ -31,7 +31,7 @@ description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 
 ![Amplitude destination settings](/user-guide/images/user-guide/amplitude/ko/assets/images/amplitude_destination_settings-d00780a051d32ec810b6ec58c2008dc0.png)
 
 5. Send Events - Events are sent to Kinesis 가 체크되어 있는 것을 확인하신 후에 노티플라이로 보내실 이벤트를 선택해 주세요.
-6. Send Users (optional) - Users are sent to Kinesis 로 체크하시면 Amplitude의 사용자 정보들도 노티플라이에 연동됩니다.
+6. Send Users (optional) - Users are sent to Kinesis 로 체크하시면 Amplitude의 유저 정보들도 노티플라이에 연동됩니다.
 
 모두 완료하신 후 Save를 클릭하시면 연동이 잘 되었는지를 테스트 하실 수 있는 모달이 생깁니다. 테스트 하시고 Save 하시면 연결이 잘 되었음을 확인 가능하십니다.
 
@@ -49,7 +49,7 @@ description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 
 
 ![Amplitude project settings](/user-guide/images/user-guide/amplitude/ko/assets/images/amplitude_project_settings-8cd48772e239dc6f72d41307ad07eaed.png)
 
-4. Notifly 제품에서 설정 (프로젝트 설정) - 외부 툴 연동 정보에 Amplitude 연동 정보에 위에 복사한 project\_id를 입력합니다.
+4. 노티플라이 제품에서 설정 (프로젝트 설정) - 외부 툴 연동 정보에 Amplitude 연동 정보에 위에 복사한 project\_id를 입력합니다.
 
 ![Notifly Amplitude info](/user-guide/images/user-guide/amplitude/ko/assets/images/notifly_amplitude_info-630d060db4de72151c91195da041ca7e.png)
 
@@ -67,7 +67,7 @@ description: "Amplitude를 분석 도구로 사용하고 계신 고객사들을 
   </Accordion>
 
   <Accordion title="Amplitude로 전송되는 이벤트 종류 중 일부만 노티플라이에 로깅되는 것 같습니다.">
-    "1. Amplitude에 Notifly 정보 등록하기"의 Step 5인 Send Events에서 노티플라이에도 로깅할 이벤트가 포함되어 있는지 확인해 주세요.
+    "1. Amplitude에 노티플라이 정보 등록하기"의 Step 5인 Send Events에서 노티플라이에도 로깅할 이벤트가 포함되어 있는지 확인해 주세요.
   </Accordion>
 
   <Accordion title="Amplitude내의 여러 개의 프로젝트를 등록할 수 있나요?">
