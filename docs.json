@@ -14,7 +14,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Docs",
+        "tab": "User Guides",
         "groups": [
           {
             "group": "시작하기 전에",
@@ -171,20 +171,20 @@
         ]
       },
       {
-        "tab": "SDKs",
+        "tab": "Developer Guides",
         "groups": [
           {
             "group": "시작하기",
             "expanded": true,
             "pages": [
-              "sdk/index"
+              "developer-guide/index"
             ]
           },
           {
             "group": "개발자 가이드",
             "expanded": false,
             "pages": [
-              "sdk/firebase-integration",
+              "developer-guide/firebase-integration",
               { 
               "group": "모바일 SDK",
               "expanded": false,
@@ -192,10 +192,10 @@
                 {
                   "group": "기본 연동하기",
                   "pages": [
-                    "sdk/android-sdk",
-                    "sdk/ios-sdk",
-                    "sdk/react-native-sdk",
-                    "sdk/flutter-sdk"
+                    "developer-guide/android-sdk",
+                    "developer-guide/ios-sdk",
+                    "developer-guide/react-native-sdk",
+                    "developer-guide/flutter-sdk"
                  ]
                 },
                 {
@@ -217,8 +217,8 @@
               {
                 "group": "웹 SDK",
                 "pages": [
-                  "sdk/javascript-sdk",
-                  "sdk/google-tag-manager"
+                  "developer-guide/javascript-sdk",
+                  "developer-guide/google-tag-manager"
                 ]
               },
               "integration-test"

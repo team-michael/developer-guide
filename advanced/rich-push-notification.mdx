@@ -22,19 +22,19 @@ SDK 버전 요구사항
 
 1. Xcode에서 프로젝트를 엽니다. (Flutter 또는 React Native 프로젝트의 경우, ios 폴더 내 `.xcworkspace` 파일을 선택)
 
-![Add Push Extension](/sdk/image/ios_push_extension_open_project_navigator.png)
+![Add Push Extension](/developer-guide/image/ios_push_extension_open_project_navigator.png)
 
 2. Project Navigator에서 프로젝트를 선택한 후 + 버튼을 눌러 Notification Service Extension을 추가합니다.
 
-![Add Push Extension](/sdk/image/ios_push_extension_create_extension_target.png)
+![Add Push Extension](/developer-guide/image/ios_push_extension_create_extension_target.png)
 
 3. Product Name을 `NotiflyNotificationExtension`으로 지정하고 Finish를 클릭합니다.
 
-![Add Push Extension](/sdk/image/ios_generate_push_extension.png)
+![Add Push Extension](/developer-guide/image/ios_generate_push_extension.png)
 
 생성된 Extension의 버전이 메인 앱과 동일한지 확인합니다.
 
-![Push Extension App Version](/sdk/image/ios_push_extension_version.png)
+![Push Extension App Version](/developer-guide/image/ios_push_extension_version.png)
 
 ## 2. App Groups 설정
 
@@ -42,7 +42,7 @@ SDK 버전 요구사항
 
 2. 메인 앱(Target)과 새로 생성된 Extension(Target) 각각의 Signing & Capabilities 탭에서 App Groups를 추가하고 동일한 그룹 이름(`group.notifly.{username}`)을 설정합니다.
 
-![Main App Group](/sdk/image/ios_push_extension_app_group1.png)
+![Main App Group](/developer-guide/image/ios_push_extension_app_group1.png)
 
 ## 3. SDK 연동 방식
 
@@ -136,7 +136,7 @@ class NotificationService: NotiflyNotificationServiceExtension {
 
 - 수신 지표(Delivered)가 정상 기록되었는지 확인
 
-![Add Push Extension](/sdk/image/ios_push_delivered.png)
+![Add Push Extension](/developer-guide/image/ios_push_delivered.png)
 
 </Tab>
 </Tabs>
