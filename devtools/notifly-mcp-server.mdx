@@ -89,7 +89,10 @@ yarn global add notifly-mcp-server@latest
   ```
   3. Android 스튜디오와 MCP 클라이언트를 동시에 실행한 뒤, MCP 클라이언트에서 프로젝트를 계속 진행합니다.
 
-  <p><strong>옵션 3: Android 스튜디오의 Gemini</strong></p>
+{" "}
+<p>
+  <strong>옵션 3: Android 스튜디오의 Gemini</strong>
+</p>
 
 <ol>
   <li>
@@ -142,7 +145,9 @@ yarn global add notifly-mcp-server@latest
 }
 ```
 
-<p><strong>옵션 2: 선호하는 MCP 클라이언트 + XcodeBuildMCP</strong></p>
+<p>
+  <strong>옵션 2: 선호하는 MCP 클라이언트 + XcodeBuildMCP</strong>
+</p>
 <p>
   XcodeBuildMCP를 사용하면 Xcode의 네이티브 기능을 호출하면서도 익숙한 MCP
   클라이언트 환경에서 계속 개발할 수 있습니다.
@@ -169,6 +174,7 @@ yarn global add notifly-mcp-server@latest
 ```
 
 {" "}
+
 <ol start="2">
   <li>
     Xcode와 MCP 클라이언트를 동시에 실행하고 MCP 클라이언트에서 개발을
@@ -212,9 +218,34 @@ yarn global add notifly-mcp-server@latest
 
 </Tab>
 
+<Tab title="Google Antigravity">
+
+{" "}
+<p><strong>설정</strong></p>
+<ul>
+  <li>Google Antigravity 인터페이스에서 Agent 탭을 엽니다.</li>
+  <li>Agent 탭 오른쪽 위에 있는 줄임표(...) 버튼을 클릭합니다.</li>
+  <li>메뉴에서 MCP 서버 → MCP 서버 관리를 선택합니다.</li>
+  <li>`mcp_config.json` 파일에 아래 Notifly MCP 서버 구성을 추가합니다.</li>
+</ul>
+
+```json
+{
+  "mcpServers": {
+    "notifly-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "notifly-mcp-server@latest"]
+    }
+  }
+}
+```
+
+</Tab>
+
 <Tab title="VS Code">
 
 {" "}
+
 <p>
   <a
     href="https://insiders.vscode.dev/redirect/mcp/install?name=notifly-mcp-server&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22notifly-mcp-server%40latest%22%5D%7D"
@@ -230,9 +261,7 @@ yarn global add notifly-mcp-server@latest
     />
   </a>
 </p>
-<p>
-  <strong>설정</strong>
-</p>
+<p><strong>설정</strong></p>
 <ul>
   <li>`~/.vscode/mcp.json` 파일을 엽니다.</li>
   <li>아래 JSON을 붙여넣고 VS Code를 재시작합니다.</li>
